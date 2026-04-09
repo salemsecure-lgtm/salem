@@ -315,15 +315,22 @@ def send_digest_email(html: str, subject: str, to_email: str) -> bool:
     from email.mime.multipart import MIMEMultipart
     from email.mime.text import MIMEText
 
-    env_path = Path(__file__).parent / ".env"
-    env_vars = {}
-    for line in env_path.read_text().strip().splitlines():
-        if "=" in line and not line.startswith("#"):
-            k, v = line.split("=", 1)
-            env_vars[k.strip()] = v.strip()
+    import os
 
-    gmail_user = env_vars.get("GMAIL_USER", "")
-    gmail_pass = env_vars.get("GMAIL_APP_PASSWORD", "")
+    # Try environment variables first (GitHub Actions), then .env file
+    gmail_user = os.environ.get("GMAIL_USER", "")
+    gmail_pass = os.environ.get("GMAIL_APP_PASSWORD", "")
+
+    if not gmail_user or not gmail_pass:
+        env_path = Path(__file__).parent / ".env"
+        if env_path.exists():
+            for line in env_path.read_text().strip().splitlines():
+                if "=" in line and not line.startswith("#"):
+                    k, v = line.split("=", 1)
+                    if k.strip() == "GMAIL_USER":
+                        gmail_user = v.strip()
+                    elif k.strip() == "GMAIL_APP_PASSWORD":
+                        gmail_pass = v.strip()
 
     if not gmail_user or not gmail_pass:
         print("ERROR: GMAIL_USER or GMAIL_APP_PASSWORD not set in .env")
