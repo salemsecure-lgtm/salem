@@ -1,0 +1,11 @@
+node_modules/
+__pycache__/
+*.pyc
+*.db
+.env
+*.egg-info/
+dist/
+build/
+everything-claude-code/
+_email_body.html
+latest_digest.html

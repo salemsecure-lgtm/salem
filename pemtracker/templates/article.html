@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ article.title }} — PEM Tracker</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --surface2: #334155;
+            --border: #475569;
+            --text: #e2e8f0;
+            --text-dim: #94a3b8;
+            --accent: #38bdf8;
+            --accent2: #818cf8;
+            --green: #4ade80;
+            --yellow: #fbbf24;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+        }
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        .nav {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+        }
+        .nav-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .article-header {
+            margin-bottom: 2rem;
+        }
+        .badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .badge {
+            padding: 0.2rem 0.7rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .badge-topic { background: rgba(56, 189, 248, 0.15); color: var(--accent); }
+        .badge-journal { background: rgba(129, 140, 248, 0.15); color: var(--accent2); }
+        .badge-bookmarked { background: rgba(251, 191, 36, 0.15); color: var(--yellow); }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 0.75rem;
+        }
+        .meta {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        .meta strong { color: var(--text); }
+
+        .actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--surface);
+            color: var(--text);
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .btn:hover { background: var(--surface2); border-color: var(--accent); text-decoration: none; }
+        .btn-primary { background: var(--accent); color: #0f172a; border-color: var(--accent); font-weight: 600; }
+        .btn-primary:hover { background: #7dd3fc; }
+        .btn-bookmark.active { background: rgba(251,191,36,0.2); border-color: var(--yellow); color: var(--yellow); }
+
+        .abstract-section {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        .abstract-section h2 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-dim);
+            margin-bottom: 1rem;
+        }
+        .abstract-text {
+            font-size: 0.95rem;
+            color: var(--text);
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        @media (max-width: 600px) { .info-grid { grid-template-columns: 1fr; } }
+        .info-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+        }
+        .info-card .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-dim);
+            margin-bottom: 0.25rem;
+        }
+        .info-card .value { font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <div class="nav-inner">
+            <a href="/">Back to Dashboard</a>
+            {% if article.url %}
+            <a href="{{ article.url }}" target="_blank" class="btn btn-primary">View on PubMed</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="article-header">
+            <div class="badges">
+                <span class="badge badge-topic">{{ article.topic }}</span>
+                <span class="badge badge-journal">{{ article.journal }}</span>
+                {% if article.bookmarked %}<span class="badge badge-bookmarked">Saved</span>{% endif %}
+            </div>
+            <h1>{{ article.title }}</h1>
+            {% if article.authors %}
+            <div class="meta"><strong>Authors:</strong> {{ article.authors }}</div>
+            {% endif %}
+            {% if article.pub_date %}
+            <div class="meta"><strong>Published:</strong> {{ article.pub_date }}</div>
+            {% endif %}
+            {% if article.pmid %}
+            <div class="meta"><strong>PMID:</strong> {{ article.pmid }}</div>
+            {% endif %}
+
+            <div class="actions">
+                {% if article.url %}
+                <a href="{{ article.url }}" target="_blank" class="btn">View Full Text</a>
+                {% endif %}
+                <form action="/bookmark/{{ article.id }}" method="POST" style="display:inline;">
+                    <button class="btn btn-bookmark {{ 'active' if article.bookmarked }}" type="submit">
+                        {{ 'Saved' if article.bookmarked else 'Bookmark' }}
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        {% if article.abstract %}
+        <div class="abstract-section">
+            <h2>Abstract</h2>
+            <div class="abstract-text">{{ article.abstract }}</div>
+        </div>
+        {% endif %}
+
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="label">Journal</div>
+                <div class="value">{{ article.journal }}</div>
+            </div>
+            <div class="info-card">
+                <div class="label">Topic</div>
+                <div class="value">{{ article.topic }}</div>
+            </div>
+            <div class="info-card">
+                <div class="label">Source</div>
+                <div class="value">{{ article.source | upper }}</div>
+            </div>
+            <div class="info-card">
+                <div class="label">Date</div>
+                <div class="value">{{ article.pub_date or 'Unknown' }}</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
