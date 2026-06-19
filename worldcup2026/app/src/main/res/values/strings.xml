@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">WC 2026</string>
+    <string name="notif_channel_matches">Match Updates</string>
+    <string name="notif_channel_matches_desc">Goals, kickoffs and full-time alerts</string>
+</resources>

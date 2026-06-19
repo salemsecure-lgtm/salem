@@ -1,0 +1,98 @@
+# WC 2026 — World Cup 2026 Companion App
+
+A native Android app to follow the FIFA World Cup 2026 (USA · Canada · Mexico)
+live: a "stadium at night" dark UI, live match cards that tick in real time,
+group standings, the Golden Boot race, a full match centre, and match
+notifications.
+
+Built with **Kotlin + Jetpack Compose + Material 3**.
+
+<p align="center">
+  <em>48 teams · 12 groups · 104 matches</em>
+</p>
+
+## Features
+
+- **Live, Upcoming & Results** tabs with a branded hero header that shows how
+  many matches are live right now. Live cards have a pulsing indicator and a
+  ticking match clock (updates every 30s).
+- **Match Centre** for any fixture: animated scoreline, a chronological event
+  timeline (goals, cards), and a possession/shots/corners/fouls comparison
+  panel.
+- **Group Standings** for all 12 groups with FIFA tie-break ordering (points →
+  goal difference → goals for) and qualification highlighting.
+- **Tournament Stats**: total goals, goals per match, cards, and a live Golden
+  Boot leaderboard with progress bars.
+- **Teams** directory with per-team notification toggles.
+- **Notifications**: a high-importance "Match Updates" channel plus a
+  WorkManager job that surfaces live scores in the background. Runtime
+  `POST_NOTIFICATIONS` permission is requested on Android 13+.
+
+## Data
+
+The app ships with a complete, internally-consistent bundled dataset
+(`app/src/main/assets/tournament.json`) so it is **fully functional offline** —
+all 48 teams, the 72 group-stage fixtures, computed standings, and scorer
+tallies. Live matches are simulated from a fixed tournament clock so the Live
+tab is always populated.
+
+To stream **real** live scores, add an API key from a football data provider
+(e.g. [football-data.org](https://www.football-data.org/), which exposes the
+FIFA World Cup competition) in
+`app/src/main/java/com/salem/worldcup2026/data/repo/RemoteConfig.kt`. The
+repository is structured so live scores can be merged on top of the bundled
+fixtures without touching the UI layer.
+
+## Build
+
+### From CI (easiest — no local setup)
+
+Every push that touches `worldcup2026/**` runs the
+**Build World Cup 2026 APK** GitHub Actions workflow
+(`.github/workflows/android-build.yml`). Open the workflow run and download the
+`worldcup2026-debug-apk` artifact — that's your installable APK. You can also
+trigger it manually from the Actions tab ("Run workflow").
+
+### Locally
+
+Requirements: JDK 17 and the Android SDK (platform 34, build-tools 34.0.0).
+
+```bash
+cd worldcup2026
+echo "sdk.dir=/path/to/Android/sdk" > local.properties
+./gradlew :app:assembleDebug
+# APK at: app/build/outputs/apk/debug/app-debug.apk
+```
+
+Install on a device/emulator:
+
+```bash
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+```
+
+## Project layout
+
+```
+worldcup2026/
+├── app/
+│   ├── src/main/
+│   │   ├── assets/tournament.json          # bundled tournament data
+│   │   ├── java/com/salem/worldcup2026/
+│   │   │   ├── MainActivity.kt             # nav scaffold + bottom bar
+│   │   │   ├── data/model/                 # Team, Match, Standing, ...
+│   │   │   ├── data/repo/                   # repository + remote config
+│   │   │   ├── viewmodel/                   # UiState + live clock
+│   │   │   ├── notifications/               # channel + WorkManager worker
+│   │   │   └── ui/{theme,components,screens}
+│   │   └── AndroidManifest.xml
+│   └── build.gradle.kts
+└── build.gradle.kts
+```
+
+## Tech
+
+- Kotlin 1.9, Jetpack Compose (BOM 2024.06), Material 3
+- Navigation-Compose, Lifecycle/ViewModel
+- kotlinx.serialization (JSON), kotlinx.coroutines
+- WorkManager for background match alerts
+- minSdk 24 · targetSdk 34
