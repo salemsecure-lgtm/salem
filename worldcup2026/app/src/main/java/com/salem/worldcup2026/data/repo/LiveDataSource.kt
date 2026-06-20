@@ -11,13 +11,9 @@ interface LiveDataSource {
     suspend fun fetch(): TournamentData?
 }
 
-/** Picks the active provider from [RemoteConfig]. */
+/** Creates the live data source (worldcup26.ir). */
 object LiveDataSourceFactory {
-    fun create(): LiveDataSource = when (RemoteConfig.activeProvider) {
-        Provider.WORLDCUP26 -> WorldCup26Source()
-        Provider.FOOTBALL_DATA -> FootballDataSource()
-        Provider.THESPORTSDB -> TheSportsDbSource()
-    }
+    fun create(): LiveDataSource = WorldCup26Source()
 }
 
 /** Shared team metadata (emoji flag + FIFA code) keyed by country name. */

@@ -36,16 +36,10 @@ every 30s while a match is live (every 2 min otherwise), posts notifications for
 live games via WorkManager, and shows a "LIVE DATA" / "OFFLINE" chip in the
 header. All provider config lives in `data/repo/RemoteConfig.kt`.
 
-Three interchangeable providers are implemented behind a common
-`LiveDataSource` interface (`data/repo/`), with HTTP clients and wire models in
-`data/remote/`. The active one is chosen automatically (or forced via
-`RemoteConfig.PROVIDER_OVERRIDE`).
-
-### Provider 1 — worldcup26.ir (default, COMPLETE data, no key) ✅
-
-The default. A public API from
+The data source is the public API from
 [github.com/rezarahiminia/worldcup2026](https://github.com/rezarahiminia/worldcup2026)
-that returns the **entire** tournament with **no key and no signup**:
+(`worldcup26.ir`), which returns the **entire** tournament with **no key and no
+signup**:
 
 - all **104 matches** with scores and **goal scorers** (parsed into the
   match-event timeline),
@@ -54,24 +48,14 @@ that returns the **entire** tournament with **no key and no signup**:
 - the **full knockout bracket** (R32 → Final),
 - a real **Golden Boot** leaderboard aggregated from goal events.
 
-This is why the app shows full, real data out of the box.
+The source is implemented as `WorldCup26Source` behind a small `LiveDataSource`
+interface (`data/repo/`), with the HTTP client and wire models in
+`data/remote/`. The only configuration is the base URL in `RemoteConfig.kt`.
 
-### Provider 2 — football-data.org (alternative)
-
-The **free** tier of [football-data.org](https://www.football-data.org/) also
-covers the entire World Cup. Register a free key
-(<https://www.football-data.org/client/register>) and paste it into
-`RemoteConfig.FOOTBALL_DATA_KEY`; when set, it's used automatically.
-
-### Provider 3 — TheSportsDB (alternative)
-
-Selectable via `RemoteConfig.PROVIDER_OVERRIDE = Provider.THESPORTSDB`. The free
-public key returns real but capped data; a premium key
-(`RemoteConfig.API_KEY`) lifts the caps.
-
-Each provider's mapping (including the quirky scorer-string parser) is covered
-by offline unit tests under `app/src/test/java/`, so the integrations are
-verified without any network key.
+The mapping — including the quirky goal-scorer string parser (mixed
+straight/curly quotes, stoppage time, own goals) — is covered by offline unit
+tests under `app/src/test/java/`, so the integration is verified without any
+network call.
 
 ### Offline fallback
 
@@ -130,7 +114,7 @@ worldcup2026/
 
 - Kotlin 1.9, Jetpack Compose (BOM 2024.06), Material 3
 - Navigation-Compose, Lifecycle/ViewModel
-- Live data from TheSportsDB over HttpURLConnection (no networking dep)
+- Live data from worldcup26.ir over HttpURLConnection (no networking dep)
 - Coil for loading real team crests
 - kotlinx.serialization (JSON), kotlinx.coroutines
 - WorkManager for background match alerts
