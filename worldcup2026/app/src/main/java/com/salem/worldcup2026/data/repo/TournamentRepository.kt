@@ -22,7 +22,7 @@ data class LoadResult(val data: TournamentData, val origin: DataOrigin)
  */
 class TournamentRepository(
     private val appContext: Context,
-    private val live: LiveDataSource = LiveDataSource()
+    private val live: LiveDataSource = LiveDataSourceFactory.create()
 ) {
     private val json = Json { ignoreUnknownKeys = true; isLenient = true }
 

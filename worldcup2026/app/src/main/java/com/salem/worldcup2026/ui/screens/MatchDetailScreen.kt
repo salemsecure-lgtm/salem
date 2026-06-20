@@ -125,7 +125,10 @@ private fun ScoreHeader(
                     }
                     if (live) {
                         Spacer(Modifier.height(4.dp))
-                        Text("${match.minute}'", color = WCRed, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                        Text(
+                            if (match.minute > 0) "${match.minute}'" else "In play",
+                            color = WCRed, fontSize = 14.sp, fontWeight = FontWeight.Bold
+                        )
                     }
                 }
                 TeamColumn(away, Modifier.weight(1f))

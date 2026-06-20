@@ -30,35 +30,46 @@ Built with **Kotlin + Jetpack Compose + Material 3**.
 
 ## Data — real, live
 
-The app fetches **real** FIFA World Cup 2026 data at runtime from
-[TheSportsDB](https://www.thesportsdb.com/) (league `4429`, season `2026`):
-actual teams and crests, fixtures, results, scores, venues, groups and
-standings. It polls every 30s while a match is live (every 2 min otherwise) and
-posts notifications for live games via WorkManager. The "LIVE DATA" / "OFFLINE"
-chip in the header shows whether the current view is from the network.
+The app fetches **real** FIFA World Cup 2026 data at runtime: actual teams and
+crests, fixtures, results, scores, groups, standings and top scorers. It polls
+every 30s while a match is live (every 2 min otherwise), posts notifications for
+live games via WorkManager, and shows a "LIVE DATA" / "OFFLINE" chip in the
+header. All provider config lives in `data/repo/RemoteConfig.kt`.
 
-Networking is in
-`app/src/main/java/com/salem/worldcup2026/data/remote/` and the mapping to the
-app's models is in `data/repo/LiveDataSource.kt`.
+Two interchangeable providers are implemented behind a common
+`LiveDataSource` interface (`data/repo/`), with HTTP clients and wire models in
+`data/remote/`. The active one is chosen automatically from the keys you set.
 
-### Free vs. premium key
+### Provider 1 — football-data.org (recommended, FULL data)
 
-`data/repo/RemoteConfig.kt` holds the provider key. It ships with TheSportsDB's
-free public key (`"3"`), which returns **real** data but with two free-tier
-limits:
+The **free** tier of [football-data.org](https://www.football-data.org/)
+includes the **entire** FIFA World Cup competition: every match, complete group
+standings, and the top-scorers list.
 
-- responses are **capped** (roughly the last/next ~15 fixtures and a partial
-  standings table rather than all 104 matches / 48 teams), and
-- there is **no minute-by-minute live progress** (matches still flip
-  NS → live → FT as they're played).
+1. Register for a free key (email only, no card):
+   <https://www.football-data.org/client/register>
+2. Paste it into `RemoteConfig.FOOTBALL_DATA_KEY`.
 
-Paste your own **TheSportsDB Premium** key (a few dollars/month, see
-<https://www.thesportsdb.com/api.php>) into `RemoteConfig.API_KEY` to lift the
-caps and get the full schedule, complete standings, and live scores. No other
-code changes are needed.
+That's it — when the key is present it's used automatically and you get the
+complete dataset. (The free tier exposes live status `IN_PLAY`/`PAUSED` and live
+scores, but not a minute-by-minute clock, so live games show "In play" rather
+than a running minute.)
 
-> There is no fully-free, no-signup feed that provides *complete* live World Cup
-> data; that always requires a provider key tied to an account.
+### Provider 2 — TheSportsDB (default, zero-setup)
+
+With no football-data key, the app uses TheSportsDB's free public key (`"3"`):
+**real** data, but the free tier caps responses (≈ last/next 15 fixtures and a
+partial standings table) and omits live minutes. A TheSportsDB **Premium** key
+(`RemoteConfig.API_KEY`, see <https://www.thesportsdb.com/api.php>) lifts those
+caps.
+
+> No fully-free, no-signup feed provides a *complete* live World Cup dataset;
+> that always requires a provider account key. football-data.org's free key is
+> the closest — full data, just a quick signup.
+
+The football-data.org mapping is covered by a unit test
+(`app/src/test/java/.../FootballDataMappingTest.kt`) that runs offline against
+sample v4 responses, so the integration is verified even without a key.
 
 ### Offline fallback
 
@@ -103,8 +114,8 @@ worldcup2026/
 │   │   ├── java/com/salem/worldcup2026/
 │   │   │   ├── MainActivity.kt             # nav scaffold + bottom bar
 │   │   │   ├── data/model/                 # Team, Match, Standing, ...
-│   │   │   ├── data/remote/                 # TheSportsDB DTOs + HTTP client
-│   │   │   ├── data/repo/                   # live source, repo, config
+│   │   │   ├── data/remote/                 # provider DTOs + HTTP clients
+│   │   │   ├── data/repo/                   # LiveDataSource impls, repo, config
 │   │   │   ├── viewmodel/                   # UiState + live polling
 │   │   │   ├── notifications/               # channel + WorkManager worker
 │   │   │   └── ui/{theme,components,screens}

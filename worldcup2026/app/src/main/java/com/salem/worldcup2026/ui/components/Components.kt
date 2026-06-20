@@ -145,7 +145,7 @@ fun MatchCard(
                     LivePulse()
                     Spacer(Modifier.width(6.dp))
                     Text(
-                        "${match.minute}'", color = WCRed,
+                        if (match.minute > 0) "${match.minute}'" else "In play", color = WCRed,
                         fontSize = 12.sp, fontWeight = FontWeight.Bold
                     )
                     Spacer(Modifier.width(10.dp))
