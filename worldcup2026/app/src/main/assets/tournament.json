@@ -1,0 +1,3752 @@
+{
+"teams": [
+{
+"id": "t1",
+"name": "Argentina",
+"code": "ARG",
+"flag": "🇦🇷",
+"group": "A",
+"fifaRank": 1
+},
+{
+"id": "t2",
+"name": "Australia",
+"code": "AUS",
+"flag": "🇦🇺",
+"group": "A",
+"fifaRank": 24
+},
+{
+"id": "t3",
+"name": "Ukraine",
+"code": "UKR",
+"flag": "🇺🇦",
+"group": "A",
+"fifaRank": 25
+},
+{
+"id": "t4",
+"name": "New Zealand",
+"code": "NZL",
+"flag": "🇳🇿",
+"group": "A",
+"fifaRank": 48
+},
+{
+"id": "t5",
+"name": "France",
+"code": "FRA",
+"flag": "🇫🇷",
+"group": "B",
+"fifaRank": 2
+},
+{
+"id": "t6",
+"name": "Austria",
+"code": "AUT",
+"flag": "🇦🇹",
+"group": "B",
+"fifaRank": 23
+},
+{
+"id": "t7",
+"name": "Ecuador",
+"code": "ECU",
+"flag": "🇪🇨",
+"group": "B",
+"fifaRank": 26
+},
+{
+"id": "t8",
+"name": "Panama",
+"code": "PAN",
+"flag": "🇵🇦",
+"group": "B",
+"fifaRank": 47
+},
+{
+"id": "t9",
+"name": "Spain",
+"code": "ESP",
+"flag": "🇪🇸",
+"group": "C",
+"fifaRank": 3
+},
+{
+"id": "t10",
+"name": "Korea Republic",
+"code": "KOR",
+"flag": "🇰🇷",
+"group": "C",
+"fifaRank": 22
+},
+{
+"id": "t11",
+"name": "Sweden",
+"code": "SWE",
+"flag": "🇸🇪",
+"group": "C",
+"fifaRank": 27
+},
+{
+"id": "t12",
+"name": "Saudi Arabia",
+"code": "KSA",
+"flag": "🇸🇦",
+"group": "C",
+"fifaRank": 46
+},
+{
+"id": "t13",
+"name": "England",
+"code": "ENG",
+"flag": "🇬🇧",
+"group": "D",
+"fifaRank": 4
+},
+{
+"id": "t14",
+"name": "Iran",
+"code": "IRN",
+"flag": "🇮🇷",
+"group": "D",
+"fifaRank": 21
+},
+{
+"id": "t15",
+"name": "Turkey",
+"code": "TUR",
+"flag": "🇹🇷",
+"group": "D",
+"fifaRank": 28
+},
+{
+"id": "t16",
+"name": "Norway",
+"code": "NOR",
+"flag": "🇳🇴",
+"group": "D",
+"fifaRank": 45
+},
+{
+"id": "t17",
+"name": "Brazil",
+"code": "BRA",
+"flag": "🇧🇷",
+"group": "E",
+"fifaRank": 5
+},
+{
+"id": "t18",
+"name": "Denmark",
+"code": "DEN",
+"flag": "🇩🇰",
+"group": "E",
+"fifaRank": 20
+},
+{
+"id": "t19",
+"name": "Poland",
+"code": "POL",
+"flag": "🇵🇱",
+"group": "E",
+"fifaRank": 29
+},
+{
+"id": "t20",
+"name": "Paraguay",
+"code": "PAR",
+"flag": "🇵🇾",
+"group": "E",
+"fifaRank": 44
+},
+{
+"id": "t21",
+"name": "Portugal",
+"code": "POR",
+"flag": "🇵🇹",
+"group": "F",
+"fifaRank": 6
+},
+{
+"id": "t22",
+"name": "Switzerland",
+"code": "SUI",
+"flag": "🇨🇭",
+"group": "F",
+"fifaRank": 19
+},
+{
+"id": "t23",
+"name": "Wales",
+"code": "WAL",
+"flag": "🏴",
+"group": "F",
+"fifaRank": 30
+},
+{
+"id": "t24",
+"name": "Canada",
+"code": "CAN",
+"flag": "🇨🇦",
+"group": "F",
+"fifaRank": 43
+},
+{
+"id": "t25",
+"name": "Netherlands",
+"code": "NED",
+"flag": "🇳🇱",
+"group": "G",
+"fifaRank": 7
+},
+{
+"id": "t26",
+"name": "Senegal",
+"code": "SEN",
+"flag": "🇸🇳",
+"group": "G",
+"fifaRank": 18
+},
+{
+"id": "t27",
+"name": "Serbia",
+"code": "SRB",
+"flag": "🇷🇸",
+"group": "G",
+"fifaRank": 31
+},
+{
+"id": "t28",
+"name": "Ivory Coast",
+"code": "CIV",
+"flag": "🇨🇮",
+"group": "G",
+"fifaRank": 42
+},
+{
+"id": "t29",
+"name": "Belgium",
+"code": "BEL",
+"flag": "🇧🇪",
+"group": "H",
+"fifaRank": 8
+},
+{
+"id": "t30",
+"name": "Japan",
+"code": "JPN",
+"flag": "🇯🇵",
+"group": "H",
+"fifaRank": 17
+},
+{
+"id": "t31",
+"name": "Nigeria",
+"code": "NGA",
+"flag": "🇳🇬",
+"group": "H",
+"fifaRank": 32
+},
+{
+"id": "t32",
+"name": "Qatar",
+"code": "QAT",
+"flag": "🇶🇦",
+"group": "H",
+"fifaRank": 41
+},
+{
+"id": "t33",
+"name": "Italy",
+"code": "ITA",
+"flag": "🇮🇹",
+"group": "I",
+"fifaRank": 9
+},
+{
+"id": "t34",
+"name": "Uruguay",
+"code": "URU",
+"flag": "🇺🇾",
+"group": "I",
+"fifaRank": 16
+},
+{
+"id": "t35",
+"name": "Egypt",
+"code": "EGY",
+"flag": "🇪🇬",
+"group": "I",
+"fifaRank": 33
+},
+{
+"id": "t36",
+"name": "Costa Rica",
+"code": "CRC",
+"flag": "🇨🇷",
+"group": "I",
+"fifaRank": 40
+},
+{
+"id": "t37",
+"name": "Germany",
+"code": "GER",
+"flag": "🇩🇪",
+"group": "J",
+"fifaRank": 10
+},
+{
+"id": "t38",
+"name": "Colombia",
+"code": "COL",
+"flag": "🇨🇴",
+"group": "J",
+"fifaRank": 15
+},
+{
+"id": "t39",
+"name": "Peru",
+"code": "PER",
+"flag": "🇵🇪",
+"group": "J",
+"fifaRank": 34
+},
+{
+"id": "t40",
+"name": "Ghana",
+"code": "GHA",
+"flag": "🇬🇭",
+"group": "J",
+"fifaRank": 39
+},
+{
+"id": "t41",
+"name": "United States",
+"code": "USA",
+"flag": "🇺🇸",
+"group": "K",
+"fifaRank": 11
+},
+{
+"id": "t42",
+"name": "Morocco",
+"code": "MAR",
+"flag": "🇲🇦",
+"group": "K",
+"fifaRank": 14
+},
+{
+"id": "t43",
+"name": "Tunisia",
+"code": "TUN",
+"flag": "🇹🇳",
+"group": "K",
+"fifaRank": 35
+},
+{
+"id": "t44",
+"name": "Cameroon",
+"code": "CMR",
+"flag": "🇨🇲",
+"group": "K",
+"fifaRank": 38
+},
+{
+"id": "t45",
+"name": "Mexico",
+"code": "MEX",
+"flag": "🇲🇽",
+"group": "L",
+"fifaRank": 12
+},
+{
+"id": "t46",
+"name": "Croatia",
+"code": "CRO",
+"flag": "🇭🇷",
+"group": "L",
+"fifaRank": 13
+},
+{
+"id": "t47",
+"name": "Algeria",
+"code": "ALG",
+"flag": "🇩🇿",
+"group": "L",
+"fifaRank": 36
+},
+{
+"id": "t48",
+"name": "Chile",
+"code": "CHI",
+"flag": "🇨🇱",
+"group": "L",
+"fifaRank": 37
+}
+],
+"matches": [
+{
+"id": "m1",
+"homeId": "t1",
+"awayId": "t2",
+"homeScore": 3,
+"awayScore": 2,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781193600000,
+"stage": "Group Stage",
+"group": "A",
+"venue": "SoFi Stadium",
+"city": "Los Angeles",
+"events": [
+{
+"minute": 3,
+"type": "GOAL",
+"teamId": "t1",
+"player": "Kane",
+"detail": ""
+},
+{
+"minute": 13,
+"type": "GOAL",
+"teamId": "t1",
+"player": "Yamal",
+"detail": ""
+},
+{
+"minute": 17,
+"type": "GOAL",
+"teamId": "t1",
+"player": "Foden",
+"detail": ""
+},
+{
+"minute": 33,
+"type": "GOAL",
+"teamId": "t2",
+"player": "Mane",
+"detail": ""
+},
+{
+"minute": 36,
+"type": "YELLOW",
+"teamId": "t2",
+"player": "Hojlund",
+"detail": ""
+},
+{
+"minute": 54,
+"type": "YELLOW",
+"teamId": "t2",
+"player": "Olise",
+"detail": ""
+},
+{
+"minute": 75,
+"type": "YELLOW",
+"teamId": "t2",
+"player": "Akanji",
+"detail": ""
+},
+{
+"minute": 81,
+"type": "GOAL",
+"teamId": "t2",
+"player": "Akanji",
+"detail": ""
+}
+]
+},
+{
+"id": "m2",
+"homeId": "t3",
+"awayId": "t4",
+"homeScore": 2,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781204400000,
+"stage": "Group Stage",
+"group": "A",
+"venue": "AT&T Stadium",
+"city": "Dallas",
+"events": [
+{
+"minute": 49,
+"type": "GOAL",
+"teamId": "t3",
+"player": "Olise",
+"detail": ""
+},
+{
+"minute": 57,
+"type": "GOAL",
+"teamId": "t3",
+"player": "Gakpo",
+"detail": ""
+},
+{
+"minute": 60,
+"type": "YELLOW",
+"teamId": "t4",
+"player": "Silva",
+"detail": ""
+},
+{
+"minute": 62,
+"type": "GOAL",
+"teamId": "t4",
+"player": "Silva",
+"detail": ""
+},
+{
+"minute": 63,
+"type": "YELLOW",
+"teamId": "t4",
+"player": "Silva",
+"detail": ""
+},
+{
+"minute": 64,
+"type": "YELLOW",
+"teamId": "t3",
+"player": "Akanji",
+"detail": ""
+}
+]
+},
+{
+"id": "m3",
+"homeId": "t1",
+"awayId": "t3",
+"homeScore": 3,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781539200000,
+"stage": "Group Stage",
+"group": "A",
+"venue": "Hard Rock Stadium",
+"city": "Miami",
+"events": [
+{
+"minute": 21,
+"type": "GOAL",
+"teamId": "t1",
+"player": "Yamal",
+"detail": ""
+},
+{
+"minute": 32,
+"type": "GOAL",
+"teamId": "t1",
+"player": "Olise",
+"detail": ""
+},
+{
+"minute": 61,
+"type": "YELLOW",
+"teamId": "t3",
+"player": "Gakpo",
+"detail": ""
+},
+{
+"minute": 63,
+"type": "GOAL",
+"teamId": "t1",
+"player": "Olise",
+"detail": ""
+},
+{
+"minute": 64,
+"type": "GOAL",
+"teamId": "t3",
+"player": "Gakpo",
+"detail": ""
+},
+{
+"minute": 80,
+"type": "YELLOW",
+"teamId": "t3",
+"player": "Vinicius",
+"detail": ""
+},
+{
+"minute": 81,
+"type": "YELLOW",
+"teamId": "t3",
+"player": "Gakpo",
+"detail": ""
+}
+]
+},
+{
+"id": "m4",
+"homeId": "t4",
+"awayId": "t2",
+"homeScore": 2,
+"awayScore": 3,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781550000000,
+"stage": "Group Stage",
+"group": "A",
+"venue": "Mercedes-Benz Stadium",
+"city": "Atlanta",
+"events": [
+{
+"minute": 58,
+"type": "GOAL",
+"teamId": "t4",
+"player": "Nunez",
+"detail": ""
+},
+{
+"minute": 62,
+"type": "GOAL",
+"teamId": "t4",
+"player": "Kvaratskhelia",
+"detail": ""
+},
+{
+"minute": 66,
+"type": "GOAL",
+"teamId": "t2",
+"player": "Olise",
+"detail": ""
+},
+{
+"minute": 68,
+"type": "GOAL",
+"teamId": "t2",
+"player": "Olise",
+"detail": ""
+},
+{
+"minute": 74,
+"type": "GOAL",
+"teamId": "t2",
+"player": "Hojlund",
+"detail": ""
+}
+]
+},
+{
+"id": "m5",
+"homeId": "t4",
+"awayId": "t1",
+"homeScore": 0,
+"awayScore": 3,
+"statusRaw": "LIVE",
+"minute": 90,
+"kickoffEpoch": 1781884800000,
+"stage": "Group Stage",
+"group": "A",
+"venue": "Lumen Field",
+"city": "Seattle",
+"events": [
+{
+"minute": 3,
+"type": "GOAL",
+"teamId": "t1",
+"player": "Foden",
+"detail": ""
+},
+{
+"minute": 4,
+"type": "GOAL",
+"teamId": "t1",
+"player": "Raphinha",
+"detail": ""
+},
+{
+"minute": 14,
+"type": "GOAL",
+"teamId": "t1",
+"player": "Raphinha",
+"detail": ""
+}
+]
+},
+{
+"id": "m6",
+"homeId": "t2",
+"awayId": "t3",
+"homeScore": 0,
+"awayScore": 0,
+"statusRaw": "SCHEDULED",
+"minute": 0,
+"kickoffEpoch": 1781895600000,
+"stage": "Group Stage",
+"group": "A",
+"venue": "Estadio Azteca",
+"city": "Mexico City",
+"events": []
+},
+{
+"id": "m7",
+"homeId": "t5",
+"awayId": "t6",
+"homeScore": 2,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781197200000,
+"stage": "Group Stage",
+"group": "B",
+"venue": "Estadio Akron",
+"city": "Guadalajara",
+"events": [
+{
+"minute": 20,
+"type": "GOAL",
+"teamId": "t5",
+"player": "Olise",
+"detail": ""
+},
+{
+"minute": 27,
+"type": "YELLOW",
+"teamId": "t5",
+"player": "Musiala",
+"detail": ""
+},
+{
+"minute": 31,
+"type": "GOAL",
+"teamId": "t5",
+"player": "Musiala",
+"detail": ""
+},
+{
+"minute": 63,
+"type": "YELLOW",
+"teamId": "t5",
+"player": "Nunez",
+"detail": ""
+},
+{
+"minute": 72,
+"type": "GOAL",
+"teamId": "t6",
+"player": "Silva",
+"detail": ""
+}
+]
+},
+{
+"id": "m8",
+"homeId": "t7",
+"awayId": "t8",
+"homeScore": 1,
+"awayScore": 2,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781208000000,
+"stage": "Group Stage",
+"group": "B",
+"venue": "BMO Field",
+"city": "Toronto",
+"events": [
+{
+"minute": 6,
+"type": "GOAL",
+"teamId": "t7",
+"player": "Lautaro",
+"detail": ""
+},
+{
+"minute": 25,
+"type": "YELLOW",
+"teamId": "t8",
+"player": "Nunez",
+"detail": ""
+},
+{
+"minute": 29,
+"type": "YELLOW",
+"teamId": "t7",
+"player": "Silva",
+"detail": ""
+},
+{
+"minute": 63,
+"type": "GOAL",
+"teamId": "t8",
+"player": "Silva",
+"detail": ""
+},
+{
+"minute": 68,
+"type": "GOAL",
+"teamId": "t8",
+"player": "Mbappe",
+"detail": ""
+},
+{
+"minute": 83,
+"type": "YELLOW",
+"teamId": "t8",
+"player": "Kvaratskhelia",
+"detail": ""
+}
+]
+},
+{
+"id": "m9",
+"homeId": "t5",
+"awayId": "t7",
+"homeScore": 1,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781542800000,
+"stage": "Group Stage",
+"group": "B",
+"venue": "BC Place",
+"city": "Vancouver",
+"events": [
+{
+"minute": 12,
+"type": "YELLOW",
+"teamId": "t7",
+"player": "Yamal",
+"detail": ""
+},
+{
+"minute": 72,
+"type": "GOAL",
+"teamId": "t5",
+"player": "Kane",
+"detail": ""
+},
+{
+"minute": 85,
+"type": "GOAL",
+"teamId": "t7",
+"player": "Mitoma",
+"detail": ""
+}
+]
+},
+{
+"id": "m10",
+"homeId": "t8",
+"awayId": "t6",
+"homeScore": 1,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781553600000,
+"stage": "Group Stage",
+"group": "B",
+"venue": "NRG Stadium",
+"city": "Houston",
+"events": [
+{
+"minute": 26,
+"type": "GOAL",
+"teamId": "t8",
+"player": "Bellingham",
+"detail": ""
+},
+{
+"minute": 32,
+"type": "YELLOW",
+"teamId": "t6",
+"player": "Hakimi",
+"detail": ""
+},
+{
+"minute": 47,
+"type": "GOAL",
+"teamId": "t6",
+"player": "Hakimi",
+"detail": ""
+},
+{
+"minute": 63,
+"type": "YELLOW",
+"teamId": "t6",
+"player": "Hakimi",
+"detail": ""
+},
+{
+"minute": 66,
+"type": "YELLOW",
+"teamId": "t6",
+"player": "Vinicius",
+"detail": ""
+}
+]
+},
+{
+"id": "m11",
+"homeId": "t8",
+"awayId": "t5",
+"homeScore": 0,
+"awayScore": 0,
+"statusRaw": "LIVE",
+"minute": 60,
+"kickoffEpoch": 1781888400000,
+"stage": "Group Stage",
+"group": "B",
+"venue": "Arrowhead Stadium",
+"city": "Kansas City",
+"events": []
+},
+{
+"id": "m12",
+"homeId": "t6",
+"awayId": "t7",
+"homeScore": 0,
+"awayScore": 0,
+"statusRaw": "SCHEDULED",
+"minute": 0,
+"kickoffEpoch": 1781899200000,
+"stage": "Group Stage",
+"group": "B",
+"venue": "MetLife Stadium",
+"city": "New York",
+"events": []
+},
+{
+"id": "m13",
+"homeId": "t9",
+"awayId": "t10",
+"homeScore": 1,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781200800000,
+"stage": "Group Stage",
+"group": "C",
+"venue": "SoFi Stadium",
+"city": "Los Angeles",
+"events": [
+{
+"minute": 15,
+"type": "GOAL",
+"teamId": "t9",
+"player": "Kane",
+"detail": ""
+},
+{
+"minute": 17,
+"type": "YELLOW",
+"teamId": "t9",
+"player": "Musiala",
+"detail": ""
+},
+{
+"minute": 36,
+"type": "GOAL",
+"teamId": "t10",
+"player": "Musiala",
+"detail": ""
+}
+]
+},
+{
+"id": "m14",
+"homeId": "t11",
+"awayId": "t12",
+"homeScore": 1,
+"awayScore": 0,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781211600000,
+"stage": "Group Stage",
+"group": "C",
+"venue": "AT&T Stadium",
+"city": "Dallas",
+"events": [
+{
+"minute": 11,
+"type": "GOAL",
+"teamId": "t11",
+"player": "Kvaratskhelia",
+"detail": ""
+},
+{
+"minute": 22,
+"type": "YELLOW",
+"teamId": "t11",
+"player": "Kane",
+"detail": ""
+},
+{
+"minute": 49,
+"type": "YELLOW",
+"teamId": "t11",
+"player": "Kvaratskhelia",
+"detail": ""
+},
+{
+"minute": 63,
+"type": "YELLOW",
+"teamId": "t12",
+"player": "Bellingham",
+"detail": ""
+}
+]
+},
+{
+"id": "m15",
+"homeId": "t9",
+"awayId": "t11",
+"homeScore": 3,
+"awayScore": 2,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781546400000,
+"stage": "Group Stage",
+"group": "C",
+"venue": "Hard Rock Stadium",
+"city": "Miami",
+"events": [
+{
+"minute": 18,
+"type": "GOAL",
+"teamId": "t9",
+"player": "Lautaro",
+"detail": ""
+},
+{
+"minute": 50,
+"type": "GOAL",
+"teamId": "t9",
+"player": "Musiala",
+"detail": ""
+},
+{
+"minute": 57,
+"type": "GOAL",
+"teamId": "t9",
+"player": "Olise",
+"detail": ""
+},
+{
+"minute": 67,
+"type": "GOAL",
+"teamId": "t11",
+"player": "Yamal",
+"detail": ""
+},
+{
+"minute": 89,
+"type": "GOAL",
+"teamId": "t11",
+"player": "Yamal",
+"detail": ""
+}
+]
+},
+{
+"id": "m16",
+"homeId": "t12",
+"awayId": "t10",
+"homeScore": 1,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781557200000,
+"stage": "Group Stage",
+"group": "C",
+"venue": "Mercedes-Benz Stadium",
+"city": "Atlanta",
+"events": [
+{
+"minute": 28,
+"type": "GOAL",
+"teamId": "t12",
+"player": "Bellingham",
+"detail": ""
+},
+{
+"minute": 74,
+"type": "GOAL",
+"teamId": "t10",
+"player": "Vinicius",
+"detail": ""
+}
+]
+},
+{
+"id": "m17",
+"homeId": "t12",
+"awayId": "t9",
+"homeScore": 0,
+"awayScore": 1,
+"statusRaw": "LIVE",
+"minute": 1,
+"kickoffEpoch": 1781892000000,
+"stage": "Group Stage",
+"group": "C",
+"venue": "Lumen Field",
+"city": "Seattle",
+"events": []
+},
+{
+"id": "m18",
+"homeId": "t10",
+"awayId": "t11",
+"homeScore": 0,
+"awayScore": 0,
+"statusRaw": "SCHEDULED",
+"minute": 0,
+"kickoffEpoch": 1781902800000,
+"stage": "Group Stage",
+"group": "C",
+"venue": "Estadio Azteca",
+"city": "Mexico City",
+"events": []
+},
+{
+"id": "m19",
+"homeId": "t13",
+"awayId": "t14",
+"homeScore": 2,
+"awayScore": 2,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781193600000,
+"stage": "Group Stage",
+"group": "D",
+"venue": "Estadio Akron",
+"city": "Guadalajara",
+"events": [
+{
+"minute": 36,
+"type": "GOAL",
+"teamId": "t13",
+"player": "Vinicius",
+"detail": ""
+},
+{
+"minute": 46,
+"type": "GOAL",
+"teamId": "t13",
+"player": "Hakimi",
+"detail": ""
+},
+{
+"minute": 68,
+"type": "GOAL",
+"teamId": "t14",
+"player": "Mbappe",
+"detail": ""
+},
+{
+"minute": 86,
+"type": "GOAL",
+"teamId": "t14",
+"player": "Bellingham",
+"detail": ""
+}
+]
+},
+{
+"id": "m20",
+"homeId": "t15",
+"awayId": "t16",
+"homeScore": 1,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781204400000,
+"stage": "Group Stage",
+"group": "D",
+"venue": "BMO Field",
+"city": "Toronto",
+"events": [
+{
+"minute": 28,
+"type": "GOAL",
+"teamId": "t15",
+"player": "Mbappe",
+"detail": ""
+},
+{
+"minute": 29,
+"type": "YELLOW",
+"teamId": "t16",
+"player": "Foden",
+"detail": ""
+},
+{
+"minute": 34,
+"type": "YELLOW",
+"teamId": "t16",
+"player": "Mitoma",
+"detail": ""
+},
+{
+"minute": 46,
+"type": "GOAL",
+"teamId": "t16",
+"player": "Nunez",
+"detail": ""
+},
+{
+"minute": 80,
+"type": "YELLOW",
+"teamId": "t16",
+"player": "Foden",
+"detail": ""
+}
+]
+},
+{
+"id": "m21",
+"homeId": "t13",
+"awayId": "t15",
+"homeScore": 4,
+"awayScore": 0,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781539200000,
+"stage": "Group Stage",
+"group": "D",
+"venue": "BC Place",
+"city": "Vancouver",
+"events": [
+{
+"minute": 5,
+"type": "GOAL",
+"teamId": "t13",
+"player": "Mane",
+"detail": ""
+},
+{
+"minute": 28,
+"type": "YELLOW",
+"teamId": "t13",
+"player": "Vinicius",
+"detail": ""
+},
+{
+"minute": 30,
+"type": "GOAL",
+"teamId": "t13",
+"player": "Hakimi",
+"detail": ""
+},
+{
+"minute": 52,
+"type": "YELLOW",
+"teamId": "t15",
+"player": "Yamal",
+"detail": ""
+},
+{
+"minute": 71,
+"type": "GOAL",
+"teamId": "t13",
+"player": "Olise",
+"detail": ""
+},
+{
+"minute": 75,
+"type": "YELLOW",
+"teamId": "t13",
+"player": "Olise",
+"detail": ""
+},
+{
+"minute": 77,
+"type": "GOAL",
+"teamId": "t13",
+"player": "Musiala",
+"detail": ""
+}
+]
+},
+{
+"id": "m22",
+"homeId": "t16",
+"awayId": "t14",
+"homeScore": 1,
+"awayScore": 2,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781550000000,
+"stage": "Group Stage",
+"group": "D",
+"venue": "NRG Stadium",
+"city": "Houston",
+"events": [
+{
+"minute": 4,
+"type": "GOAL",
+"teamId": "t16",
+"player": "Musiala",
+"detail": ""
+},
+{
+"minute": 50,
+"type": "YELLOW",
+"teamId": "t16",
+"player": "Olise",
+"detail": ""
+},
+{
+"minute": 76,
+"type": "YELLOW",
+"teamId": "t16",
+"player": "Chiesa",
+"detail": ""
+},
+{
+"minute": 80,
+"type": "GOAL",
+"teamId": "t14",
+"player": "Pedri",
+"detail": ""
+},
+{
+"minute": 83,
+"type": "GOAL",
+"teamId": "t14",
+"player": "Pedri",
+"detail": ""
+}
+]
+},
+{
+"id": "m23",
+"homeId": "t16",
+"awayId": "t13",
+"homeScore": 0,
+"awayScore": 2,
+"statusRaw": "LIVE",
+"minute": 90,
+"kickoffEpoch": 1781884800000,
+"stage": "Group Stage",
+"group": "D",
+"venue": "Arrowhead Stadium",
+"city": "Kansas City",
+"events": [
+{
+"minute": 16,
+"type": "GOAL",
+"teamId": "t13",
+"player": "Mane",
+"detail": ""
+},
+{
+"minute": 19,
+"type": "GOAL",
+"teamId": "t13",
+"player": "Musiala",
+"detail": ""
+}
+]
+},
+{
+"id": "m24",
+"homeId": "t14",
+"awayId": "t15",
+"homeScore": 0,
+"awayScore": 0,
+"statusRaw": "SCHEDULED",
+"minute": 0,
+"kickoffEpoch": 1781895600000,
+"stage": "Group Stage",
+"group": "D",
+"venue": "MetLife Stadium",
+"city": "New York",
+"events": []
+},
+{
+"id": "m25",
+"homeId": "t17",
+"awayId": "t18",
+"homeScore": 3,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781197200000,
+"stage": "Group Stage",
+"group": "E",
+"venue": "SoFi Stadium",
+"city": "Los Angeles",
+"events": [
+{
+"minute": 38,
+"type": "YELLOW",
+"teamId": "t18",
+"player": "Chiesa",
+"detail": ""
+},
+{
+"minute": 47,
+"type": "GOAL",
+"teamId": "t17",
+"player": "Mitoma",
+"detail": ""
+},
+{
+"minute": 48,
+"type": "GOAL",
+"teamId": "t17",
+"player": "Mitoma",
+"detail": ""
+},
+{
+"minute": 61,
+"type": "GOAL",
+"teamId": "t17",
+"player": "Mitoma",
+"detail": ""
+},
+{
+"minute": 65,
+"type": "YELLOW",
+"teamId": "t18",
+"player": "Yamal",
+"detail": ""
+},
+{
+"minute": 77,
+"type": "GOAL",
+"teamId": "t18",
+"player": "Olise",
+"detail": ""
+}
+]
+},
+{
+"id": "m26",
+"homeId": "t19",
+"awayId": "t20",
+"homeScore": 1,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781208000000,
+"stage": "Group Stage",
+"group": "E",
+"venue": "AT&T Stadium",
+"city": "Dallas",
+"events": [
+{
+"minute": 25,
+"type": "YELLOW",
+"teamId": "t20",
+"player": "Foden",
+"detail": ""
+},
+{
+"minute": 51,
+"type": "GOAL",
+"teamId": "t19",
+"player": "Gakpo",
+"detail": ""
+},
+{
+"minute": 65,
+"type": "YELLOW",
+"teamId": "t19",
+"player": "Hojlund",
+"detail": ""
+},
+{
+"minute": 66,
+"type": "YELLOW",
+"teamId": "t20",
+"player": "Foden",
+"detail": ""
+},
+{
+"minute": 78,
+"type": "GOAL",
+"teamId": "t20",
+"player": "Akanji",
+"detail": ""
+}
+]
+},
+{
+"id": "m27",
+"homeId": "t17",
+"awayId": "t19",
+"homeScore": 3,
+"awayScore": 3,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781542800000,
+"stage": "Group Stage",
+"group": "E",
+"venue": "Hard Rock Stadium",
+"city": "Miami",
+"events": [
+{
+"minute": 5,
+"type": "GOAL",
+"teamId": "t17",
+"player": "Mitoma",
+"detail": ""
+},
+{
+"minute": 45,
+"type": "GOAL",
+"teamId": "t17",
+"player": "Nunez",
+"detail": ""
+},
+{
+"minute": 46,
+"type": "GOAL",
+"teamId": "t17",
+"player": "Modric",
+"detail": ""
+},
+{
+"minute": 55,
+"type": "GOAL",
+"teamId": "t19",
+"player": "Pedri",
+"detail": ""
+},
+{
+"minute": 55,
+"type": "YELLOW",
+"teamId": "t19",
+"player": "Pedri",
+"detail": ""
+},
+{
+"minute": 73,
+"type": "GOAL",
+"teamId": "t19",
+"player": "Pedri",
+"detail": ""
+},
+{
+"minute": 89,
+"type": "GOAL",
+"teamId": "t19",
+"player": "Pedri",
+"detail": ""
+}
+]
+},
+{
+"id": "m28",
+"homeId": "t20",
+"awayId": "t18",
+"homeScore": 0,
+"awayScore": 4,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781553600000,
+"stage": "Group Stage",
+"group": "E",
+"venue": "Mercedes-Benz Stadium",
+"city": "Atlanta",
+"events": [
+{
+"minute": 4,
+"type": "GOAL",
+"teamId": "t18",
+"player": "Hojlund",
+"detail": ""
+},
+{
+"minute": 12,
+"type": "YELLOW",
+"teamId": "t18",
+"player": "Chiesa",
+"detail": ""
+},
+{
+"minute": 46,
+"type": "GOAL",
+"teamId": "t18",
+"player": "Chiesa",
+"detail": ""
+},
+{
+"minute": 63,
+"type": "GOAL",
+"teamId": "t18",
+"player": "Foden",
+"detail": ""
+},
+{
+"minute": 64,
+"type": "GOAL",
+"teamId": "t18",
+"player": "Hojlund",
+"detail": ""
+},
+{
+"minute": 75,
+"type": "YELLOW",
+"teamId": "t18",
+"player": "Kane",
+"detail": ""
+}
+]
+},
+{
+"id": "m29",
+"homeId": "t20",
+"awayId": "t17",
+"homeScore": 0,
+"awayScore": 0,
+"statusRaw": "LIVE",
+"minute": 60,
+"kickoffEpoch": 1781888400000,
+"stage": "Group Stage",
+"group": "E",
+"venue": "Lumen Field",
+"city": "Seattle",
+"events": [
+{
+"minute": 23,
+"type": "YELLOW",
+"teamId": "t20",
+"player": "Lautaro",
+"detail": ""
+}
+]
+},
+{
+"id": "m30",
+"homeId": "t18",
+"awayId": "t19",
+"homeScore": 0,
+"awayScore": 0,
+"statusRaw": "SCHEDULED",
+"minute": 0,
+"kickoffEpoch": 1781899200000,
+"stage": "Group Stage",
+"group": "E",
+"venue": "Estadio Azteca",
+"city": "Mexico City",
+"events": []
+},
+{
+"id": "m31",
+"homeId": "t21",
+"awayId": "t22",
+"homeScore": 1,
+"awayScore": 2,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781200800000,
+"stage": "Group Stage",
+"group": "F",
+"venue": "Estadio Akron",
+"city": "Guadalajara",
+"events": [
+{
+"minute": 7,
+"type": "GOAL",
+"teamId": "t21",
+"player": "Hakimi",
+"detail": ""
+},
+{
+"minute": 35,
+"type": "GOAL",
+"teamId": "t22",
+"player": "Raphinha",
+"detail": ""
+},
+{
+"minute": 42,
+"type": "YELLOW",
+"teamId": "t22",
+"player": "Musiala",
+"detail": ""
+},
+{
+"minute": 48,
+"type": "YELLOW",
+"teamId": "t22",
+"player": "Raphinha",
+"detail": ""
+},
+{
+"minute": 57,
+"type": "YELLOW",
+"teamId": "t21",
+"player": "Lukaku",
+"detail": ""
+},
+{
+"minute": 85,
+"type": "GOAL",
+"teamId": "t22",
+"player": "Hakimi",
+"detail": ""
+}
+]
+},
+{
+"id": "m32",
+"homeId": "t23",
+"awayId": "t24",
+"homeScore": 0,
+"awayScore": 0,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781211600000,
+"stage": "Group Stage",
+"group": "F",
+"venue": "BMO Field",
+"city": "Toronto",
+"events": [
+{
+"minute": 19,
+"type": "YELLOW",
+"teamId": "t23",
+"player": "Olise",
+"detail": ""
+},
+{
+"minute": 42,
+"type": "YELLOW",
+"teamId": "t23",
+"player": "Olise",
+"detail": ""
+},
+{
+"minute": 53,
+"type": "YELLOW",
+"teamId": "t24",
+"player": "Bellingham",
+"detail": ""
+}
+]
+},
+{
+"id": "m33",
+"homeId": "t21",
+"awayId": "t23",
+"homeScore": 1,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781546400000,
+"stage": "Group Stage",
+"group": "F",
+"venue": "BC Place",
+"city": "Vancouver",
+"events": [
+{
+"minute": 30,
+"type": "GOAL",
+"teamId": "t21",
+"player": "Nunez",
+"detail": ""
+},
+{
+"minute": 37,
+"type": "GOAL",
+"teamId": "t23",
+"player": "Yamal",
+"detail": ""
+},
+{
+"minute": 56,
+"type": "YELLOW",
+"teamId": "t23",
+"player": "Modric",
+"detail": ""
+}
+]
+},
+{
+"id": "m34",
+"homeId": "t24",
+"awayId": "t22",
+"homeScore": 0,
+"awayScore": 3,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781557200000,
+"stage": "Group Stage",
+"group": "F",
+"venue": "NRG Stadium",
+"city": "Houston",
+"events": [
+{
+"minute": 16,
+"type": "YELLOW",
+"teamId": "t24",
+"player": "Raphinha",
+"detail": ""
+},
+{
+"minute": 25,
+"type": "GOAL",
+"teamId": "t22",
+"player": "Raphinha",
+"detail": ""
+},
+{
+"minute": 38,
+"type": "GOAL",
+"teamId": "t22",
+"player": "Hojlund",
+"detail": ""
+},
+{
+"minute": 41,
+"type": "GOAL",
+"teamId": "t22",
+"player": "Gakpo",
+"detail": ""
+},
+{
+"minute": 68,
+"type": "YELLOW",
+"teamId": "t24",
+"player": "Raphinha",
+"detail": ""
+}
+]
+},
+{
+"id": "m35",
+"homeId": "t24",
+"awayId": "t21",
+"homeScore": 1,
+"awayScore": 0,
+"statusRaw": "LIVE",
+"minute": 1,
+"kickoffEpoch": 1781892000000,
+"stage": "Group Stage",
+"group": "F",
+"venue": "Arrowhead Stadium",
+"city": "Kansas City",
+"events": []
+},
+{
+"id": "m36",
+"homeId": "t22",
+"awayId": "t23",
+"homeScore": 0,
+"awayScore": 0,
+"statusRaw": "SCHEDULED",
+"minute": 0,
+"kickoffEpoch": 1781902800000,
+"stage": "Group Stage",
+"group": "F",
+"venue": "MetLife Stadium",
+"city": "New York",
+"events": []
+},
+{
+"id": "m37",
+"homeId": "t25",
+"awayId": "t26",
+"homeScore": 2,
+"awayScore": 2,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781193600000,
+"stage": "Group Stage",
+"group": "G",
+"venue": "SoFi Stadium",
+"city": "Los Angeles",
+"events": [
+{
+"minute": 21,
+"type": "YELLOW",
+"teamId": "t26",
+"player": "Chiesa",
+"detail": ""
+},
+{
+"minute": 23,
+"type": "GOAL",
+"teamId": "t25",
+"player": "Gakpo",
+"detail": ""
+},
+{
+"minute": 24,
+"type": "YELLOW",
+"teamId": "t25",
+"player": "Bellingham",
+"detail": ""
+},
+{
+"minute": 30,
+"type": "YELLOW",
+"teamId": "t26",
+"player": "Foden",
+"detail": ""
+},
+{
+"minute": 57,
+"type": "GOAL",
+"teamId": "t25",
+"player": "Pedri",
+"detail": ""
+},
+{
+"minute": 61,
+"type": "GOAL",
+"teamId": "t26",
+"player": "Chiesa",
+"detail": ""
+},
+{
+"minute": 71,
+"type": "GOAL",
+"teamId": "t26",
+"player": "Gakpo",
+"detail": ""
+}
+]
+},
+{
+"id": "m38",
+"homeId": "t27",
+"awayId": "t28",
+"homeScore": 2,
+"awayScore": 2,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781204400000,
+"stage": "Group Stage",
+"group": "G",
+"venue": "AT&T Stadium",
+"city": "Dallas",
+"events": [
+{
+"minute": 37,
+"type": "GOAL",
+"teamId": "t27",
+"player": "Mane",
+"detail": ""
+},
+{
+"minute": 48,
+"type": "GOAL",
+"teamId": "t27",
+"player": "Lautaro",
+"detail": ""
+},
+{
+"minute": 61,
+"type": "GOAL",
+"teamId": "t28",
+"player": "Nunez",
+"detail": ""
+},
+{
+"minute": 65,
+"type": "GOAL",
+"teamId": "t28",
+"player": "Hojlund",
+"detail": ""
+},
+{
+"minute": 68,
+"type": "YELLOW",
+"teamId": "t28",
+"player": "Silva",
+"detail": ""
+}
+]
+},
+{
+"id": "m39",
+"homeId": "t25",
+"awayId": "t27",
+"homeScore": 1,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781539200000,
+"stage": "Group Stage",
+"group": "G",
+"venue": "Hard Rock Stadium",
+"city": "Miami",
+"events": [
+{
+"minute": 15,
+"type": "GOAL",
+"teamId": "t25",
+"player": "Gakpo",
+"detail": ""
+},
+{
+"minute": 38,
+"type": "GOAL",
+"teamId": "t27",
+"player": "Lautaro",
+"detail": ""
+}
+]
+},
+{
+"id": "m40",
+"homeId": "t28",
+"awayId": "t26",
+"homeScore": 1,
+"awayScore": 2,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781550000000,
+"stage": "Group Stage",
+"group": "G",
+"venue": "Mercedes-Benz Stadium",
+"city": "Atlanta",
+"events": [
+{
+"minute": 6,
+"type": "GOAL",
+"teamId": "t28",
+"player": "Silva",
+"detail": ""
+},
+{
+"minute": 15,
+"type": "YELLOW",
+"teamId": "t28",
+"player": "Yamal",
+"detail": ""
+},
+{
+"minute": 16,
+"type": "GOAL",
+"teamId": "t26",
+"player": "Foden",
+"detail": ""
+},
+{
+"minute": 20,
+"type": "GOAL",
+"teamId": "t26",
+"player": "Chiesa",
+"detail": ""
+},
+{
+"minute": 87,
+"type": "YELLOW",
+"teamId": "t28",
+"player": "Hojlund",
+"detail": ""
+}
+]
+},
+{
+"id": "m41",
+"homeId": "t28",
+"awayId": "t25",
+"homeScore": 2,
+"awayScore": 1,
+"statusRaw": "LIVE",
+"minute": 90,
+"kickoffEpoch": 1781884800000,
+"stage": "Group Stage",
+"group": "G",
+"venue": "Lumen Field",
+"city": "Seattle",
+"events": [
+{
+"minute": 34,
+"type": "GOAL",
+"teamId": "t28",
+"player": "Nunez",
+"detail": ""
+},
+{
+"minute": 65,
+"type": "GOAL",
+"teamId": "t28",
+"player": "Silva",
+"detail": ""
+},
+{
+"minute": 79,
+"type": "GOAL",
+"teamId": "t25",
+"player": "Mane",
+"detail": ""
+}
+]
+},
+{
+"id": "m42",
+"homeId": "t26",
+"awayId": "t27",
+"homeScore": 0,
+"awayScore": 0,
+"statusRaw": "SCHEDULED",
+"minute": 0,
+"kickoffEpoch": 1781895600000,
+"stage": "Group Stage",
+"group": "G",
+"venue": "Estadio Azteca",
+"city": "Mexico City",
+"events": []
+},
+{
+"id": "m43",
+"homeId": "t29",
+"awayId": "t30",
+"homeScore": 1,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781197200000,
+"stage": "Group Stage",
+"group": "H",
+"venue": "Estadio Akron",
+"city": "Guadalajara",
+"events": [
+{
+"minute": 33,
+"type": "GOAL",
+"teamId": "t29",
+"player": "Silva",
+"detail": ""
+},
+{
+"minute": 37,
+"type": "YELLOW",
+"teamId": "t30",
+"player": "Vinicius",
+"detail": ""
+},
+{
+"minute": 55,
+"type": "YELLOW",
+"teamId": "t29",
+"player": "Lautaro",
+"detail": ""
+},
+{
+"minute": 69,
+"type": "GOAL",
+"teamId": "t30",
+"player": "Yamal",
+"detail": ""
+},
+{
+"minute": 77,
+"type": "YELLOW",
+"teamId": "t29",
+"player": "Hojlund",
+"detail": ""
+}
+]
+},
+{
+"id": "m44",
+"homeId": "t31",
+"awayId": "t32",
+"homeScore": 2,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781208000000,
+"stage": "Group Stage",
+"group": "H",
+"venue": "BMO Field",
+"city": "Toronto",
+"events": [
+{
+"minute": 13,
+"type": "GOAL",
+"teamId": "t31",
+"player": "Lukaku",
+"detail": ""
+},
+{
+"minute": 37,
+"type": "GOAL",
+"teamId": "t31",
+"player": "Kane",
+"detail": ""
+},
+{
+"minute": 50,
+"type": "GOAL",
+"teamId": "t32",
+"player": "Foden",
+"detail": ""
+},
+{
+"minute": 67,
+"type": "YELLOW",
+"teamId": "t31",
+"player": "Chiesa",
+"detail": ""
+}
+]
+},
+{
+"id": "m45",
+"homeId": "t29",
+"awayId": "t31",
+"homeScore": 2,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781542800000,
+"stage": "Group Stage",
+"group": "H",
+"venue": "BC Place",
+"city": "Vancouver",
+"events": [
+{
+"minute": 11,
+"type": "GOAL",
+"teamId": "t29",
+"player": "Silva",
+"detail": ""
+},
+{
+"minute": 24,
+"type": "GOAL",
+"teamId": "t29",
+"player": "Yamal",
+"detail": ""
+},
+{
+"minute": 70,
+"type": "YELLOW",
+"teamId": "t29",
+"player": "Silva",
+"detail": ""
+},
+{
+"minute": 79,
+"type": "YELLOW",
+"teamId": "t29",
+"player": "Yamal",
+"detail": ""
+},
+{
+"minute": 86,
+"type": "GOAL",
+"teamId": "t31",
+"player": "Mitoma",
+"detail": ""
+}
+]
+},
+{
+"id": "m46",
+"homeId": "t32",
+"awayId": "t30",
+"homeScore": 0,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781553600000,
+"stage": "Group Stage",
+"group": "H",
+"venue": "NRG Stadium",
+"city": "Houston",
+"events": [
+{
+"minute": 7,
+"type": "GOAL",
+"teamId": "t30",
+"player": "Chiesa",
+"detail": ""
+},
+{
+"minute": 31,
+"type": "YELLOW",
+"teamId": "t32",
+"player": "Pedri",
+"detail": ""
+},
+{
+"minute": 32,
+"type": "YELLOW",
+"teamId": "t30",
+"player": "Mbappe",
+"detail": ""
+},
+{
+"minute": 81,
+"type": "YELLOW",
+"teamId": "t30",
+"player": "Chiesa",
+"detail": ""
+}
+]
+},
+{
+"id": "m47",
+"homeId": "t32",
+"awayId": "t29",
+"homeScore": 1,
+"awayScore": 2,
+"statusRaw": "LIVE",
+"minute": 60,
+"kickoffEpoch": 1781888400000,
+"stage": "Group Stage",
+"group": "H",
+"venue": "Arrowhead Stadium",
+"city": "Kansas City",
+"events": [
+{
+"minute": 22,
+"type": "GOAL",
+"teamId": "t32",
+"player": "Lautaro",
+"detail": ""
+},
+{
+"minute": 44,
+"type": "GOAL",
+"teamId": "t29",
+"player": "Chiesa",
+"detail": ""
+}
+]
+},
+{
+"id": "m48",
+"homeId": "t30",
+"awayId": "t31",
+"homeScore": 0,
+"awayScore": 0,
+"statusRaw": "SCHEDULED",
+"minute": 0,
+"kickoffEpoch": 1781899200000,
+"stage": "Group Stage",
+"group": "H",
+"venue": "MetLife Stadium",
+"city": "New York",
+"events": []
+},
+{
+"id": "m49",
+"homeId": "t33",
+"awayId": "t34",
+"homeScore": 3,
+"awayScore": 3,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781200800000,
+"stage": "Group Stage",
+"group": "I",
+"venue": "SoFi Stadium",
+"city": "Los Angeles",
+"events": [
+{
+"minute": 17,
+"type": "GOAL",
+"teamId": "t33",
+"player": "Hojlund",
+"detail": ""
+},
+{
+"minute": 33,
+"type": "GOAL",
+"teamId": "t33",
+"player": "Mane",
+"detail": ""
+},
+{
+"minute": 34,
+"type": "GOAL",
+"teamId": "t33",
+"player": "Rice",
+"detail": ""
+},
+{
+"minute": 35,
+"type": "GOAL",
+"teamId": "t34",
+"player": "Rice",
+"detail": ""
+},
+{
+"minute": 51,
+"type": "GOAL",
+"teamId": "t34",
+"player": "Silva",
+"detail": ""
+},
+{
+"minute": 78,
+"type": "YELLOW",
+"teamId": "t34",
+"player": "Hakimi",
+"detail": ""
+},
+{
+"minute": 86,
+"type": "GOAL",
+"teamId": "t34",
+"player": "Rice",
+"detail": ""
+}
+]
+},
+{
+"id": "m50",
+"homeId": "t35",
+"awayId": "t36",
+"homeScore": 2,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781211600000,
+"stage": "Group Stage",
+"group": "I",
+"venue": "AT&T Stadium",
+"city": "Dallas",
+"events": [
+{
+"minute": 11,
+"type": "GOAL",
+"teamId": "t35",
+"player": "Chiesa",
+"detail": ""
+},
+{
+"minute": 17,
+"type": "GOAL",
+"teamId": "t35",
+"player": "Kane",
+"detail": ""
+},
+{
+"minute": 19,
+"type": "GOAL",
+"teamId": "t36",
+"player": "Yamal",
+"detail": ""
+},
+{
+"minute": 62,
+"type": "YELLOW",
+"teamId": "t35",
+"player": "Akanji",
+"detail": ""
+},
+{
+"minute": 66,
+"type": "YELLOW",
+"teamId": "t35",
+"player": "Kane",
+"detail": ""
+}
+]
+},
+{
+"id": "m51",
+"homeId": "t33",
+"awayId": "t35",
+"homeScore": 2,
+"awayScore": 2,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781546400000,
+"stage": "Group Stage",
+"group": "I",
+"venue": "Hard Rock Stadium",
+"city": "Miami",
+"events": [
+{
+"minute": 35,
+"type": "GOAL",
+"teamId": "t33",
+"player": "Kvaratskhelia",
+"detail": ""
+},
+{
+"minute": 36,
+"type": "YELLOW",
+"teamId": "t33",
+"player": "Lukaku",
+"detail": ""
+},
+{
+"minute": 38,
+"type": "GOAL",
+"teamId": "t33",
+"player": "Rice",
+"detail": ""
+},
+{
+"minute": 41,
+"type": "GOAL",
+"teamId": "t35",
+"player": "Kane",
+"detail": ""
+},
+{
+"minute": 50,
+"type": "YELLOW",
+"teamId": "t35",
+"player": "Pedri",
+"detail": ""
+},
+{
+"minute": 59,
+"type": "GOAL",
+"teamId": "t35",
+"player": "Rice",
+"detail": ""
+},
+{
+"minute": 88,
+"type": "YELLOW",
+"teamId": "t33",
+"player": "Mane",
+"detail": ""
+}
+]
+},
+{
+"id": "m52",
+"homeId": "t36",
+"awayId": "t34",
+"homeScore": 2,
+"awayScore": 2,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781557200000,
+"stage": "Group Stage",
+"group": "I",
+"venue": "Mercedes-Benz Stadium",
+"city": "Atlanta",
+"events": [
+{
+"minute": 29,
+"type": "GOAL",
+"teamId": "t36",
+"player": "Pedri",
+"detail": ""
+},
+{
+"minute": 53,
+"type": "GOAL",
+"teamId": "t36",
+"player": "Yamal",
+"detail": ""
+},
+{
+"minute": 67,
+"type": "YELLOW",
+"teamId": "t34",
+"player": "Yamal",
+"detail": ""
+},
+{
+"minute": 73,
+"type": "GOAL",
+"teamId": "t34",
+"player": "Rice",
+"detail": ""
+},
+{
+"minute": 75,
+"type": "YELLOW",
+"teamId": "t36",
+"player": "Pedri",
+"detail": ""
+},
+{
+"minute": 81,
+"type": "GOAL",
+"teamId": "t34",
+"player": "Bellingham",
+"detail": ""
+}
+]
+},
+{
+"id": "m53",
+"homeId": "t36",
+"awayId": "t33",
+"homeScore": 1,
+"awayScore": 1,
+"statusRaw": "LIVE",
+"minute": 1,
+"kickoffEpoch": 1781892000000,
+"stage": "Group Stage",
+"group": "I",
+"venue": "Lumen Field",
+"city": "Seattle",
+"events": []
+},
+{
+"id": "m54",
+"homeId": "t34",
+"awayId": "t35",
+"homeScore": 0,
+"awayScore": 0,
+"statusRaw": "SCHEDULED",
+"minute": 0,
+"kickoffEpoch": 1781902800000,
+"stage": "Group Stage",
+"group": "I",
+"venue": "Estadio Azteca",
+"city": "Mexico City",
+"events": []
+},
+{
+"id": "m55",
+"homeId": "t37",
+"awayId": "t38",
+"homeScore": 0,
+"awayScore": 4,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781193600000,
+"stage": "Group Stage",
+"group": "J",
+"venue": "Estadio Akron",
+"city": "Guadalajara",
+"events": [
+{
+"minute": 6,
+"type": "GOAL",
+"teamId": "t38",
+"player": "Mane",
+"detail": ""
+},
+{
+"minute": 13,
+"type": "YELLOW",
+"teamId": "t38",
+"player": "Foden",
+"detail": ""
+},
+{
+"minute": 48,
+"type": "GOAL",
+"teamId": "t38",
+"player": "Mitoma",
+"detail": ""
+},
+{
+"minute": 51,
+"type": "GOAL",
+"teamId": "t38",
+"player": "Mitoma",
+"detail": ""
+},
+{
+"minute": 70,
+"type": "YELLOW",
+"teamId": "t38",
+"player": "Mitoma",
+"detail": ""
+},
+{
+"minute": 75,
+"type": "YELLOW",
+"teamId": "t38",
+"player": "Mitoma",
+"detail": ""
+},
+{
+"minute": 77,
+"type": "GOAL",
+"teamId": "t38",
+"player": "Mitoma",
+"detail": ""
+}
+]
+},
+{
+"id": "m56",
+"homeId": "t39",
+"awayId": "t40",
+"homeScore": 2,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781204400000,
+"stage": "Group Stage",
+"group": "J",
+"venue": "BMO Field",
+"city": "Toronto",
+"events": [
+{
+"minute": 3,
+"type": "GOAL",
+"teamId": "t39",
+"player": "Lautaro",
+"detail": ""
+},
+{
+"minute": 42,
+"type": "GOAL",
+"teamId": "t39",
+"player": "Lautaro",
+"detail": ""
+},
+{
+"minute": 44,
+"type": "GOAL",
+"teamId": "t40",
+"player": "Chiesa",
+"detail": ""
+},
+{
+"minute": 62,
+"type": "YELLOW",
+"teamId": "t40",
+"player": "Kvaratskhelia",
+"detail": ""
+}
+]
+},
+{
+"id": "m57",
+"homeId": "t37",
+"awayId": "t39",
+"homeScore": 1,
+"awayScore": 0,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781539200000,
+"stage": "Group Stage",
+"group": "J",
+"venue": "BC Place",
+"city": "Vancouver",
+"events": [
+{
+"minute": 21,
+"type": "YELLOW",
+"teamId": "t37",
+"player": "Mitoma",
+"detail": ""
+},
+{
+"minute": 62,
+"type": "GOAL",
+"teamId": "t37",
+"player": "Mitoma",
+"detail": ""
+},
+{
+"minute": 64,
+"type": "YELLOW",
+"teamId": "t39",
+"player": "Lautaro",
+"detail": ""
+},
+{
+"minute": 73,
+"type": "YELLOW",
+"teamId": "t39",
+"player": "Lautaro",
+"detail": ""
+}
+]
+},
+{
+"id": "m58",
+"homeId": "t40",
+"awayId": "t38",
+"homeScore": 0,
+"awayScore": 2,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781550000000,
+"stage": "Group Stage",
+"group": "J",
+"venue": "NRG Stadium",
+"city": "Houston",
+"events": [
+{
+"minute": 16,
+"type": "GOAL",
+"teamId": "t38",
+"player": "Mitoma",
+"detail": ""
+},
+{
+"minute": 43,
+"type": "YELLOW",
+"teamId": "t38",
+"player": "Nunez",
+"detail": ""
+},
+{
+"minute": 47,
+"type": "GOAL",
+"teamId": "t38",
+"player": "Mane",
+"detail": ""
+}
+]
+},
+{
+"id": "m59",
+"homeId": "t40",
+"awayId": "t37",
+"homeScore": 1,
+"awayScore": 0,
+"statusRaw": "LIVE",
+"minute": 90,
+"kickoffEpoch": 1781884800000,
+"stage": "Group Stage",
+"group": "J",
+"venue": "Arrowhead Stadium",
+"city": "Kansas City",
+"events": [
+{
+"minute": 42,
+"type": "YELLOW",
+"teamId": "t37",
+"player": "Mitoma",
+"detail": ""
+},
+{
+"minute": 80,
+"type": "GOAL",
+"teamId": "t40",
+"player": "Mane",
+"detail": ""
+}
+]
+},
+{
+"id": "m60",
+"homeId": "t38",
+"awayId": "t39",
+"homeScore": 0,
+"awayScore": 0,
+"statusRaw": "SCHEDULED",
+"minute": 0,
+"kickoffEpoch": 1781895600000,
+"stage": "Group Stage",
+"group": "J",
+"venue": "MetLife Stadium",
+"city": "New York",
+"events": []
+},
+{
+"id": "m61",
+"homeId": "t41",
+"awayId": "t42",
+"homeScore": 1,
+"awayScore": 2,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781197200000,
+"stage": "Group Stage",
+"group": "K",
+"venue": "SoFi Stadium",
+"city": "Los Angeles",
+"events": [
+{
+"minute": 17,
+"type": "GOAL",
+"teamId": "t41",
+"player": "Modric",
+"detail": ""
+},
+{
+"minute": 25,
+"type": "YELLOW",
+"teamId": "t42",
+"player": "Musiala",
+"detail": ""
+},
+{
+"minute": 42,
+"type": "GOAL",
+"teamId": "t42",
+"player": "Akanji",
+"detail": ""
+},
+{
+"minute": 61,
+"type": "YELLOW",
+"teamId": "t42",
+"player": "Musiala",
+"detail": ""
+},
+{
+"minute": 80,
+"type": "GOAL",
+"teamId": "t42",
+"player": "Pedri",
+"detail": ""
+}
+]
+},
+{
+"id": "m62",
+"homeId": "t43",
+"awayId": "t44",
+"homeScore": 0,
+"awayScore": 2,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781208000000,
+"stage": "Group Stage",
+"group": "K",
+"venue": "AT&T Stadium",
+"city": "Dallas",
+"events": [
+{
+"minute": 11,
+"type": "YELLOW",
+"teamId": "t44",
+"player": "Chiesa",
+"detail": ""
+},
+{
+"minute": 48,
+"type": "GOAL",
+"teamId": "t44",
+"player": "Silva",
+"detail": ""
+},
+{
+"minute": 52,
+"type": "GOAL",
+"teamId": "t44",
+"player": "Chiesa",
+"detail": ""
+},
+{
+"minute": 69,
+"type": "YELLOW",
+"teamId": "t44",
+"player": "Rice",
+"detail": ""
+}
+]
+},
+{
+"id": "m63",
+"homeId": "t41",
+"awayId": "t43",
+"homeScore": 0,
+"awayScore": 0,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781542800000,
+"stage": "Group Stage",
+"group": "K",
+"venue": "Hard Rock Stadium",
+"city": "Miami",
+"events": [
+{
+"minute": 17,
+"type": "YELLOW",
+"teamId": "t41",
+"player": "Akanji",
+"detail": ""
+}
+]
+},
+{
+"id": "m64",
+"homeId": "t44",
+"awayId": "t42",
+"homeScore": 1,
+"awayScore": 2,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781553600000,
+"stage": "Group Stage",
+"group": "K",
+"venue": "Mercedes-Benz Stadium",
+"city": "Atlanta",
+"events": [
+{
+"minute": 16,
+"type": "GOAL",
+"teamId": "t44",
+"player": "Rice",
+"detail": ""
+},
+{
+"minute": 32,
+"type": "GOAL",
+"teamId": "t42",
+"player": "Musiala",
+"detail": ""
+},
+{
+"minute": 56,
+"type": "GOAL",
+"teamId": "t42",
+"player": "Akanji",
+"detail": ""
+}
+]
+},
+{
+"id": "m65",
+"homeId": "t44",
+"awayId": "t41",
+"homeScore": 1,
+"awayScore": 0,
+"statusRaw": "LIVE",
+"minute": 60,
+"kickoffEpoch": 1781888400000,
+"stage": "Group Stage",
+"group": "K",
+"venue": "Lumen Field",
+"city": "Seattle",
+"events": [
+{
+"minute": 56,
+"type": "GOAL",
+"teamId": "t44",
+"player": "Chiesa",
+"detail": ""
+}
+]
+},
+{
+"id": "m66",
+"homeId": "t42",
+"awayId": "t43",
+"homeScore": 0,
+"awayScore": 0,
+"statusRaw": "SCHEDULED",
+"minute": 0,
+"kickoffEpoch": 1781899200000,
+"stage": "Group Stage",
+"group": "K",
+"venue": "Estadio Azteca",
+"city": "Mexico City",
+"events": []
+},
+{
+"id": "m67",
+"homeId": "t45",
+"awayId": "t46",
+"homeScore": 1,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781200800000,
+"stage": "Group Stage",
+"group": "L",
+"venue": "Estadio Akron",
+"city": "Guadalajara",
+"events": [
+{
+"minute": 19,
+"type": "GOAL",
+"teamId": "t45",
+"player": "Akanji",
+"detail": ""
+},
+{
+"minute": 34,
+"type": "YELLOW",
+"teamId": "t45",
+"player": "Mane",
+"detail": ""
+},
+{
+"minute": 36,
+"type": "YELLOW",
+"teamId": "t45",
+"player": "Rice",
+"detail": ""
+},
+{
+"minute": 47,
+"type": "YELLOW",
+"teamId": "t45",
+"player": "Bellingham",
+"detail": ""
+},
+{
+"minute": 58,
+"type": "GOAL",
+"teamId": "t46",
+"player": "Vinicius",
+"detail": ""
+}
+]
+},
+{
+"id": "m68",
+"homeId": "t47",
+"awayId": "t48",
+"homeScore": 1,
+"awayScore": 2,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781211600000,
+"stage": "Group Stage",
+"group": "L",
+"venue": "BMO Field",
+"city": "Toronto",
+"events": [
+{
+"minute": 41,
+"type": "GOAL",
+"teamId": "t47",
+"player": "Bellingham",
+"detail": ""
+},
+{
+"minute": 71,
+"type": "GOAL",
+"teamId": "t48",
+"player": "Musiala",
+"detail": ""
+},
+{
+"minute": 74,
+"type": "GOAL",
+"teamId": "t48",
+"player": "Olise",
+"detail": ""
+},
+{
+"minute": 81,
+"type": "YELLOW",
+"teamId": "t48",
+"player": "Lautaro",
+"detail": ""
+}
+]
+},
+{
+"id": "m69",
+"homeId": "t45",
+"awayId": "t47",
+"homeScore": 2,
+"awayScore": 0,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781546400000,
+"stage": "Group Stage",
+"group": "L",
+"venue": "BC Place",
+"city": "Vancouver",
+"events": [
+{
+"minute": 25,
+"type": "GOAL",
+"teamId": "t45",
+"player": "Rice",
+"detail": ""
+},
+{
+"minute": 27,
+"type": "GOAL",
+"teamId": "t45",
+"player": "Mane",
+"detail": ""
+}
+]
+},
+{
+"id": "m70",
+"homeId": "t48",
+"awayId": "t46",
+"homeScore": 2,
+"awayScore": 1,
+"statusRaw": "FINISHED",
+"minute": 0,
+"kickoffEpoch": 1781557200000,
+"stage": "Group Stage",
+"group": "L",
+"venue": "NRG Stadium",
+"city": "Houston",
+"events": [
+{
+"minute": 22,
+"type": "GOAL",
+"teamId": "t48",
+"player": "Hakimi",
+"detail": ""
+},
+{
+"minute": 25,
+"type": "YELLOW",
+"teamId": "t46",
+"player": "Vinicius",
+"detail": ""
+},
+{
+"minute": 37,
+"type": "GOAL",
+"teamId": "t48",
+"player": "Bellingham",
+"detail": ""
+},
+{
+"minute": 61,
+"type": "GOAL",
+"teamId": "t46",
+"player": "Kvaratskhelia",
+"detail": ""
+}
+]
+},
+{
+"id": "m71",
+"homeId": "t48",
+"awayId": "t45",
+"homeScore": 0,
+"awayScore": 1,
+"statusRaw": "LIVE",
+"minute": 1,
+"kickoffEpoch": 1781892000000,
+"stage": "Group Stage",
+"group": "L",
+"venue": "Arrowhead Stadium",
+"city": "Kansas City",
+"events": []
+},
+{
+"id": "m72",
+"homeId": "t46",
+"awayId": "t47",
+"homeScore": 0,
+"awayScore": 0,
+"statusRaw": "SCHEDULED",
+"minute": 0,
+"kickoffEpoch": 1781902800000,
+"stage": "Group Stage",
+"group": "L",
+"venue": "MetLife Stadium",
+"city": "New York",
+"events": []
+}
+],
+"standings": [
+{
+"teamId": "t1",
+"played": 2,
+"won": 2,
+"drawn": 0,
+"lost": 0,
+"goalsFor": 6,
+"goalsAgainst": 3
+},
+{
+"teamId": "t2",
+"played": 2,
+"won": 1,
+"drawn": 0,
+"lost": 1,
+"goalsFor": 5,
+"goalsAgainst": 5
+},
+{
+"teamId": "t3",
+"played": 2,
+"won": 1,
+"drawn": 0,
+"lost": 1,
+"goalsFor": 3,
+"goalsAgainst": 4
+},
+{
+"teamId": "t4",
+"played": 2,
+"won": 0,
+"drawn": 0,
+"lost": 2,
+"goalsFor": 3,
+"goalsAgainst": 5
+},
+{
+"teamId": "t5",
+"played": 2,
+"won": 1,
+"drawn": 1,
+"lost": 0,
+"goalsFor": 3,
+"goalsAgainst": 2
+},
+{
+"teamId": "t6",
+"played": 2,
+"won": 0,
+"drawn": 1,
+"lost": 1,
+"goalsFor": 2,
+"goalsAgainst": 3
+},
+{
+"teamId": "t7",
+"played": 2,
+"won": 0,
+"drawn": 1,
+"lost": 1,
+"goalsFor": 2,
+"goalsAgainst": 3
+},
+{
+"teamId": "t8",
+"played": 2,
+"won": 1,
+"drawn": 1,
+"lost": 0,
+"goalsFor": 3,
+"goalsAgainst": 2
+},
+{
+"teamId": "t9",
+"played": 2,
+"won": 1,
+"drawn": 1,
+"lost": 0,
+"goalsFor": 4,
+"goalsAgainst": 3
+},
+{
+"teamId": "t10",
+"played": 2,
+"won": 0,
+"drawn": 2,
+"lost": 0,
+"goalsFor": 2,
+"goalsAgainst": 2
+},
+{
+"teamId": "t11",
+"played": 2,
+"won": 1,
+"drawn": 0,
+"lost": 1,
+"goalsFor": 3,
+"goalsAgainst": 3
+},
+{
+"teamId": "t12",
+"played": 2,
+"won": 0,
+"drawn": 1,
+"lost": 1,
+"goalsFor": 1,
+"goalsAgainst": 2
+},
+{
+"teamId": "t13",
+"played": 2,
+"won": 1,
+"drawn": 1,
+"lost": 0,
+"goalsFor": 6,
+"goalsAgainst": 2
+},
+{
+"teamId": "t14",
+"played": 2,
+"won": 1,
+"drawn": 1,
+"lost": 0,
+"goalsFor": 4,
+"goalsAgainst": 3
+},
+{
+"teamId": "t15",
+"played": 2,
+"won": 0,
+"drawn": 1,
+"lost": 1,
+"goalsFor": 1,
+"goalsAgainst": 5
+},
+{
+"teamId": "t16",
+"played": 2,
+"won": 0,
+"drawn": 1,
+"lost": 1,
+"goalsFor": 2,
+"goalsAgainst": 3
+},
+{
+"teamId": "t17",
+"played": 2,
+"won": 1,
+"drawn": 1,
+"lost": 0,
+"goalsFor": 6,
+"goalsAgainst": 4
+},
+{
+"teamId": "t18",
+"played": 2,
+"won": 1,
+"drawn": 0,
+"lost": 1,
+"goalsFor": 5,
+"goalsAgainst": 3
+},
+{
+"teamId": "t19",
+"played": 2,
+"won": 0,
+"drawn": 2,
+"lost": 0,
+"goalsFor": 4,
+"goalsAgainst": 4
+},
+{
+"teamId": "t20",
+"played": 2,
+"won": 0,
+"drawn": 1,
+"lost": 1,
+"goalsFor": 1,
+"goalsAgainst": 5
+},
+{
+"teamId": "t21",
+"played": 2,
+"won": 0,
+"drawn": 1,
+"lost": 1,
+"goalsFor": 2,
+"goalsAgainst": 3
+},
+{
+"teamId": "t22",
+"played": 2,
+"won": 2,
+"drawn": 0,
+"lost": 0,
+"goalsFor": 5,
+"goalsAgainst": 1
+},
+{
+"teamId": "t23",
+"played": 2,
+"won": 0,
+"drawn": 2,
+"lost": 0,
+"goalsFor": 1,
+"goalsAgainst": 1
+},
+{
+"teamId": "t24",
+"played": 2,
+"won": 0,
+"drawn": 1,
+"lost": 1,
+"goalsFor": 0,
+"goalsAgainst": 3
+},
+{
+"teamId": "t25",
+"played": 2,
+"won": 0,
+"drawn": 2,
+"lost": 0,
+"goalsFor": 3,
+"goalsAgainst": 3
+},
+{
+"teamId": "t26",
+"played": 2,
+"won": 1,
+"drawn": 1,
+"lost": 0,
+"goalsFor": 4,
+"goalsAgainst": 3
+},
+{
+"teamId": "t27",
+"played": 2,
+"won": 0,
+"drawn": 2,
+"lost": 0,
+"goalsFor": 3,
+"goalsAgainst": 3
+},
+{
+"teamId": "t28",
+"played": 2,
+"won": 0,
+"drawn": 1,
+"lost": 1,
+"goalsFor": 3,
+"goalsAgainst": 4
+},
+{
+"teamId": "t29",
+"played": 2,
+"won": 1,
+"drawn": 1,
+"lost": 0,
+"goalsFor": 3,
+"goalsAgainst": 2
+},
+{
+"teamId": "t30",
+"played": 2,
+"won": 1,
+"drawn": 1,
+"lost": 0,
+"goalsFor": 2,
+"goalsAgainst": 1
+},
+{
+"teamId": "t31",
+"played": 2,
+"won": 1,
+"drawn": 0,
+"lost": 1,
+"goalsFor": 3,
+"goalsAgainst": 3
+},
+{
+"teamId": "t32",
+"played": 2,
+"won": 0,
+"drawn": 0,
+"lost": 2,
+"goalsFor": 1,
+"goalsAgainst": 3
+},
+{
+"teamId": "t33",
+"played": 2,
+"won": 0,
+"drawn": 2,
+"lost": 0,
+"goalsFor": 5,
+"goalsAgainst": 5
+},
+{
+"teamId": "t34",
+"played": 2,
+"won": 0,
+"drawn": 2,
+"lost": 0,
+"goalsFor": 5,
+"goalsAgainst": 5
+},
+{
+"teamId": "t35",
+"played": 2,
+"won": 1,
+"drawn": 1,
+"lost": 0,
+"goalsFor": 4,
+"goalsAgainst": 3
+},
+{
+"teamId": "t36",
+"played": 2,
+"won": 0,
+"drawn": 1,
+"lost": 1,
+"goalsFor": 3,
+"goalsAgainst": 4
+},
+{
+"teamId": "t37",
+"played": 2,
+"won": 1,
+"drawn": 0,
+"lost": 1,
+"goalsFor": 1,
+"goalsAgainst": 4
+},
+{
+"teamId": "t38",
+"played": 2,
+"won": 2,
+"drawn": 0,
+"lost": 0,
+"goalsFor": 6,
+"goalsAgainst": 0
+},
+{
+"teamId": "t39",
+"played": 2,
+"won": 1,
+"drawn": 0,
+"lost": 1,
+"goalsFor": 2,
+"goalsAgainst": 2
+},
+{
+"teamId": "t40",
+"played": 2,
+"won": 0,
+"drawn": 0,
+"lost": 2,
+"goalsFor": 1,
+"goalsAgainst": 4
+},
+{
+"teamId": "t41",
+"played": 2,
+"won": 0,
+"drawn": 1,
+"lost": 1,
+"goalsFor": 1,
+"goalsAgainst": 2
+},
+{
+"teamId": "t42",
+"played": 2,
+"won": 2,
+"drawn": 0,
+"lost": 0,
+"goalsFor": 4,
+"goalsAgainst": 2
+},
+{
+"teamId": "t43",
+"played": 2,
+"won": 0,
+"drawn": 1,
+"lost": 1,
+"goalsFor": 0,
+"goalsAgainst": 2
+},
+{
+"teamId": "t44",
+"played": 2,
+"won": 1,
+"drawn": 0,
+"lost": 1,
+"goalsFor": 3,
+"goalsAgainst": 2
+},
+{
+"teamId": "t45",
+"played": 2,
+"won": 1,
+"drawn": 1,
+"lost": 0,
+"goalsFor": 3,
+"goalsAgainst": 1
+},
+{
+"teamId": "t46",
+"played": 2,
+"won": 0,
+"drawn": 1,
+"lost": 1,
+"goalsFor": 2,
+"goalsAgainst": 3
+},
+{
+"teamId": "t47",
+"played": 2,
+"won": 0,
+"drawn": 0,
+"lost": 2,
+"goalsFor": 1,
+"goalsAgainst": 4
+},
+{
+"teamId": "t48",
+"played": 2,
+"won": 2,
+"drawn": 0,
+"lost": 0,
+"goalsFor": 4,
+"goalsAgainst": 2
+}
+],
+"topScorers": [
+{
+"player": "Mitoma",
+"teamId": "t17",
+"goals": 4,
+"assists": 3
+},
+{
+"player": "Mitoma",
+"teamId": "t38",
+"goals": 4,
+"assists": 3
+},
+{
+"player": "Pedri",
+"teamId": "t19",
+"goals": 3,
+"assists": 2
+},
+{
+"player": "Rice",
+"teamId": "t34",
+"goals": 3,
+"assists": 1
+},
+{
+"player": "Yamal",
+"teamId": "t1",
+"goals": 2,
+"assists": 0
+},
+{
+"player": "Foden",
+"teamId": "t1",
+"goals": 2,
+"assists": 2
+},
+{
+"player": "Gakpo",
+"teamId": "t3",
+"goals": 2,
+"assists": 3
+},
+{
+"player": "Olise",
+"teamId": "t1",
+"goals": 2,
+"assists": 3
+},
+{
+"player": "Olise",
+"teamId": "t2",
+"goals": 2,
+"assists": 3
+},
+{
+"player": "Raphinha",
+"teamId": "t1",
+"goals": 2,
+"assists": 0
+},
+{
+"player": "Yamal",
+"teamId": "t11",
+"goals": 2,
+"assists": 2
+},
+{
+"player": "Hakimi",
+"teamId": "t13",
+"goals": 2,
+"assists": 2
+},
+{
+"player": "Mane",
+"teamId": "t13",
+"goals": 2,
+"assists": 1
+},
+{
+"player": "Musiala",
+"teamId": "t13",
+"goals": 2,
+"assists": 2
+},
+{
+"player": "Pedri",
+"teamId": "t14",
+"goals": 2,
+"assists": 2
+}
+]
+}
