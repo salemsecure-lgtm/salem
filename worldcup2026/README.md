@@ -36,40 +36,42 @@ every 30s while a match is live (every 2 min otherwise), posts notifications for
 live games via WorkManager, and shows a "LIVE DATA" / "OFFLINE" chip in the
 header. All provider config lives in `data/repo/RemoteConfig.kt`.
 
-Two interchangeable providers are implemented behind a common
+Three interchangeable providers are implemented behind a common
 `LiveDataSource` interface (`data/repo/`), with HTTP clients and wire models in
-`data/remote/`. The active one is chosen automatically from the keys you set.
+`data/remote/`. The active one is chosen automatically (or forced via
+`RemoteConfig.PROVIDER_OVERRIDE`).
 
-### Provider 1 — football-data.org (recommended, FULL data)
+### Provider 1 — worldcup26.ir (default, COMPLETE data, no key) ✅
 
-The **free** tier of [football-data.org](https://www.football-data.org/)
-includes the **entire** FIFA World Cup competition: every match, complete group
-standings, and the top-scorers list.
+The default. A public API from
+[github.com/rezarahiminia/worldcup2026](https://github.com/rezarahiminia/worldcup2026)
+that returns the **entire** tournament with **no key and no signup**:
 
-1. Register for a free key (email only, no card):
-   <https://www.football-data.org/client/register>
-2. Paste it into `RemoteConfig.FOOTBALL_DATA_KEY`.
+- all **104 matches** with scores and **goal scorers** (parsed into the
+  match-event timeline),
+- **all 12 group tables**,
+- all **48 teams** with real flag images,
+- the **full knockout bracket** (R32 → Final),
+- a real **Golden Boot** leaderboard aggregated from goal events.
 
-That's it — when the key is present it's used automatically and you get the
-complete dataset. (The free tier exposes live status `IN_PLAY`/`PAUSED` and live
-scores, but not a minute-by-minute clock, so live games show "In play" rather
-than a running minute.)
+This is why the app shows full, real data out of the box.
 
-### Provider 2 — TheSportsDB (default, zero-setup)
+### Provider 2 — football-data.org (alternative)
 
-With no football-data key, the app uses TheSportsDB's free public key (`"3"`):
-**real** data, but the free tier caps responses (≈ last/next 15 fixtures and a
-partial standings table) and omits live minutes. A TheSportsDB **Premium** key
-(`RemoteConfig.API_KEY`, see <https://www.thesportsdb.com/api.php>) lifts those
-caps.
+The **free** tier of [football-data.org](https://www.football-data.org/) also
+covers the entire World Cup. Register a free key
+(<https://www.football-data.org/client/register>) and paste it into
+`RemoteConfig.FOOTBALL_DATA_KEY`; when set, it's used automatically.
 
-> No fully-free, no-signup feed provides a *complete* live World Cup dataset;
-> that always requires a provider account key. football-data.org's free key is
-> the closest — full data, just a quick signup.
+### Provider 3 — TheSportsDB (alternative)
 
-The football-data.org mapping is covered by a unit test
-(`app/src/test/java/.../FootballDataMappingTest.kt`) that runs offline against
-sample v4 responses, so the integration is verified even without a key.
+Selectable via `RemoteConfig.PROVIDER_OVERRIDE = Provider.THESPORTSDB`. The free
+public key returns real but capped data; a premium key
+(`RemoteConfig.API_KEY`) lifts the caps.
+
+Each provider's mapping (including the quirky scorer-string parser) is covered
+by offline unit tests under `app/src/test/java/`, so the integrations are
+verified without any network key.
 
 ### Offline fallback
 

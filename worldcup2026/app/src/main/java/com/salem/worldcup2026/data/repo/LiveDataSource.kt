@@ -14,6 +14,7 @@ interface LiveDataSource {
 /** Picks the active provider from [RemoteConfig]. */
 object LiveDataSourceFactory {
     fun create(): LiveDataSource = when (RemoteConfig.activeProvider) {
+        Provider.WORLDCUP26 -> WorldCup26Source()
         Provider.FOOTBALL_DATA -> FootballDataSource()
         Provider.THESPORTSDB -> TheSportsDbSource()
     }
