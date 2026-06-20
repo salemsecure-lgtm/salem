@@ -14,10 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.salem.worldcup2026.data.model.Match
 import com.salem.worldcup2026.data.model.MatchStatus
 import com.salem.worldcup2026.data.model.Team
@@ -56,8 +58,12 @@ fun LiveChip() {
     }
 }
 
+/**
+ * Shows a team's real crest from [badgeUrl] when available, falling back to the
+ * emoji flag (and then a neutral globe) so the UI is never empty offline.
+ */
 @Composable
-fun FlagBubble(flag: String, size: Int = 34) {
+fun FlagBubble(flag: String, size: Int = 34, badgeUrl: String = "") {
     Box(
         Modifier
             .size(size.dp)
@@ -65,9 +71,22 @@ fun FlagBubble(flag: String, size: Int = 34) {
             .background(WCNavyAlt),
         contentAlignment = Alignment.Center
     ) {
-        Text(flag, fontSize = (size * 0.55).sp)
+        if (badgeUrl.isNotBlank()) {
+            AsyncImage(
+                model = badgeUrl,
+                contentDescription = null,
+                modifier = Modifier.size((size * 0.78).dp),
+                contentScale = ContentScale.Fit
+            )
+        } else {
+            Text(flag, fontSize = (size * 0.55).sp)
+        }
     }
 }
+
+@Composable
+fun TeamBadge(team: Team?, size: Int = 34) =
+    FlagBubble(team?.flag ?: "🏳️", size, team?.badgeUrl ?: "")
 
 private fun fmtKickoff(epoch: Long): String {
     if (epoch <= 0) return "TBD"
@@ -145,7 +164,7 @@ fun MatchCard(
 private fun TeamScoreRow(team: Team?, score: Int, status: MatchStatus) {
     val show = status != MatchStatus.SCHEDULED
     Row(verticalAlignment = Alignment.CenterVertically) {
-        FlagBubble(team?.flag ?: "🏳️", 30)
+        TeamBadge(team, 30)
         Spacer(Modifier.width(12.dp))
         Text(
             team?.name ?: "TBD",

@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.salem.worldcup2026.ui.components.FlagBubble
+import com.salem.worldcup2026.ui.components.TeamBadge
 import com.salem.worldcup2026.ui.theme.*
 import com.salem.worldcup2026.viewmodel.UiState
 
@@ -44,14 +44,18 @@ fun TeamsScreen(state: UiState, onToggleFavorite: (String) -> Unit) {
                         .padding(horizontal = 14.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    FlagBubble(t.flag, 38)
+                    TeamBadge(t, 38)
                     Spacer(Modifier.width(12.dp))
                     Column(Modifier.weight(1f)) {
                         Text(t.name, color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
-                        Text(
-                            "Group ${t.group} · FIFA #${t.fifaRank}",
-                            color = WCTextDim, fontSize = 12.sp
-                        )
+                        val subtitle = buildString {
+                            if (t.group.isNotBlank()) append("Group ${t.group}")
+                            if (t.code.isNotBlank() && t.code != "?") {
+                                if (isNotEmpty()) append(" · ")
+                                append(t.code)
+                            }
+                        }.ifBlank { "World Cup 2026" }
+                        Text(subtitle, color = WCTextDim, fontSize = 12.sp)
                     }
                     IconButton(onClick = { onToggleFavorite(t.id) }) {
                         Icon(

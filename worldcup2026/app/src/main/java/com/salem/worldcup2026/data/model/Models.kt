@@ -7,9 +7,10 @@ data class Team(
     val id: String,
     val name: String,
     val code: String,        // 3-letter FIFA code, e.g. "ARG"
-    val flag: String,        // emoji flag
+    val flag: String,        // emoji flag (fallback when no crest)
     val group: String,       // "A".."L"
-    val fifaRank: Int = 0
+    val fifaRank: Int = 0,
+    val badgeUrl: String = ""  // real crest image from the live provider
 )
 
 enum class MatchStatus { SCHEDULED, LIVE, HALFTIME, FINISHED }

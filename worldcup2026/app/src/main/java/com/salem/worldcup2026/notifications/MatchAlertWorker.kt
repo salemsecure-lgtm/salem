@@ -20,7 +20,7 @@ class MatchAlertWorker(
 
     override suspend fun doWork(): Result {
         val repo = TournamentRepository(applicationContext)
-        val data = repo.load()
+        val data = repo.refresh().data
         val live = data.matches.filter { it.status == MatchStatus.LIVE }
         val teams = data.teams.associateBy { it.id }
         live.take(3).forEach { m ->

@@ -16,8 +16,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.salem.worldcup2026.data.model.GroupStanding
-import com.salem.worldcup2026.ui.components.FlagBubble
 import com.salem.worldcup2026.ui.components.SectionHeader
+import com.salem.worldcup2026.ui.components.TeamBadge
 import com.salem.worldcup2026.ui.theme.*
 import com.salem.worldcup2026.viewmodel.UiState
 
@@ -49,8 +49,7 @@ fun GroupsScreen(state: UiState) {
                             rows.forEachIndexed { i, r ->
                                 StandingRow(
                                     pos = i + 1,
-                                    name = state.teams[r.teamId]?.name ?: "TBD",
-                                    flag = state.teams[r.teamId]?.flag ?: "🏳️",
+                                    team = state.teams[r.teamId],
                                     r = r
                                 )
                             }
@@ -75,7 +74,7 @@ private fun TableHeader() {
 }
 
 @Composable
-private fun StandingRow(pos: Int, name: String, flag: String, r: GroupStanding) {
+private fun StandingRow(pos: Int, team: com.salem.worldcup2026.data.model.Team?, r: GroupStanding) {
     val qualifies = pos <= 2
     Row(
         Modifier.padding(horizontal = 12.dp, vertical = 7.dp),
@@ -89,10 +88,10 @@ private fun StandingRow(pos: Int, name: String, flag: String, r: GroupStanding) 
                     .background(if (qualifies) WCGreen else Color.Transparent)
             )
         }
-        FlagBubble(flag, 24)
+        TeamBadge(team, 24)
         Spacer(Modifier.width(8.dp))
         Text(
-            name, color = Color.White, fontSize = 13.sp, fontWeight = FontWeight.SemiBold,
+            team?.name ?: "TBD", color = Color.White, fontSize = 13.sp, fontWeight = FontWeight.SemiBold,
             maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f)
         )
         Cell("${r.played}"); Cell("${r.won}"); Cell("${r.drawn}"); Cell("${r.lost}")

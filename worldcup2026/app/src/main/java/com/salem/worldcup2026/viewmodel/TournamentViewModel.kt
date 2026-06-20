@@ -4,8 +4,10 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.salem.worldcup2026.data.model.Match
+import com.salem.worldcup2026.data.model.MatchStatus
 import com.salem.worldcup2026.data.model.Team
 import com.salem.worldcup2026.data.model.TournamentData
+import com.salem.worldcup2026.data.repo.DataOrigin
 import com.salem.worldcup2026.data.repo.TournamentRepository
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,6 +17,8 @@ import kotlinx.coroutines.launch
 
 data class UiState(
     val loading: Boolean = true,
+    val refreshing: Boolean = false,
+    val origin: DataOrigin = DataOrigin.OFFLINE,
     val data: TournamentData = TournamentData(),
     val teams: Map<String, Team> = emptyMap(),
     val favorites: Set<String> = emptySet()
@@ -27,29 +31,36 @@ class TournamentViewModel(app: Application) : AndroidViewModel(app) {
     private val _state = MutableStateFlow(UiState())
     val state: StateFlow<UiState> = _state.asStateFlow()
 
-    private var baseData: TournamentData = TournamentData()
-    private var elapsed = 0
-
     init {
+        // Show bundled data instantly, then pull live data and keep polling.
         viewModelScope.launch {
-            baseData = repo.load()
-            publish()
-            // Live clock: tick every 30s so live matches feel real.
+            val offline = repo.loadBundled()
+            _state.value = _state.value.copy(
+                loading = false,
+                data = offline,
+                teams = repo.teamMap(offline)
+            )
             while (true) {
-                delay(30_000)
-                elapsed += 1
-                publish()
+                refresh()
+                // Poll faster while a match is live, slower otherwise.
+                val hasLive = _state.value.data.matches.any { it.status == MatchStatus.LIVE }
+                delay(if (hasLive) 30_000 else 120_000)
             }
         }
     }
 
-    private fun publish() {
-        val data = repo.withLiveClock(baseData, elapsed)
-        _state.value = _state.value.copy(
-            loading = false,
-            data = data,
-            teams = repo.teamMap(data)
-        )
+    fun refresh() {
+        viewModelScope.launch {
+            _state.value = _state.value.copy(refreshing = true)
+            val result = repo.refresh()
+            _state.value = _state.value.copy(
+                loading = false,
+                refreshing = false,
+                origin = result.origin,
+                data = result.data,
+                teams = repo.teamMap(result.data)
+            )
+        }
     }
 
     fun toggleFavorite(teamId: String) {

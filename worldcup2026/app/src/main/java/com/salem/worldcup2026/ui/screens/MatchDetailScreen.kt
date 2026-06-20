@@ -59,7 +59,7 @@ fun MatchDetailScreen(matchId: String, state: UiState, onBack: () -> Unit) {
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            item { ScoreHeader(match, home?.flag, away?.flag, home?.name, away?.name) }
+            item { ScoreHeader(match, home, away) }
 
             if (match.events.isNotEmpty()) {
                 item { SectionHeader("Match Events", WCMagenta) }
@@ -91,7 +91,11 @@ fun MatchDetailScreen(matchId: String, state: UiState, onBack: () -> Unit) {
 }
 
 @Composable
-private fun ScoreHeader(match: Match, homeFlag: String?, awayFlag: String?, homeName: String?, awayName: String?) {
+private fun ScoreHeader(
+    match: Match,
+    home: com.salem.worldcup2026.data.model.Team?,
+    away: com.salem.worldcup2026.data.model.Team?
+) {
     val live = match.status == MatchStatus.LIVE
     Surface(
         color = WCSurface, shape = RoundedCornerShape(22.dp),
@@ -109,7 +113,7 @@ private fun ScoreHeader(match: Match, homeFlag: String?, awayFlag: String?, home
             }
             Spacer(Modifier.height(18.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
-                TeamColumn(homeFlag, homeName, Modifier.weight(1f))
+                TeamColumn(home, Modifier.weight(1f))
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     if (match.status == MatchStatus.SCHEDULED) {
                         Text("VS", color = WCTextDim, fontSize = 22.sp, fontWeight = FontWeight.Black)
@@ -124,19 +128,19 @@ private fun ScoreHeader(match: Match, homeFlag: String?, awayFlag: String?, home
                         Text("${match.minute}'", color = WCRed, fontSize = 14.sp, fontWeight = FontWeight.Bold)
                     }
                 }
-                TeamColumn(awayFlag, awayName, Modifier.weight(1f))
+                TeamColumn(away, Modifier.weight(1f))
             }
         }
     }
 }
 
 @Composable
-private fun TeamColumn(flag: String?, name: String?, modifier: Modifier) {
+private fun TeamColumn(team: com.salem.worldcup2026.data.model.Team?, modifier: Modifier) {
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
-        FlagBubble(flag ?: "🏳️", 56)
+        TeamBadge(team, 56)
         Spacer(Modifier.height(8.dp))
         Text(
-            name ?: "TBD", color = Color.White, fontSize = 14.sp,
+            team?.name ?: "TBD", color = Color.White, fontSize = 14.sp,
             fontWeight = FontWeight.Bold, textAlign = TextAlign.Center
         )
     }

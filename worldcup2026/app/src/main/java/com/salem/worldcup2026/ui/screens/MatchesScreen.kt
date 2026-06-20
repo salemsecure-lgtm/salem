@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.salem.worldcup2026.data.model.Match
 import com.salem.worldcup2026.data.model.MatchStatus
+import com.salem.worldcup2026.data.repo.DataOrigin
 import com.salem.worldcup2026.ui.components.LivePulse
 import com.salem.worldcup2026.ui.components.MatchCard
 import com.salem.worldcup2026.ui.theme.*
@@ -43,7 +44,7 @@ fun MatchesScreen(state: UiState, onMatch: (String) -> Unit) {
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(bottom = 24.dp)
     ) {
-        item { HeroHeader(liveCount = live.size) }
+        item { HeroHeader(liveCount = live.size, origin = state.origin, total = state.data.matches.size) }
         item {
             Row(
                 Modifier
@@ -97,7 +98,7 @@ fun MatchesScreen(state: UiState, onMatch: (String) -> Unit) {
 }
 
 @Composable
-private fun HeroHeader(liveCount: Int) {
+private fun HeroHeader(liveCount: Int, origin: DataOrigin, total: Int) {
     Box(
         Modifier
             .fillMaxWidth()
@@ -105,11 +106,15 @@ private fun HeroHeader(liveCount: Int) {
             .padding(start = 20.dp, end = 20.dp, top = 28.dp, bottom = 22.dp)
     ) {
         Column {
-            Text(
-                "FIFA WORLD CUP",
-                color = WCGold, fontSize = 13.sp, fontWeight = FontWeight.Black,
-                letterSpacing = 3.sp
-            )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    "FIFA WORLD CUP",
+                    color = WCGold, fontSize = 13.sp, fontWeight = FontWeight.Black,
+                    letterSpacing = 3.sp
+                )
+                Spacer(Modifier.weight(1f))
+                DataOriginChip(origin)
+            }
             Text(
                 "2026",
                 color = Color.White, fontSize = 46.sp, fontWeight = FontWeight.Black,
@@ -122,8 +127,7 @@ private fun HeroHeader(liveCount: Int) {
             )
             Spacer(Modifier.height(14.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                StatBadge("48", "Teams", WCGreen)
-                StatBadge("104", "Matches", WCBlue)
+                StatBadge(if (total > 0) "$total" else "104", "Matches", WCBlue)
                 StatBadge(
                     if (liveCount > 0) "$liveCount" else "—",
                     "Live now",
@@ -131,6 +135,31 @@ private fun HeroHeader(liveCount: Int) {
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun DataOriginChip(origin: DataOrigin) {
+    val live = origin == DataOrigin.LIVE
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .clip(RoundedCornerShape(50))
+            .background(Color.White.copy(alpha = 0.08f))
+            .padding(horizontal = 10.dp, vertical = 5.dp)
+    ) {
+        Box(
+            Modifier
+                .size(7.dp)
+                .clip(RoundedCornerShape(50))
+                .background(if (live) WCGreen else WCTextDim)
+        )
+        Spacer(Modifier.width(6.dp))
+        Text(
+            if (live) "LIVE DATA" else "OFFLINE",
+            color = if (live) WCGreen else WCTextDim,
+            fontSize = 10.sp, fontWeight = FontWeight.Black, letterSpacing = 1.sp
+        )
     }
 }
 

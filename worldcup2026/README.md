@@ -28,20 +28,43 @@ Built with **Kotlin + Jetpack Compose + Material 3**.
   WorkManager job that surfaces live scores in the background. Runtime
   `POST_NOTIFICATIONS` permission is requested on Android 13+.
 
-## Data
+## Data — real, live
 
-The app ships with a complete, internally-consistent bundled dataset
-(`app/src/main/assets/tournament.json`) so it is **fully functional offline** —
-all 48 teams, the 72 group-stage fixtures, computed standings, and scorer
-tallies. Live matches are simulated from a fixed tournament clock so the Live
-tab is always populated.
+The app fetches **real** FIFA World Cup 2026 data at runtime from
+[TheSportsDB](https://www.thesportsdb.com/) (league `4429`, season `2026`):
+actual teams and crests, fixtures, results, scores, venues, groups and
+standings. It polls every 30s while a match is live (every 2 min otherwise) and
+posts notifications for live games via WorkManager. The "LIVE DATA" / "OFFLINE"
+chip in the header shows whether the current view is from the network.
 
-To stream **real** live scores, add an API key from a football data provider
-(e.g. [football-data.org](https://www.football-data.org/), which exposes the
-FIFA World Cup competition) in
-`app/src/main/java/com/salem/worldcup2026/data/repo/RemoteConfig.kt`. The
-repository is structured so live scores can be merged on top of the bundled
-fixtures without touching the UI layer.
+Networking is in
+`app/src/main/java/com/salem/worldcup2026/data/remote/` and the mapping to the
+app's models is in `data/repo/LiveDataSource.kt`.
+
+### Free vs. premium key
+
+`data/repo/RemoteConfig.kt` holds the provider key. It ships with TheSportsDB's
+free public key (`"3"`), which returns **real** data but with two free-tier
+limits:
+
+- responses are **capped** (roughly the last/next ~15 fixtures and a partial
+  standings table rather than all 104 matches / 48 teams), and
+- there is **no minute-by-minute live progress** (matches still flip
+  NS → live → FT as they're played).
+
+Paste your own **TheSportsDB Premium** key (a few dollars/month, see
+<https://www.thesportsdb.com/api.php>) into `RemoteConfig.API_KEY` to lift the
+caps and get the full schedule, complete standings, and live scores. No other
+code changes are needed.
+
+> There is no fully-free, no-signup feed that provides *complete* live World Cup
+> data; that always requires a provider key tied to an account.
+
+### Offline fallback
+
+`app/src/main/assets/tournament.json` is a bundled snapshot used **only** when
+the network is unavailable, so the app always opens with content. When online,
+real provider data replaces it.
 
 ## Build
 
@@ -76,12 +99,13 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 worldcup2026/
 ├── app/
 │   ├── src/main/
-│   │   ├── assets/tournament.json          # bundled tournament data
+│   │   ├── assets/tournament.json          # offline fallback snapshot
 │   │   ├── java/com/salem/worldcup2026/
 │   │   │   ├── MainActivity.kt             # nav scaffold + bottom bar
 │   │   │   ├── data/model/                 # Team, Match, Standing, ...
-│   │   │   ├── data/repo/                   # repository + remote config
-│   │   │   ├── viewmodel/                   # UiState + live clock
+│   │   │   ├── data/remote/                 # TheSportsDB DTOs + HTTP client
+│   │   │   ├── data/repo/                   # live source, repo, config
+│   │   │   ├── viewmodel/                   # UiState + live polling
 │   │   │   ├── notifications/               # channel + WorkManager worker
 │   │   │   └── ui/{theme,components,screens}
 │   │   └── AndroidManifest.xml
@@ -93,6 +117,8 @@ worldcup2026/
 
 - Kotlin 1.9, Jetpack Compose (BOM 2024.06), Material 3
 - Navigation-Compose, Lifecycle/ViewModel
+- Live data from TheSportsDB over HttpURLConnection (no networking dep)
+- Coil for loading real team crests
 - kotlinx.serialization (JSON), kotlinx.coroutines
 - WorkManager for background match alerts
 - minSdk 24 · targetSdk 34
