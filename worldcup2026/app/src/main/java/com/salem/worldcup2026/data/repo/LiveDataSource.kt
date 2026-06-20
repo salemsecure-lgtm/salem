@@ -4,8 +4,8 @@ import com.salem.worldcup2026.data.model.TournamentData
 
 /**
  * A provider of real, live World Cup data. Implementations return null when the
- * network is unavailable or the provider yields nothing usable, letting the
- * repository fall back to the bundled snapshot.
+ * network is unavailable or the provider yields nothing usable, in which case
+ * the UI shows a loading / connection state (the app is online-only).
  */
 interface LiveDataSource {
     suspend fun fetch(): TournamentData?

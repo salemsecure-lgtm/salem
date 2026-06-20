@@ -7,11 +7,10 @@ import com.salem.worldcup2026.data.model.MatchStatus
 import com.salem.worldcup2026.data.repo.TournamentRepository
 
 /**
- * Periodic background check that posts a notification for any match that is
- * currently live. Scheduled from [com.salem.worldcup2026.MainActivity] via
- * WorkManager. With a live provider configured this is where new goals would be
- * diffed against the last seen score; on bundled data it surfaces live games so
- * the notification pipeline is demonstrable end to end.
+ * Periodic background check that pulls live data and posts a notification for
+ * any match that is currently live. Scheduled from
+ * [com.salem.worldcup2026.MainActivity] via WorkManager. If the fetch fails it
+ * simply does nothing this cycle.
  */
 class MatchAlertWorker(
     context: Context,
@@ -19,8 +18,8 @@ class MatchAlertWorker(
 ) : CoroutineWorker(context, params) {
 
     override suspend fun doWork(): Result {
-        val repo = TournamentRepository(applicationContext)
-        val data = repo.refresh().data
+        val repo = TournamentRepository()
+        val data = repo.refresh() ?: return Result.success()
         val live = data.matches.filter { it.status == MatchStatus.LIVE }
         val teams = data.teams.associateBy { it.id }
         live.take(3).forEach { m ->

@@ -33,7 +33,7 @@ Built with **Kotlin + Jetpack Compose + Material 3**.
 The app fetches **real** FIFA World Cup 2026 data at runtime: actual teams and
 crests, fixtures, results, scores, groups, standings and top scorers. It polls
 every 30s while a match is live (every 2 min otherwise), posts notifications for
-live games via WorkManager, and shows a "LIVE DATA" / "OFFLINE" chip in the
+live games via WorkManager, and shows a "LIVE DATA" / "UPDATING…" chip in the
 header. All provider config lives in `data/repo/RemoteConfig.kt`.
 
 The data source is the public API from
@@ -57,11 +57,13 @@ straight/curly quotes, stoppage time, own goals) — is covered by offline unit
 tests under `app/src/test/java/`, so the integration is verified without any
 network call.
 
-### Offline fallback
+### Online-only
 
-`app/src/main/assets/tournament.json` is a bundled snapshot used **only** when
-the network is unavailable, so the app always opens with content. When online,
-real provider data replaces it.
+The app is **online-only** — there is no bundled/offline data. On launch it
+fetches live data and polls for updates (every 30s while a match is live, every
+2 min otherwise). If the provider can't be reached it shows a loading spinner
+or a "Can't reach live scores" screen with a Retry button instead of stale
+content.
 
 ## Build
 
@@ -96,12 +98,11 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 worldcup2026/
 ├── app/
 │   ├── src/main/
-│   │   ├── assets/tournament.json          # offline fallback snapshot
 │   │   ├── java/com/salem/worldcup2026/
-│   │   │   ├── MainActivity.kt             # nav scaffold + bottom bar
+│   │   │   ├── MainActivity.kt             # nav scaffold + loading/error states
 │   │   │   ├── data/model/                 # Team, Match, Standing, ...
-│   │   │   ├── data/remote/                 # provider DTOs + HTTP clients
-│   │   │   ├── data/repo/                   # LiveDataSource impls, repo, config
+│   │   │   ├── data/remote/                 # provider DTOs + HTTP client
+│   │   │   ├── data/repo/                   # LiveDataSource, repo, config
 │   │   │   ├── viewmodel/                   # UiState + live polling
 │   │   │   ├── notifications/               # channel + WorkManager worker
 │   │   │   └── ui/{theme,components,screens}

@@ -8,14 +8,25 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.CloudOff
 import androidx.compose.material.icons.filled.Groups
 import androidx.compose.material.icons.filled.PlayCircle
 import androidx.compose.material.icons.filled.Public
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -118,38 +129,83 @@ private fun AppRoot() {
             }
         }
     ) { pad ->
-        if (state.loading) {
-            Box(Modifier.padding(pad)) {
-                LinearProgressIndicator(
-                    color = WCGold,
-                    trackColor = WCNavyAlt,
-                    modifier = Modifier.fillMaxWidth()
-                )
-            }
+        when {
+            state.loading && !state.hasData ->
+                LoadingScreen(Modifier.padding(pad))
+            state.error && !state.hasData ->
+                ConnectionErrorScreen(Modifier.padding(pad), onRetry = vm::refresh)
+            else -> AppNavHost(nav, state, vm, Modifier.padding(pad))
         }
-        NavHost(
-            navController = nav,
-            startDestination = Dest.Matches.route,
-            modifier = Modifier.padding(pad)
+    }
+}
+
+@Composable
+private fun AppNavHost(
+    nav: androidx.navigation.NavHostController,
+    state: com.salem.worldcup2026.viewmodel.UiState,
+    vm: TournamentViewModel,
+    modifier: Modifier
+) {
+    NavHost(
+        navController = nav,
+        startDestination = Dest.Matches.route,
+        modifier = modifier
+    ) {
+        composable(Dest.Matches.route) {
+            MatchesScreen(state) { id -> nav.navigate("match/$id") }
+        }
+        composable(Dest.Groups.route) { GroupsScreen(state) }
+        composable(Dest.Stats.route) { StatsScreen(state) }
+        composable(Dest.Teams.route) {
+            TeamsScreen(state, onToggleFavorite = vm::toggleFavorite)
+        }
+        composable(
+            "match/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.StringType })
+        ) { entry ->
+            MatchDetailScreen(
+                matchId = entry.arguments?.getString("id").orEmpty(),
+                state = state,
+                onBack = { nav.popBackStack() }
+            )
+        }
+    }
+}
+
+@Composable
+private fun LoadingScreen(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        CircularProgressIndicator(color = WCGold, trackColor = WCNavyAlt)
+        Spacer(Modifier.height(18.dp))
+        Text("Loading live data…", color = WCTextDim, fontSize = 14.sp, fontWeight = FontWeight.Medium)
+    }
+}
+
+@Composable
+private fun ConnectionErrorScreen(modifier: Modifier = Modifier, onRetry: () -> Unit) {
+    Column(
+        modifier = modifier.fillMaxSize().padding(32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Icon(Icons.Filled.CloudOff, contentDescription = null, tint = WCTextDim, modifier = Modifier.padding(8.dp))
+        Spacer(Modifier.height(12.dp))
+        Text("Can't reach live scores", color = Color.White, fontSize = 18.sp, fontWeight = FontWeight.Bold)
+        Spacer(Modifier.height(6.dp))
+        Text(
+            "Check your connection — the app shows live World Cup data only.",
+            color = WCTextDim, fontSize = 13.sp, fontWeight = FontWeight.Medium
+        )
+        Spacer(Modifier.height(20.dp))
+        Button(
+            onClick = onRetry,
+            colors = ButtonDefaults.buttonColors(containerColor = WCGold, contentColor = WCNavy)
         ) {
-            composable(Dest.Matches.route) {
-                MatchesScreen(state) { id -> nav.navigate("match/$id") }
-            }
-            composable(Dest.Groups.route) { GroupsScreen(state) }
-            composable(Dest.Stats.route) { StatsScreen(state) }
-            composable(Dest.Teams.route) {
-                TeamsScreen(state, onToggleFavorite = vm::toggleFavorite)
-            }
-            composable(
-                "match/{id}",
-                arguments = listOf(navArgument("id") { type = NavType.StringType })
-            ) { entry ->
-                MatchDetailScreen(
-                    matchId = entry.arguments?.getString("id").orEmpty(),
-                    state = state,
-                    onBack = { nav.popBackStack() }
-                )
-            }
+            Text("Retry", fontWeight = FontWeight.Bold)
         }
     }
 }

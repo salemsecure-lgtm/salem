@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.salem.worldcup2026.data.model.Match
 import com.salem.worldcup2026.data.model.MatchStatus
-import com.salem.worldcup2026.data.repo.DataOrigin
 import com.salem.worldcup2026.ui.components.LivePulse
 import com.salem.worldcup2026.ui.components.MatchCard
 import com.salem.worldcup2026.ui.theme.*
@@ -44,7 +43,7 @@ fun MatchesScreen(state: UiState, onMatch: (String) -> Unit) {
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(bottom = 24.dp)
     ) {
-        item { HeroHeader(liveCount = live.size, origin = state.origin, total = state.data.matches.size) }
+        item { HeroHeader(liveCount = live.size, refreshing = state.refreshing, total = state.data.matches.size) }
         item {
             Row(
                 Modifier
@@ -98,7 +97,7 @@ fun MatchesScreen(state: UiState, onMatch: (String) -> Unit) {
 }
 
 @Composable
-private fun HeroHeader(liveCount: Int, origin: DataOrigin, total: Int) {
+private fun HeroHeader(liveCount: Int, refreshing: Boolean, total: Int) {
     Box(
         Modifier
             .fillMaxWidth()
@@ -113,7 +112,7 @@ private fun HeroHeader(liveCount: Int, origin: DataOrigin, total: Int) {
                     letterSpacing = 3.sp
                 )
                 Spacer(Modifier.weight(1f))
-                DataOriginChip(origin)
+                LiveIndicatorChip(refreshing)
             }
             Text(
                 "2026",
@@ -139,8 +138,7 @@ private fun HeroHeader(liveCount: Int, origin: DataOrigin, total: Int) {
 }
 
 @Composable
-private fun DataOriginChip(origin: DataOrigin) {
-    val live = origin == DataOrigin.LIVE
+private fun LiveIndicatorChip(refreshing: Boolean) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
@@ -148,16 +146,11 @@ private fun DataOriginChip(origin: DataOrigin) {
             .background(Color.White.copy(alpha = 0.08f))
             .padding(horizontal = 10.dp, vertical = 5.dp)
     ) {
-        Box(
-            Modifier
-                .size(7.dp)
-                .clip(RoundedCornerShape(50))
-                .background(if (live) WCGreen else WCTextDim)
-        )
+        LivePulse(color = WCGreen)
         Spacer(Modifier.width(6.dp))
         Text(
-            if (live) "LIVE DATA" else "OFFLINE",
-            color = if (live) WCGreen else WCTextDim,
+            if (refreshing) "UPDATING…" else "LIVE DATA",
+            color = WCGreen,
             fontSize = 10.sp, fontWeight = FontWeight.Black, letterSpacing = 1.sp
         )
     }

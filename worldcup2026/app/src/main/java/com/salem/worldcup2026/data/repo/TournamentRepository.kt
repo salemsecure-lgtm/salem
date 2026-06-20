@@ -1,48 +1,23 @@
 package com.salem.worldcup2026.data.repo
 
-import android.content.Context
 import com.salem.worldcup2026.data.model.Match
 import com.salem.worldcup2026.data.model.MatchStatus
 import com.salem.worldcup2026.data.model.TournamentData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlinx.serialization.json.Json
-
-/** Where the currently displayed data came from. */
-enum class DataOrigin { LIVE, OFFLINE }
-
-data class LoadResult(val data: TournamentData, val origin: DataOrigin)
 
 /**
  * Single source of truth for tournament data.
  *
- * [refresh] pulls REAL World Cup data from the live provider ([LiveDataSource]).
- * If the network is unavailable or the provider returns nothing, it falls back
- * to the bundled snapshot in assets/tournament.json so the app still opens.
+ * [refresh] pulls REAL, live World Cup data from the provider ([LiveDataSource]).
+ * The app is online-only: there is no bundled snapshot, so a failed fetch
+ * returns null and the UI shows a loading / connection state instead.
  */
 class TournamentRepository(
-    private val appContext: Context,
     private val live: LiveDataSource = LiveDataSourceFactory.create()
 ) {
-    private val json = Json { ignoreUnknownKeys = true; isLenient = true }
-
-    @Volatile private var bundled: TournamentData? = null
-
-    suspend fun loadBundled(): TournamentData = withContext(Dispatchers.IO) {
-        bundled?.let { return@withContext it }
-        val raw = appContext.assets.open("tournament.json")
-            .bufferedReader().use { it.readText() }
-        json.decodeFromString(TournamentData.serializer(), raw).also { bundled = it }
-    }
-
-    /** Fetch live data, falling back to the bundled snapshot on failure. */
-    suspend fun refresh(): LoadResult {
+    /** Fetch live data; returns null if the network/provider is unavailable. */
+    suspend fun refresh(): TournamentData? {
         val remote = runCatching { live.fetch() }.getOrNull()
-        return if (remote != null && remote.matches.isNotEmpty()) {
-            LoadResult(remote, DataOrigin.LIVE)
-        } else {
-            LoadResult(loadBundled(), DataOrigin.OFFLINE)
-        }
+        return remote?.takeIf { it.matches.isNotEmpty() }
     }
 
     fun teamMap(data: TournamentData) = data.teams.associateBy { it.id }
