@@ -1,0 +1,9 @@
+# Build outputs
+build/
+.gradle/
+*.iml
+.idea/
+local.properties
+
+# Keep the prebuilt, sideloadable APK
+!dist/NeonDash.apk

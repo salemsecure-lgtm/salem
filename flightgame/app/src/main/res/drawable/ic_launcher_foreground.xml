@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- player cube glow -->
+    <path android:fillColor="#00F0FF"
+        android:pathData="M40,46 m-13,-13 l26,0 l0,26 l-26,0 z"/>
+    <!-- motion trail squares -->
+    <path android:fillColor="#7A5CFF" android:fillAlpha="0.6"
+        android:pathData="M26,40 l16,0 l0,16 l-16,0 z"/>
+    <path android:fillColor="#7A5CFF" android:fillAlpha="0.3"
+        android:pathData="M16,42 l11,0 l0,11 l-11,0 z"/>
+    <!-- orb -->
+    <path android:fillColor="#FFD34D"
+        android:pathData="M76,58 m-9,0 a9,9 0 1,0 18,0 a9,9 0 1,0 -18,0"/>
+    <!-- spike -->
+    <path android:fillColor="#FF3CAC"
+        android:pathData="M58,84 L78,84 L68,66 Z"/>
+</vector>
