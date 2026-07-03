@@ -48,6 +48,7 @@ public object Autoregulator {
             rationale = rule.rationale,
             rawDelta = rawDelta,
             cappedDelta = cappedDelta,
+            previousSets = currentSets,
             nextSets = nextSets,
             mildPainCapped = mildPainCapped,
             clampedAt = clampedAt,

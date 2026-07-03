@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "a9e428c04d1e631e4b8252c63c013602",
+    "identityHash": "3488f6a57822eb8325cd2f0ab9919684",
     "entities": [
       {
         "tableName": "exercises",
@@ -561,7 +561,7 @@
       },
       {
         "tableName": "decision",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sessionId` INTEGER NOT NULL, `muscle` TEXT NOT NULL, `ruleId` TEXT NOT NULL, `rationale` TEXT NOT NULL, `rawDelta` INTEGER NOT NULL, `cappedDelta` INTEGER NOT NULL, `nextSets` INTEGER NOT NULL, `mildPainCapped` INTEGER NOT NULL, `clampedAt` TEXT, `exerciseSwapFlagged` INTEGER NOT NULL, PRIMARY KEY(`sessionId`, `muscle`), FOREIGN KEY(`sessionId`) REFERENCES `planned_session`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`sessionId` INTEGER NOT NULL, `muscle` TEXT NOT NULL, `ruleId` TEXT NOT NULL, `rationale` TEXT NOT NULL, `rawDelta` INTEGER NOT NULL, `cappedDelta` INTEGER NOT NULL, `previousSets` INTEGER NOT NULL, `nextSets` INTEGER NOT NULL, `mildPainCapped` INTEGER NOT NULL, `clampedAt` TEXT, `exerciseSwapFlagged` INTEGER NOT NULL, PRIMARY KEY(`sessionId`, `muscle`), FOREIGN KEY(`sessionId`) REFERENCES `planned_session`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
           {
             "fieldPath": "sessionId",
@@ -596,6 +596,12 @@
           {
             "fieldPath": "cappedDelta",
             "columnName": "cappedDelta",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "previousSets",
+            "columnName": "previousSets",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -660,7 +666,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a9e428c04d1e631e4b8252c63c013602')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '3488f6a57822eb8325cd2f0ab9919684')"
     ]
   }
 }

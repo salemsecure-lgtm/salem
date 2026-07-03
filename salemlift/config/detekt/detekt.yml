@@ -6,6 +6,9 @@ naming:
 complexity:
   LongParameterList:
     ignoreDefaultParameters: true # Rule-table rows default their "don't care" dimensions.
+  TooManyFunctions:
+    thresholdInClasses: 16 # Repositories implement the full TrainingRepository surface.
+    thresholdInInterfaces: 16
 
 style:
   MagicNumber:

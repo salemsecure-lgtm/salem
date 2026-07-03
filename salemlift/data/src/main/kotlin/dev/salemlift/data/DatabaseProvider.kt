@@ -23,6 +23,14 @@ object DatabaseProvider {
             instance ?: buildDatabase(context).also { instance = it }
         }
 
+    /**
+     * Read-only exercise catalog access for the app layer's picker. Exposed
+     * here because Room is implementation-scoped in this module, so :app
+     * cannot call [SalemDatabase.exerciseDao] through the RoomDatabase
+     * supertype it can't see.
+     */
+    fun exerciseDao(context: Context): dev.salemlift.data.db.ExerciseDao = database(context).exerciseDao()
+
     fun trainingRepository(context: Context): TrainingRepository =
         DefaultTrainingRepository(
             database = database(context),

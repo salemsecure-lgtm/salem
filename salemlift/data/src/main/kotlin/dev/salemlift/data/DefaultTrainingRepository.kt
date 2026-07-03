@@ -177,6 +177,11 @@ class DefaultTrainingRepository(
             )
         }
 
+    override suspend fun sessionFor(sessionId: Long): SessionSummary? {
+        val session = sessionDao.getById(sessionId) ?: return null
+        return session.toSummary(targetDao.getFor(session.id))
+    }
+
     override suspend fun decisionsFor(sessionId: Long): Map<Muscle, SetDecision> =
         decisionDao.getFor(sessionId).associate { it.muscle to it.toModel() }
 

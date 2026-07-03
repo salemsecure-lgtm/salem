@@ -97,6 +97,9 @@ interface TrainingRepository {
         manualDeloadRequest: Boolean = false,
     ): CommitOutcome
 
+    /** A specific session (any state — lets the summary re-read committed ones). */
+    suspend fun sessionFor(sessionId: Long): SessionSummary?
+
     /** Decisions recorded for a committed session (explainability history). */
     suspend fun decisionsFor(sessionId: Long): Map<Muscle, SetDecision>
 }

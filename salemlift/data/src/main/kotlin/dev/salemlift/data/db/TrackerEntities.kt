@@ -191,6 +191,7 @@ data class DecisionEntity(
     val rationale: String,
     val rawDelta: Int,
     val cappedDelta: Int,
+    val previousSets: Int,
     val nextSets: Int,
     val mildPainCapped: Boolean,
     val clampedAt: ClampBound?,

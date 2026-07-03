@@ -16,6 +16,8 @@ public data class SetDecision(
     val rawDelta: Int,
     /** Delta after the mild-pain cap (before clamping). */
     val cappedDelta: Int,
+    /** Weekly sets the muscle was at when this decision was made. */
+    val previousSets: Int,
     /** Final prescribed weekly sets for the next session, clamped to [MV, MRV]. */
     val nextSets: Int,
     /** True when mild joint pain blocked an increase (DOMAIN.md §5 post-processing 1). */
