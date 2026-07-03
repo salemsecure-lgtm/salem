@@ -28,3 +28,28 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+// SPEC §6 / Phase 1 gate: 100% branch coverage of decision code. The filter
+// targets the decision packages; pure data carriers live in .model (their
+// compiler-generated data-class methods carry no decision branches).
+kover {
+    reports {
+        filters {
+            includes {
+                classes(
+                    "dev.salemlift.domain.engine.*",
+                    "dev.salemlift.domain.EngineInfo*",
+                )
+            }
+        }
+        verify {
+            rule("engine decision branch coverage") {
+                bound {
+                    coverageUnits.set(kotlinx.kover.gradle.plugin.dsl.CoverageUnit.BRANCH)
+                    aggregationForGroup.set(kotlinx.kover.gradle.plugin.dsl.AggregationType.COVERED_PERCENTAGE)
+                    minValue.set(100)
+                }
+            }
+        }
+    }
+}

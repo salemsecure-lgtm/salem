@@ -1,6 +1,6 @@
 # SPEC.md — Salem Lift
 
-> **Status: DRAFT — awaiting owner approval at Gate 0.**
+> **Status: APPROVED at Gate 0 (2026-07-03). Changes require owner sign-off.**
 
 ## 1. Mission
 
@@ -123,7 +123,7 @@ Each phase ends: **STOP → VERIFIER gate report → wait for explicit `GATE N P
 
 | Phase | Deliverable | Gate criterion |
 |---|---|---|
-| 0 | SPEC/ARCHITECTURE/DOMAIN docs, agent roster, Gradle scaffold, hello-world APK | APK installs & launches; §4 domain model approved by owner |
+| 0 | SPEC/ARCHITECTURE/DOMAIN docs, agent roster, Gradle scaffold, hello-world APK | APK installs & launches; DOMAIN.md domain model approved by owner |
 | 1 | `:domain` engine, no UI | 100% branch coverage; every DOMAIN.md §5 example is a passing test |
 | 2 | Program builder + exercise DB | Full mesocycle generates; weekly volume within landmarks for every muscle |
 | 3 | Session tracker | Log session → correct next-session sets per decision table; survives restart & airplane mode |

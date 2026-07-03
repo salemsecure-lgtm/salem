@@ -1,6 +1,6 @@
 # DOMAIN.md — Salem Lift Training Engine Domain Model
 
-> **Status: DRAFT — awaiting owner approval at Gate 0.**
+> **Status: APPROVED at Gate 0 (2026-07-03). Changes require owner sign-off.**
 > This document is the single source of truth for the `:domain` engine. Every decision
 > branch below must be covered by a unit test in Phase 1, and every worked example in
 > §5 becomes a literal test case. No engine code is written until this document is
@@ -40,10 +40,10 @@ row credits Back 1.0 and Biceps 0.5 per hard set.
 
 | Landmark | Meaning | Default range |
 |---|---|---|
-| **MV** — Maintenance Volume | Volume that maintains current size; deload target | ~6 sets/wk (defined per muscle as `round(MEV / 2)`, min 2) |
+| **MV** — Maintenance Volume | Volume that maintains current size; deload target | defined per muscle as `round(MEV / 2)`, min 2 (→ 2–5 for the §2.1 seeds) |
 | **MEV** — Minimum Effective Volume | Lowest volume that produces growth; mesocycle starting point | 4–10, muscle-specific |
-| **MAV** — Maximum Adaptive Volume | The productive sweet-spot band the mesocycle climbs through | 12–20 |
-| **MRV** — Maximum Recoverable Volume | Ceiling; exceeding it accumulates unproductive fatigue | 18–30, the most individual number |
+| **MAV** — Maximum Adaptive Volume | The productive sweet-spot band the mesocycle climbs through | typically 12–20 for large muscles; smaller for delts-front/forearms — the §2.1 table is authoritative per muscle |
+| **MRV** — Maximum Recoverable Volume | Ceiling; exceeding it accumulates unproductive fatigue | typically 18–30 (16 for the smallest seeds), the most individual number — §2.1 authoritative |
 
 ### 2.1 Intermediate seed defaults (all editable in Settings)
 
@@ -64,8 +64,10 @@ row credits Back 1.0 and Biceps 0.5 per hard set.
 | Abs | 6 | 14 | 22 |
 | Traps | 6 | 12 | 20 |
 
-**Experience scaling** applied at onboarding (multiplies MEV and MRV, rounding to
-nearest integer, MEV floor 2):
+**Experience scaling** applied at onboarding: the factor multiplies MEV and MRV
+(rounding to nearest integer, MEV floor 2, MRV floor MEV), then **MV and MAV are
+re-derived** from the scaled values (MV = `round(MEV/2)` min 2; MAV =
+`round((MEV + MRV) / 2)`) so the ordering MV ≤ MEV ≤ MAV ≤ MRV always holds:
 
 | Experience | Factor |
 |---|---|
@@ -150,7 +152,9 @@ prescribed weekly sets `sets`, landmarks `MV/MEV/MAV/MRV`.
 | R8 | `S ∈ {NEVER_SORE, RECOVERED_EARLY}` and `P = SAME` | **+1** | Capacity to spare |
 | R9 | `P = DOWN` (any non-sore recovery, `J ≠ SIGNIFICANT`) | **0** | Hold — don't add fatigue to a down day |
 
-R1–R9 are exhaustive: every (S, P, U, J) combination hits exactly one rule.
+R1–R9 are exhaustive under first-match-wins evaluation: every (S, P, U, J)
+combination has exactly one *first-matching* rule (raw conditions may overlap —
+e.g. R4 is a strict subset of R5 — which the top-down order resolves).
 
 **Post-processing, applied in order:**
 

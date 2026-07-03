@@ -1,6 +1,6 @@
 # ARCHITECTURE.md — Salem Lift
 
-> **Status: DRAFT — awaiting owner approval at Gate 0.**
+> **Status: APPROVED at Gate 0 (2026-07-03). Changes require owner sign-off.**
 
 ## 1. Module graph
 
@@ -98,7 +98,7 @@ muscle_feedback(sessionId, muscle, soreness, pump, jointPain, perfComputed, perf
 
 | Layer | Tests |
 |---|---|
-| `:domain` | Plain JUnit5 + kotlin-test. One test per DOMAIN.md worked example (E1–E12b), property tests for clamp invariants (`MV ≤ next ≤ MRV` always), exhaustiveness test iterating all (S×P×U×J) = 108 combinations asserting exactly one rule matches. Kover branch coverage = 100% on the engine packages. |
+| `:domain` | Plain JUnit5 + kotlin-test. One test per DOMAIN.md worked example (E1–E12b), property tests for clamp invariants (`MV ≤ next ≤ MRV` always), exhaustiveness test iterating all (S×P×U×J) = 108 combinations asserting a first-matching rule exists for every one. Kover branch coverage = 100% on the engine packages. |
 | `:data` | Room DAO tests via Robolectric/instrumented; seed integrity (exercise count, muscle mapping non-empty); migration tests from schema v1 onward. |
 | `:app` | Compose UI tests for the session-runner critical path; screenshot-level checks at 384dp width; manual gate checklist on-device (airplane mode, cold start, timer drift). |
 
