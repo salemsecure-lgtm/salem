@@ -55,8 +55,9 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.core)
     implementation(libs.kotlinx.coroutines.android)
     // Render engine (read side of the seam): Pdfium via the maintained
-    // Apache-2.0 fork on Maven Central. PdfBox (write side) arrives in Phase 2.
+    // Apache-2.0 fork on Maven Central; PdfBox (Apache-2.0) is the write side.
     implementation(libs.pdfium.android)
+    implementation(libs.pdfbox.android)
 
     testImplementation(libs.junit)
 }

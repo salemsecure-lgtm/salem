@@ -10,4 +10,15 @@
     <string name="cancel">Cancel</string>
     <string name="page_indicator">%1$d / %2$d</string>
     <string name="open_error_hint">Check that the file is a readable, unencrypted PDF and try again.</string>
+    <string name="annotate">Annotate</string>
+    <string name="save_changes">Save changes</string>
+    <string name="delete">Delete</string>
+    <string name="done">Done</string>
+    <string name="clear">Clear</string>
+    <string name="add_note">Add note</string>
+    <string name="add_text">Add text</string>
+    <string name="sign_title">Draw your signature</string>
+    <string name="unsaved_title">Save changes?</string>
+    <string name="unsaved_body">This document has unsaved annotations.</string>
+    <string name="discard">Discard</string>
 </resources>

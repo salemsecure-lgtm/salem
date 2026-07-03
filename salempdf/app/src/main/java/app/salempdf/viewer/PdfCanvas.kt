@@ -65,10 +65,12 @@ fun PdfCanvas(
     transform: ViewerTransform,
     layoutProvider: () -> DocumentLayout,
     viewport: Size,
+    onPlacement: (PlacementRequest) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val scope = rememberCoroutineScope()
     val flingJob = remember { mutableStateOf<Job?>(null) }
+    val toolPreview = remember { mutableStateOf<ToolPreview?>(null) }
     var selectionRects by remember { mutableStateOf<Pair<Int, List<RectPt>>?>(null) }
     val selection by viewModel.selection.collectAsState()
 
@@ -81,6 +83,17 @@ fun PdfCanvas(
             }
     }
 
+    fun tapSelect(position: Offset) {
+        val hit = screenToPagePoint(position, layoutProvider(), transform)
+        val annotation =
+            hit?.let { hitTestAnnotation(viewModel.annotations, it.first, Offset(it.second.x, it.second.y)) }
+        viewModel.selectAnnotation(annotation?.id)
+        if (annotation == null) viewModel.setSelection(null)
+    }
+
+    // Pointer dispatch note: the Main pass runs inner (later) modifiers first,
+    // so the tool handler is LAST — its consumed single-finger gestures never
+    // reach the transform handler, while two-finger pinch/pan still does.
     Canvas(
         modifier =
             modifier
@@ -89,7 +102,7 @@ fun PdfCanvas(
                 }
                 .pointerInput(Unit) {
                     detectTapGestures(
-                        onTap = { viewModel.setSelection(null) },
+                        onTap = ::tapSelect,
                         onDoubleTap = { position ->
                             scope.launch {
                                 animateDoubleTapZoom(transform, layoutProvider, viewportSize(), position)
@@ -97,11 +110,16 @@ fun PdfCanvas(
                         },
                     )
                 }
-                .pointerInput(Unit) {
-                    selectionGestures(viewModel, transform, layoutProvider, scope)
+                .pointerInput(viewModel.activeTool) {
+                    if (viewModel.activeTool == null) {
+                        selectionGestures(viewModel, transform, layoutProvider, scope)
+                    }
+                }
+                .pointerInput(viewModel.activeTool) {
+                    toolGestures(viewModel, transform, layoutProvider, toolPreview, onPlacement, scope)
                 },
     ) {
-        drawDocument(viewModel, transform, layoutProvider(), viewport, selectionRects)
+        drawDocument(viewModel, transform, layoutProvider(), viewport, selectionRects, toolPreview.value)
     }
 }
 
@@ -262,12 +280,14 @@ private fun DrawScope.drawDocument(
     layout: DocumentLayout,
     viewport: Size,
     selectionRects: Pair<Int, List<RectPt>>?,
+    toolPreview: ToolPreview?,
 ) {
     if (layout.pageCount == 0) return
     val visible = layout.visiblePages(transform.scrollY, viewport.height)
     val bucket = ZoomBuckets.bucketFor(layout.zoom)
     for (page in visible) {
         drawPage(viewModel, transform, layout, viewport, page, bucket)
+        drawPageAnnotations(viewModel, transform, layout, page, toolPreview)
         if (selectionRects?.first == page) {
             drawSelection(transform, layout, page, selectionRects.second)
         }
@@ -334,6 +354,32 @@ private fun DrawScope.drawScaledBitmap(
         dstOffset = IntOffset(dstLeft, dstTop),
         dstSize = IntSize((left + width).roundToInt() - dstLeft, (top + height).roundToInt() - dstTop),
     )
+}
+
+private fun DrawScope.drawPageAnnotations(
+    viewModel: ViewerViewModel,
+    transform: ViewerTransform,
+    layout: DocumentLayout,
+    page: Int,
+    toolPreview: ToolPreview?,
+) {
+    val placement =
+        PagePlacement(
+            left = transform.offsetX,
+            top = layout.pageTopPx(page) - transform.scrollY,
+            scale = layout.pageScale(page),
+        )
+    for (annotation in viewModel.annotations) {
+        if (annotation.pageIndex != page) continue
+        drawAnnotation(annotation, placement, viewModel)
+    }
+    if (toolPreview?.pageIndex == page) {
+        drawToolPreview(toolPreview, placement)
+    }
+    val selected = viewModel.selectedAnnotation()
+    if (selected != null && selected.pageIndex == page) {
+        drawSelectionBox(selected.bounds, placement)
+    }
 }
 
 private fun DrawScope.drawSelection(

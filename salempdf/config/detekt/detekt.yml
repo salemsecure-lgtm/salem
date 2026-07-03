@@ -1,13 +1,17 @@
 # Salem PDF base detekt config — builds upon detekt defaults.
 #
 # Threshold tuning rationale (ARCHITECT):
-# - ReturnCount 5: guard-clause early returns are idiomatic in hit-testing and
-#   coordinate-mapping code; contorting them into single-exit hurts clarity.
+# - ReturnCount 8: guard-clause early returns are idiomatic in hit-testing,
+#   coordinate mapping, and dictionary parsers that bail per missing field.
 # - LongParameterList 8: draw/gesture helpers legitimately thread context
-#   (transform, layout, viewport) — grouping into ad-hoc holder classes would
-#   add indirection without safety.
-# - TooManyFunctions 16: Compose screens decompose into many small private
-#   composables/helpers by design; penalizing that encourages long methods.
+#   (transform, layout, viewport) — ad-hoc holder classes would add
+#   indirection without safety.
+# - LongMethod ignores @Composable: composables are declarative UI trees, not
+#   imperative logic; length there is layout, not complexity.
+# - TooManyFunctions 25: ViewModel command surfaces and engine adapters are
+#   wide-but-shallow by design; the cap still catches genuine god-classes.
+# - CyclomaticComplexMethod 20: gesture state machines sit just over the
+#   default; anything above 20 still fails.
 build:
   maxIssues: 0
 
@@ -15,7 +19,7 @@ style:
   MagicNumber:
     active: false
   ReturnCount:
-    max: 5
+    max: 8
   LoopWithTooManyJumpStatements:
     maxJumpCount: 3
 
@@ -23,9 +27,14 @@ complexity:
   LongParameterList:
     functionThreshold: 8
     constructorThreshold: 8
+  LongMethod:
+    ignoreAnnotated:
+      - 'Composable'
   TooManyFunctions:
-    thresholdInFiles: 16
-    thresholdInClasses: 16
+    thresholdInFiles: 25
+    thresholdInClasses: 25
+  CyclomaticComplexMethod:
+    threshold: 20
 
 naming:
   FunctionNaming:

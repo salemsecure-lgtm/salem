@@ -7,6 +7,9 @@ activityCompose = "1.9.3"
 composeBom = "2024.12.01"
 coroutines = "1.9.0"
 pdfium = "2.0.1"
+pdfboxAndroid = "2.0.27.0"
+apachePdfbox = "2.0.31"
+robolectric = "4.14.1"
 detekt = "1.23.7"
 ktlint = "12.1.2"
 junit = "4.13.2"
@@ -25,6 +28,9 @@ androidx-compose-material-icons-core = { group = "androidx.compose.material", na
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "coroutines" }
 pdfium-android = { group = "io.legere", name = "pdfiumandroid", version.ref = "pdfium" }
+pdfbox-android = { group = "com.tom-roush", name = "pdfbox-android", version.ref = "pdfboxAndroid" }
+apache-pdfbox = { group = "org.apache.pdfbox", name = "pdfbox", version.ref = "apachePdfbox" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 

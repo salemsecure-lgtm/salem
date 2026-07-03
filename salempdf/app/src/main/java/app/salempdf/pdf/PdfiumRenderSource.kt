@@ -16,6 +16,7 @@ import io.legere.pdfiumandroid.suspend.PdfiumCoreKt
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import java.io.File
 import java.io.IOException
 import java.util.concurrent.Executors
 
@@ -121,6 +122,13 @@ class PdfiumRenderSource private constructor(
             val descriptor =
                 context.contentResolver.openFileDescriptor(uri, "r")
                     ?: throw IOException("Could not open document")
+            return open(descriptor)
+        }
+
+        suspend fun open(file: File): PdfiumRenderSource =
+            open(ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY))
+
+        private suspend fun open(descriptor: ParcelFileDescriptor): PdfiumRenderSource {
             try {
                 val document = core.newDocument(descriptor)
                 return PdfiumRenderSource(document, descriptor, document.getPageCount())

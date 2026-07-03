@@ -2,19 +2,27 @@ package app.salempdf.viewer
 
 import android.app.Application
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.OpenableColumns
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import app.salempdf.domain.annotation.PdfAnnotation
 import app.salempdf.domain.model.PageSize
 import app.salempdf.domain.render.PageText
 import app.salempdf.domain.render.PdfRenderSource
 import app.salempdf.domain.render.RenderRegion
 import app.salempdf.domain.viewer.TileSpec
+import app.salempdf.pdf.DocumentSession
 import app.salempdf.pdf.PdfiumRenderSource
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +31,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
+import java.util.UUID
 
 sealed interface ViewerUiState {
     data object Loading : ViewerUiState
@@ -51,9 +60,28 @@ class ViewerViewModel(
     private val _selection = MutableStateFlow<Selection?>(null)
     val selection: StateFlow<Selection?> = _selection
 
+    // ---- Annotation editing state (Phase 2) ----
+    val annotations: SnapshotStateList<PdfAnnotation> = mutableStateListOf()
+    var activeTool by mutableStateOf<AnnotationTool?>(null)
+        private set
+    var toolColor by mutableStateOf(AnnotationTool.AMBER)
+    var toolStrokeWidthPt by mutableStateOf(AnnotationTool.STROKE_WIDTHS_PT[1])
+    var selectedAnnotationId by mutableStateOf<String?>(null)
+        private set
+    var isDirty by mutableStateOf(false)
+        private set
+
+    /** In-session reusable signature (PNG with transparent background). */
+    var signaturePng: ByteArray? = null
+
+    private val _saveMessage = MutableStateFlow<String?>(null)
+    val saveMessage: StateFlow<String?> = _saveMessage
+
+    private var session: DocumentSession? = null
     private var source: PdfRenderSource? = null
     private val inFlight = mutableSetOf<String>()
     private val pageTextCache = HashMap<Int, PageText>()
+    private val stampImageCache = HashMap<String, ImageBitmap>()
 
     init {
         viewModelScope.launch { openDocument() }
@@ -61,11 +89,14 @@ class ViewerViewModel(
 
     private suspend fun openDocument() {
         try {
-            val opened = PdfiumRenderSource.open(getApplication(), uri)
-            source = opened
-            pageSizes.addAll(List(opened.pageCount) { null })
-            _uiState.value = ViewerUiState.Ready(opened.pageCount, queryDisplayName())
-            prefetchPageSizes(opened)
+            val opened = DocumentSession.open(getApplication(), uri)
+            session = opened
+            annotations.addAll(opened.initialAnnotations)
+            val renderSource = PdfiumRenderSource.open(opened.renderFile)
+            source = renderSource
+            pageSizes.addAll(List(renderSource.pageCount) { null })
+            _uiState.value = ViewerUiState.Ready(renderSource.pageCount, queryDisplayName())
+            prefetchPageSizes(renderSource)
         } catch (e: IOException) {
             _uiState.value = ViewerUiState.Failed(e.message ?: "Couldn't open this PDF")
         }
@@ -81,6 +112,97 @@ class ViewerViewModel(
             }
         }
     }
+
+    // ---- Annotation commands ----
+
+    fun setTool(tool: AnnotationTool?) {
+        activeTool = if (activeTool == tool) null else tool
+        activeTool?.let { toolColor = it.defaultColor }
+        selectedAnnotationId = null
+        _selection.value = null
+    }
+
+    fun newAnnotationId(): String = "new:" + UUID.randomUUID().toString()
+
+    fun addAnnotation(annotation: PdfAnnotation) {
+        annotations.add(annotation)
+        isDirty = true
+    }
+
+    fun replaceAnnotation(updated: PdfAnnotation) {
+        val index = annotations.indexOfFirst { it.id == updated.id }
+        if (index >= 0) {
+            annotations[index] = updated
+            isDirty = true
+        }
+    }
+
+    fun selectAnnotation(id: String?) {
+        selectedAnnotationId = id
+    }
+
+    fun deleteSelectedAnnotation() {
+        val id = selectedAnnotationId ?: return
+        annotations.removeAll { it.id == id }
+        selectedAnnotationId = null
+        isDirty = true
+    }
+
+    fun selectedAnnotation(): PdfAnnotation? = annotations.firstOrNull { it.id == selectedAnnotationId }
+
+    fun applyColorToSelection(color: Int) {
+        val selected = selectedAnnotation() ?: return
+        val recolored: PdfAnnotation =
+            when (selected) {
+                is PdfAnnotation.TextMarkup -> selected.copy(colorRgb = color)
+                is PdfAnnotation.Ink -> selected.copy(colorRgb = color)
+                is PdfAnnotation.Shape -> selected.copy(colorRgb = color)
+                is PdfAnnotation.Note -> selected.copy(colorRgb = color)
+                is PdfAnnotation.FreeText -> selected.copy(colorRgb = color)
+                is PdfAnnotation.Stamp -> selected
+            }
+        replaceAnnotation(recolored)
+    }
+
+    fun stampImage(annotation: PdfAnnotation.Stamp): ImageBitmap? =
+        stampImageCache.getOrPut(annotation.id) {
+            val bytes = annotation.pngBytes
+            val decoded: Bitmap =
+                BitmapFactory.decodeByteArray(bytes, 0, bytes.size) ?: return null
+            decoded.asImageBitmap()
+        }
+
+    fun save() {
+        val currentSession = session ?: return
+        viewModelScope.launch {
+            _saveMessage.value =
+                when (val result = currentSession.save(annotations.toList())) {
+                    is DocumentSession.SaveResult.Saved -> {
+                        isDirty = false
+                        "Changes saved"
+                    }
+                    is DocumentSession.SaveResult.SavedCopyOnly -> {
+                        isDirty = false
+                        "Saved to the app copy — the source didn't allow writing back"
+                    }
+                    is DocumentSession.SaveResult.Failed -> "Couldn't save: ${result.message}"
+                }
+        }
+    }
+
+    fun exportTo(target: Uri) {
+        val currentSession = session ?: return
+        viewModelScope.launch {
+            _saveMessage.value =
+                if (currentSession.exportTo(target)) "Copy saved" else "Couldn't save a copy"
+        }
+    }
+
+    fun consumeSaveMessage() {
+        _saveMessage.value = null
+    }
+
+    // ---- Rendering requests (Phase 1) ----
 
     fun requestBase(
         pageIndex: Int,
@@ -170,7 +292,8 @@ class ViewerViewModel(
     private suspend fun queryDisplayName(): String =
         withContext(Dispatchers.IO) {
             runCatching {
-                getApplication<Application>().contentResolver
+                getApplication<Application>()
+                    .contentResolver
                     .query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)
                     ?.use { cursor ->
                         if (cursor.moveToFirst()) cursor.getString(0) else null
@@ -184,6 +307,7 @@ class ViewerViewModel(
         thumbCache.clear()
         runCatching { source?.close() }
         source = null
+        session = null
     }
 
     companion object {
