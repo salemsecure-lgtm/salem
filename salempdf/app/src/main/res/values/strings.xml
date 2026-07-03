@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Salem PDF</string>
+    <string name="empty_library_hint">Import a PDF to get started</string>
+</resources>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Brand foreground (SPEC §Brand): white rounded document with a folded top-right
+  corner, light-grey content lines, and one bold semi-transparent amber
+  highlighter stroke. Drawn inside the 72dp safe zone of the 108dp canvas;
+  bold shapes only so it stays legible at 48px under any mask.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Soft shadow under the page -->
+    <path
+        android:fillColor="#33000000"
+        android:pathData="M34,26.5 m0,1.5 a5,5 0 0 1 5,-5 h24 l13,13 v43 a5,5 0 0 1 -5,5 h-32 a5,5 0 0 1 -5,-5 z" />
+
+    <!-- Page body: rounded corners, top-right corner cut for the fold -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M39,21.5 h23.5 l13.5,13.5 v43 a5,5 0 0 1 -5,5 h-32 a5,5 0 0 1 -5,-5 v-51.5 a5,5 0 0 1 5,-5 z" />
+
+    <!-- Folded top-right corner (slightly darker triangle with its own shadow edge) -->
+    <path
+        android:fillColor="#D9D6F5"
+        android:pathData="M62.5,21.5 l13.5,13.5 h-10 a3.5,3.5 0 0 1 -3.5,-3.5 z" />
+
+    <!-- Light-grey content lines -->
+    <path
+        android:fillColor="#C9CCD6"
+        android:pathData="M42,43 h20 a1.75,1.75 0 0 1 0,3.5 h-20 a1.75,1.75 0 0 1 0,-3.5 z" />
+    <path
+        android:fillColor="#C9CCD6"
+        android:pathData="M42,52 h30 a1.75,1.75 0 0 1 0,3.5 h-30 a1.75,1.75 0 0 1 0,-3.5 z" />
+    <path
+        android:fillColor="#C9CCD6"
+        android:pathData="M42,70 h24 a1.75,1.75 0 0 1 0,3.5 h-24 a1.75,1.75 0 0 1 0,-3.5 z" />
+
+    <!-- Amber highlighter stroke sweeping across a line (semi-transparent, angled) -->
+    <path
+        android:fillColor="#CCFBBF24"
+        android:pathData="M38.5,64.5 l37,-4.5 a3.75,3.75 0 0 1 1,7.4 l-37,4.5 a3.75,3.75 0 0 1 -1,-7.4 z" />
+</vector>

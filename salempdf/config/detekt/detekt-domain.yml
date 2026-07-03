@@ -1,0 +1,6 @@
+# Strict overlay for :domain — the build FAILS on !! or unchecked casts here (SPEC §conventions).
+potential-bugs:
+  UnsafeCallOnNullableType:
+    active: true
+  UnsafeCast:
+    active: true
