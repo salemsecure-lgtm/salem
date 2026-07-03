@@ -58,14 +58,20 @@ class ProgramBuilderTest {
     }
 
     @Test
-    fun `session totals always equal the weekly target`() {
-        val plan = ProgramBuilder.instantiate(SplitTemplates.pplSixDay, MesoConfig(accumulationWeeks = 6), landmarks)
+    fun `session totals equal the planner target when the plus-two cap cannot bind`() {
+        // The projection climbs +1/week, so the per-session +2 cap never binds
+        // and weekly session sums must equal the planner's targets exactly.
+        val config = MesoConfig(accumulationWeeks = 6)
+        val plan = ProgramBuilder.instantiate(SplitTemplates.pplSixDay, config, landmarks)
+        val mesoPlan = dev.salemlift.domain.engine.MesocyclePlanner.plan(config, landmarks)
         assertEquals(7, plan.weeks.size)
-        for (week in plan.weeks.dropLast(1)) {
+        for ((programWeek, planWeek) in plan.weeks.zip(mesoPlan.weeks)) {
             for (muscle in Muscle.entries) {
-                val volume = ProgramBuilder.weeklyVolume(week, muscle)
-                val marks = landmarks.getValue(muscle)
-                assertTrue(volume >= marks.mev, "accumulation below MEV: $muscle wk${week.week} = $volume")
+                assertEquals(
+                    planWeek.setTargets.getValue(muscle),
+                    ProgramBuilder.weeklyVolume(programWeek, muscle),
+                    "$muscle wk${programWeek.week}",
+                )
             }
         }
     }

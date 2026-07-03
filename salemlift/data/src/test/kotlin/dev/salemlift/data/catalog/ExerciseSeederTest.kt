@@ -128,8 +128,8 @@ class ExerciseSeederTest {
 
         override suspend fun getById(id: String): ExerciseEntity? = rows[id]
 
-        override fun searchByName(query: String): Flow<List<ExerciseEntity>> =
-            flowOf(rows.values.filter { it.name.contains(query, ignoreCase = true) })
+        override fun searchByNameEscaped(escaped: String): Flow<List<ExerciseEntity>> =
+            flowOf(rows.values.filter { it.name.contains(escaped, ignoreCase = true) })
 
         override fun filterByPrimaryMuscle(muscle: Muscle): Flow<List<ExerciseEntity>> =
             flowOf(rows.values.filter { it.primaryMuscle == muscle })

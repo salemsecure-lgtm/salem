@@ -17,8 +17,9 @@ interface ExerciseDao {
     @Query("SELECT * FROM exercises WHERE id = :id")
     suspend fun getById(id: String): ExerciseEntity?
 
-    @Query("SELECT * FROM exercises WHERE name LIKE '%' || :query || '%' ORDER BY name")
-    fun searchByName(query: String): Flow<List<ExerciseEntity>>
+    /** Prefer [searchByName]; this binds the pattern verbatim (no wildcard escaping). */
+    @Query("SELECT * FROM exercises WHERE name LIKE '%' || :escaped || '%' ESCAPE '\\' ORDER BY name")
+    fun searchByNameEscaped(escaped: String): Flow<List<ExerciseEntity>>
 
     @Query("SELECT * FROM exercises WHERE primaryMuscle = :muscle ORDER BY name")
     fun filterByPrimaryMuscle(muscle: Muscle): Flow<List<ExerciseEntity>>
@@ -37,3 +38,13 @@ interface ExerciseDao {
     @Query("SELECT COUNT(*) FROM exercises")
     suspend fun countAll(): Int
 }
+
+/** Escapes SQL LIKE wildcards so user input matches literally. */
+fun escapeLikeQuery(raw: String): String =
+    raw
+        .replace("\\", "\\\\")
+        .replace("%", "\\%")
+        .replace("_", "\\_")
+
+/** Substring name search treating the user's input literally (a typed `%` is just a percent sign). */
+fun ExerciseDao.searchByName(query: String): Flow<List<ExerciseEntity>> = searchByNameEscaped(escapeLikeQuery(query))
