@@ -1,0 +1,10 @@
+# Shared detekt config for all Salem Lift modules (extends detekt defaults).
+naming:
+  FunctionNaming:
+    ignoreAnnotated: ['Composable']
+
+style:
+  MagicNumber:
+    active: false # Domain defaults (landmark seeds, RIR schedules) are named tables, not magic.
+  ReturnCount:
+    active: false

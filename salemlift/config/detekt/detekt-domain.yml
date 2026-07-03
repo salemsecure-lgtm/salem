@@ -1,0 +1,8 @@
+# Extra-strict rules for :domain only — the engine bans !! and unchecked casts.
+potential-bugs:
+  UnsafeCallOnNullableType:
+    active: true
+  UnsafeCast:
+    active: true
+  CastToNullableType:
+    active: true
