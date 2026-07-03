@@ -13,8 +13,8 @@ as an installable `.apk`.
 
 | Phase | State |
 |---|---|
-| 0 — Spec + scaffold + hello-world APK | ✅ built, awaiting `GATE 0 PASS` |
-| 1 — Rendering (Pdfium) | not started |
+| 0 — Spec + scaffold + hello-world APK | ✅ `GATE 0 PASS` |
+| 1 — Rendering (Pdfium) | ✅ built, awaiting `GATE 1 PASS` |
 | 2 — Annotation engine (PdfBox) | not started |
 | 3 — Page operations | not started |
 | 4 — Forms | not started |

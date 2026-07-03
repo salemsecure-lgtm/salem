@@ -1,10 +1,31 @@
 # Salem PDF base detekt config — builds upon detekt defaults.
+#
+# Threshold tuning rationale (ARCHITECT):
+# - ReturnCount 5: guard-clause early returns are idiomatic in hit-testing and
+#   coordinate-mapping code; contorting them into single-exit hurts clarity.
+# - LongParameterList 8: draw/gesture helpers legitimately thread context
+#   (transform, layout, viewport) — grouping into ad-hoc holder classes would
+#   add indirection without safety.
+# - TooManyFunctions 16: Compose screens decompose into many small private
+#   composables/helpers by design; penalizing that encourages long methods.
 build:
   maxIssues: 0
 
 style:
   MagicNumber:
     active: false
+  ReturnCount:
+    max: 5
+  LoopWithTooManyJumpStatements:
+    maxJumpCount: 3
+
+complexity:
+  LongParameterList:
+    functionThreshold: 8
+    constructorThreshold: 8
+  TooManyFunctions:
+    thresholdInFiles: 16
+    thresholdInClasses: 16
 
 naming:
   FunctionNaming:

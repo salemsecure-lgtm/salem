@@ -1,23 +1,29 @@
 package app.salempdf
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.Saver
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
+import app.salempdf.home.HomeScreen
 import app.salempdf.ui.theme.SalemPdfTheme
+import app.salempdf.viewer.ViewerScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,32 +31,47 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SalemPdfTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    HelloSalem(modifier = Modifier.padding(innerPadding))
-                }
+                SalemPdfRoot()
             }
         }
     }
 }
 
+private val UriSaver =
+    Saver<Uri?, String>(
+        save = { it?.toString() ?: "" },
+        restore = { if (it.isEmpty()) null else Uri.parse(it) },
+    )
+
 @Composable
-fun HelloSalem(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier.fillMaxSize().padding(24.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(
-            text = stringResource(R.string.app_name),
-            style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.primary,
-        )
-        Text(
-            text = stringResource(R.string.empty_library_hint),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 12.dp),
-        )
+private fun SalemPdfRoot() {
+    var openUri by rememberSaveable(stateSaver = UriSaver) { mutableStateOf<Uri?>(null) }
+    val context = LocalContext.current
+    val openLauncher =
+        rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            if (uri != null) {
+                // Keep read access across restarts; some providers don't grant it.
+                runCatching {
+                    context.contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                }
+                openUri = uri
+            }
+        }
+
+    val uri = openUri
+    if (uri == null) {
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            HomeScreen(
+                onOpenDocument = { openLauncher.launch(arrayOf("application/pdf")) },
+                modifier = Modifier.padding(innerPadding),
+            )
+        }
+    } else {
+        BackHandler { openUri = null }
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            Box(Modifier.padding(innerPadding)) {
+                ViewerScreen(uri = uri, onClose = { openUri = null })
+            }
+        }
     }
 }
