@@ -38,6 +38,7 @@ kover {
             includes {
                 classes(
                     "dev.salemlift.domain.engine.*",
+                    "dev.salemlift.domain.program.*",
                     "dev.salemlift.domain.EngineInfo*",
                 )
             }
