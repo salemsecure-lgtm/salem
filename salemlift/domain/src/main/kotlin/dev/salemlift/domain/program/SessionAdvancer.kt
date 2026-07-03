@@ -1,7 +1,7 @@
 package dev.salemlift.domain.program
 
-import dev.salemlift.domain.engine.Autoregulator
 import dev.salemlift.domain.engine.AutoregRule
+import dev.salemlift.domain.engine.Autoregulator
 import dev.salemlift.domain.engine.DefaultRules
 import dev.salemlift.domain.engine.DeloadTriggers
 import dev.salemlift.domain.model.Landmarks

@@ -39,8 +39,8 @@ data class RestTimer(
         )
     }
 
-    /** Add or remove time (e.g. +30 s button); clamps so the timer never goes negative. */
-    fun adjust(deltaMillis: Long, nowMillis: Long): RestTimer {
+    /** Add or remove time (e.g. +30 s button); clamps a paused timer at zero. */
+    fun adjust(deltaMillis: Long): RestTimer {
         val paused = pausedRemainingMillis
         return if (paused != null) {
             copy(pausedRemainingMillis = (paused + deltaMillis).coerceAtLeast(0L))
@@ -50,7 +50,9 @@ data class RestTimer(
     }
 
     companion object {
-        fun start(durationMillis: Long, nowMillis: Long): RestTimer =
-            RestTimer(durationMillis = durationMillis, anchorMillis = nowMillis)
+        fun start(
+            durationMillis: Long,
+            nowMillis: Long,
+        ): RestTimer = RestTimer(durationMillis = durationMillis, anchorMillis = nowMillis)
     }
 }

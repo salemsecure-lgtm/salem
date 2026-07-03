@@ -45,10 +45,10 @@ class RestTimerTest {
     @Test
     fun `adjust adds time while running and while paused, clamped at zero`() {
         val timer = RestTimer.start(60_000, nowMillis = 0)
-        val extended = timer.adjust(deltaMillis = 30_000, nowMillis = 10_000)
+        val extended = timer.adjust(deltaMillis = 30_000)
         assertEquals(80_000, extended.remainingMillis(10_000))
 
-        val paused = timer.pause(50_000).adjust(deltaMillis = -30_000, nowMillis = 50_000)
+        val paused = timer.pause(50_000).adjust(deltaMillis = -30_000)
         assertEquals(0, paused.remainingMillis(50_000))
     }
 

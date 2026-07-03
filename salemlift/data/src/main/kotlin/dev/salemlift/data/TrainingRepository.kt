@@ -27,7 +27,7 @@ data class SessionSummary(
     val muscleTargets: Map<Muscle, Int>,
 )
 
-enum class SessionState { PENDING, IN_PROGRESS, COMPLETED }
+enum class SessionState { PENDING, IN_PROGRESS, COMPLETED, SKIPPED }
 
 /** One logged working set. */
 data class LoggedSet(
@@ -69,7 +69,10 @@ interface TrainingRepository {
     fun landmarks(): Flow<Map<Muscle, dev.salemlift.domain.model.Landmarks>>
 
     /** Instantiate + persist a new mesocycle from a split (ends any active one). */
-    suspend fun startMesocycle(split: Split, config: MesoConfig): Long
+    suspend fun startMesocycle(
+        split: Split,
+        config: MesoConfig,
+    ): Long
 
     /** The active mesocycle's next pending/in-progress session, if any. */
     fun currentSession(): Flow<SessionSummary?>
