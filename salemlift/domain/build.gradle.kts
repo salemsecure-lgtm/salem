@@ -18,8 +18,8 @@ kotlin {
 }
 
 dependencies {
-    implementation(libs.kotlinx.coroutines.core)
-
+    // Intentionally stdlib-only: the engine is pure synchronous functions.
+    // (coroutines-core gets added only if/when a Flow-based API is needed.)
     testImplementation(libs.kotlin.test)
     testImplementation(libs.junit.jupiter)
     testRuntimeOnly(libs.junit.platform.launcher)

@@ -50,8 +50,8 @@ class RirScheduleTest {
     }
 
     @Test
-    fun `deload effort is RIR 4`() {
-        assertEquals(WeekEffort(4), RirSchedule.deload)
+    fun `deload effort is the RIR 4 to 5 band`() {
+        assertEquals(WeekEffort(targetRir = 4, maxRir = 5), RirSchedule.deload)
     }
 
     @Test

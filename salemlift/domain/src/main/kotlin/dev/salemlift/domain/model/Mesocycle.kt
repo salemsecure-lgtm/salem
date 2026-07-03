@@ -5,9 +5,12 @@ public data class WeekEffort(
     val targetRir: Int,
     /** True for "0–1" weeks: prescribed at [targetRir], final set of each exercise may go to 0. */
     val allowZeroOnLastSet: Boolean = false,
+    /** Upper acceptable RIR — e.g. the deload's "4–5" band (DOMAIN.md §3). */
+    val maxRir: Int = targetRir,
 ) {
     init {
         require(targetRir >= 0) { "target RIR cannot be negative, was $targetRir" }
+        require(maxRir >= targetRir) { "max RIR ($maxRir) cannot be below target RIR ($targetRir)" }
     }
 }
 

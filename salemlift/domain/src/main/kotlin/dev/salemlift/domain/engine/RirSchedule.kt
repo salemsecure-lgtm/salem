@@ -5,7 +5,7 @@ import dev.salemlift.domain.model.WeekEffort
 /** RIR effort schedules across accumulation (DOMAIN.md §3.1) — tunable defaults. */
 public object RirSchedule {
     /** Deload effort: RIR 4 prescribed, up to 5 acceptable (DOMAIN.md §3). */
-    public val deload: WeekEffort = WeekEffort(targetRir = 4)
+    public val deload: WeekEffort = WeekEffort(targetRir = 4, maxRir = 5)
 
     public fun forAccumulation(weeks: Int): List<WeekEffort> {
         require(weeks in 4..6) { "accumulation weeks must be 4..6, was $weeks" }

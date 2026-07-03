@@ -2,7 +2,14 @@ package dev.salemlift.domain.engine
 
 import dev.salemlift.domain.model.Performance
 
-/** Performance comparison from RIR-adjusted e1RM (DOMAIN.md §4.1). */
+/**
+ * Performance comparison from RIR-adjusted e1RM (DOMAIN.md §4.1).
+ *
+ * §4.1's auxiliary clauses are subsumed by the e1RM threshold: a one-rep or
+ * one-RIR difference at equal load always moves RIR-adjusted e1RM by more
+ * than the 1% band, so "same load/reps at lower effort" classifies UP and
+ * "failed prescribed reps at target RIR" classifies DOWN without extra rules.
+ */
 public object PerformanceClassifier {
     public const val DEFAULT_THRESHOLD_PCT: Double = 1.0
 
