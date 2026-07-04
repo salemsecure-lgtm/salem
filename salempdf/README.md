@@ -15,8 +15,8 @@ as an installable `.apk`.
 |---|---|
 | 0 — Spec + scaffold + hello-world APK | ✅ `GATE 0 PASS` |
 | 1 — Rendering (Pdfium) | ✅ `GATE 1 PASS` |
-| 2 — Annotation engine (PdfBox) | ✅ built, awaiting `GATE 2 PASS` |
-| 3 — Page operations | not started |
+| 2 — Annotation engine (PdfBox) | ✅ `GATE 2 PASS` |
+| 3 — Page operations | ✅ built, awaiting `GATE 3 PASS` |
 | 4 — Forms | not started |
 | 5 — Library | not started |
 | 6 — Polish + signed release | not started |

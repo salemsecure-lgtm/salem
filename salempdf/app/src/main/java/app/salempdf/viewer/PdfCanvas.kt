@@ -157,10 +157,10 @@ private fun RenderRequests(
         if (visible.isEmpty()) return@LaunchedEffect
         val first = (visible.first - PREFETCH_PAGES).coerceAtLeast(0)
         val last = (visible.last + PREFETCH_PAGES).coerceAtMost(layout.pageCount - 1)
-        for (page in first..last) viewModel.requestBase(page, baseWidth)
+        for (page in first..last) viewModel.renderer.requestBase(page, baseWidth)
     }
     LaunchedEffect(tileSpecs) {
-        tileSpecs.forEach(viewModel::requestTile)
+        tileSpecs.forEach(viewModel.renderer::requestTile)
     }
 }
 
@@ -309,7 +309,7 @@ private fun DrawScope.drawPage(
     drawRect(Color.White, topLeft = Offset(left, top), size = Size(width, height))
 
     val baseKey = "base:$page:${layout.viewportWidthPx.roundToInt()}"
-    viewModel.baseCache.get(baseKey)?.let { bitmap ->
+    viewModel.renderer.baseCache.get(baseKey)?.let { bitmap ->
         drawScaledBitmap(bitmap, left, top, width, height)
     }
 
@@ -326,7 +326,7 @@ private fun DrawScope.drawPage(
                 bucket = bucket,
             )
         for (tile in tiles) {
-            val bitmap = viewModel.tileCache.get(tile.cacheKey) ?: continue
+            val bitmap = viewModel.renderer.tileCache.get(tile.cacheKey) ?: continue
             drawScaledBitmap(
                 bitmap = bitmap,
                 left = left + tile.leftPx * fromBucket,

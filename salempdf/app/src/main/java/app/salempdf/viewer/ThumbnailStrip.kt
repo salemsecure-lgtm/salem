@@ -61,8 +61,8 @@ private fun ThumbnailItem(
     selected: Boolean,
     onTap: () -> Unit,
 ) {
-    LaunchedEffect(page) { vm.requestThumbnail(page) }
-    val bitmap = vm.thumbCache.get(vm.thumbKey(page))
+    LaunchedEffect(page) { vm.renderer.requestThumbnail(page) }
+    val bitmap = vm.renderer.thumbCache.get(vm.renderer.thumbKey(page))
     val borderColor =
         if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant
     Box(

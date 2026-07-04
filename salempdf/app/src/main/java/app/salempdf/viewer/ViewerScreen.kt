@@ -133,6 +133,7 @@ private fun ViewerContent(
     }
     var showJumpDialog by rememberSaveable { mutableStateOf(false) }
     var showTools by rememberSaveable { mutableStateOf(false) }
+    var showOrganizer by rememberSaveable { mutableStateOf(false) }
     var placement by remember { mutableStateOf<PlacementRequest?>(null) }
     var showClosePrompt by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
@@ -140,7 +141,7 @@ private fun ViewerContent(
     val requestClose = {
         if (vm.isDirty) showClosePrompt = true else onClose()
     }
-    BackHandler(onBack = requestClose)
+    BackHandler(enabled = !showOrganizer, onBack = requestClose)
 
     LaunchedEffect(Unit) {
         vm.saveMessage.collect { message ->
@@ -149,6 +150,22 @@ private fun ViewerContent(
                 vm.consumeSaveMessage()
             }
         }
+    }
+
+    if (showOrganizer) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            PageOrganizerScreen(
+                vm = vm,
+                pageCount = ready.pageCount,
+                title = ready.title,
+                onClose = { showOrganizer = false },
+            )
+            SnackbarHost(
+                hostState = snackbarHostState,
+                modifier = Modifier.align(Alignment.BottomCenter),
+            )
+        }
+        return
     }
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -163,6 +180,7 @@ private fun ViewerContent(
                     showTools = !showTools
                     if (!showTools) vm.setTool(null)
                 },
+                onShowPages = { showOrganizer = true },
             )
             Box(
                 modifier =
@@ -386,6 +404,7 @@ private fun ViewerTopBar(
     onClose: () -> Unit,
     onShowJump: () -> Unit,
     onToggleTools: () -> Unit,
+    onShowPages: () -> Unit,
 ) {
     val selection by vm.selection.collectAsState()
     val clipboard = LocalClipboardManager.current
@@ -420,6 +439,9 @@ private fun ViewerTopBar(
             }
             IconButton(onClick = onToggleTools) {
                 Icon(Icons.Filled.Edit, contentDescription = stringResource(R.string.annotate))
+            }
+            TextButton(onClick = onShowPages) {
+                Text(stringResource(R.string.pages_title))
             }
             TextButton(onClick = onShowJump) {
                 Text(stringResource(R.string.page_indicator, currentPage + 1, ready.pageCount))

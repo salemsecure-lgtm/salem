@@ -318,7 +318,7 @@ private fun DrawScope.drawStamp(
     placement: PagePlacement,
     viewModel: ViewerViewModel,
 ) {
-    val image = viewModel.stampImage(annotation) ?: return
+    val image = viewModel.renderer.stampImage(annotation) ?: return
     val (topLeft, size) = placement.rect(annotation.rect)
     drawImage(
         image = image,

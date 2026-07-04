@@ -1,8 +1,6 @@
 package app.salempdf.viewer
 
 import android.app.Application
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.provider.OpenableColumns
 import androidx.compose.runtime.getValue
@@ -10,21 +8,17 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import app.salempdf.domain.annotation.PdfAnnotation
 import app.salempdf.domain.model.PageSize
+import app.salempdf.domain.pageops.PageOp
 import app.salempdf.domain.render.PageText
 import app.salempdf.domain.render.PdfRenderSource
-import app.salempdf.domain.render.RenderRegion
-import app.salempdf.domain.viewer.TileSpec
 import app.salempdf.pdf.DocumentSession
 import app.salempdf.pdf.PdfiumRenderSource
-import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -53,9 +47,8 @@ class ViewerViewModel(
     /** Page sizes in points; null until lazily loaded. Snapshot-backed so layout recomputes. */
     val pageSizes: SnapshotStateList<PageSize?> = mutableStateListOf()
 
-    val baseCache = BitmapCache(BASE_CACHE_BYTES)
-    val tileCache = BitmapCache(TILE_CACHE_BYTES)
-    val thumbCache = BitmapCache(THUMB_CACHE_BYTES)
+    /** Bitmap provisioning (base pages, tiles, thumbnails, stamps) — see [RenderRequests]. */
+    val renderer = RenderRequests(viewModelScope, { source }, pageSizes)
 
     private val _selection = MutableStateFlow<Selection?>(null)
     val selection: StateFlow<Selection?> = _selection
@@ -79,9 +72,7 @@ class ViewerViewModel(
 
     private var session: DocumentSession? = null
     private var source: PdfRenderSource? = null
-    private val inFlight = mutableSetOf<String>()
     private val pageTextCache = HashMap<Int, PageText>()
-    private val stampImageCache = HashMap<String, ImageBitmap>()
 
     init {
         viewModelScope.launch { openDocument() }
@@ -164,14 +155,6 @@ class ViewerViewModel(
         replaceAnnotation(recolored)
     }
 
-    fun stampImage(annotation: PdfAnnotation.Stamp): ImageBitmap? =
-        stampImageCache.getOrPut(annotation.id) {
-            val bytes = annotation.pngBytes
-            val decoded: Bitmap =
-                BitmapFactory.decodeByteArray(bytes, 0, bytes.size) ?: return null
-            decoded.asImageBitmap()
-        }
-
     fun save() {
         val currentSession = session ?: return
         viewModelScope.launch {
@@ -198,75 +181,100 @@ class ViewerViewModel(
         }
     }
 
-    fun consumeSaveMessage() {
-        _saveMessage.value = null
-    }
+    // ---- Page operations (Phase 3) ----
 
-    // ---- Rendering requests (Phase 1) ----
+    var isWorking by mutableStateOf(false)
+        private set
 
-    fun requestBase(
-        pageIndex: Int,
-        widthPx: Int,
-    ) {
-        val src = source ?: return
-        val size = pageSizes.getOrNull(pageIndex) ?: return
-        val heightPx = (widthPx / size.aspectRatio).toInt().coerceAtLeast(1)
-        val key = "base:$pageIndex:$widthPx"
-        render(baseCache, key, src, RenderRegion(pageIndex, widthPx, heightPx))
-    }
-
-    fun requestTile(spec: TileSpec) {
-        val src = source ?: return
-        if (pageSizes.getOrNull(spec.pageIndex) == null) return
-        render(
-            cache = tileCache,
-            key = spec.cacheKey,
-            src = src,
-            region =
-                RenderRegion(
-                    pageIndex = spec.pageIndex,
-                    pageWidthPx = spec.pageWidthPx,
-                    pageHeightPx = spec.pageHeightPx,
-                    left = spec.leftPx,
-                    top = spec.topPx,
-                    width = spec.widthPx,
-                    height = spec.heightPx,
-                ),
-        )
-    }
-
-    fun requestThumbnail(pageIndex: Int) {
-        val src = source ?: return
-        val size = pageSizes.getOrNull(pageIndex) ?: return
-        val heightPx = (THUMB_WIDTH_PX / size.aspectRatio).toInt().coerceAtLeast(1)
-        render(thumbCache, thumbKey(pageIndex), src, RenderRegion(pageIndex, THUMB_WIDTH_PX, heightPx))
-    }
-
-    fun thumbKey(pageIndex: Int): String = "thumb:$pageIndex"
-
-    private fun render(
-        cache: BitmapCache,
-        key: String,
-        src: PdfRenderSource,
-        region: RenderRegion,
-    ) {
-        if (cache.contains(key) || !inFlight.add(key)) return
-        viewModelScope.launch {
-            try {
-                val bitmap: Bitmap = src.renderRegion(region)
-                cache.put(key, bitmap)
-            } catch (cancelled: CancellationException) {
-                throw cancelled
-            } catch (
-                // Pdfium surfaces corrupt-page failures as assorted runtime types;
-                // a failed tile just stays blank and the next scroll retries it.
-                @Suppress("TooGenericExceptionCaught") ignored: Exception,
-            ) {
-                // Intentionally ignored.
-            } finally {
-                inFlight.remove(key)
+    fun applyPageOps(ops: List<PageOp>) {
+        runStructuralOp { currentSession ->
+            when (val result = currentSession.applyPageOps(annotations.toList(), ops)) {
+                is DocumentSession.SaveResult.Saved -> "Pages updated"
+                is DocumentSession.SaveResult.SavedCopyOnly -> "Pages updated in the app copy"
+                is DocumentSession.SaveResult.Failed -> "Couldn't update pages: ${result.message}"
             }
         }
+    }
+
+    fun mergeWith(other: Uri) {
+        runStructuralOp { currentSession ->
+            when (val result = currentSession.mergeAppend(annotations.toList(), other)) {
+                is DocumentSession.SaveResult.Saved -> "PDF merged"
+                is DocumentSession.SaveResult.SavedCopyOnly -> "PDF merged into the app copy"
+                is DocumentSession.SaveResult.Failed -> "Couldn't merge: ${result.message}"
+            }
+        }
+    }
+
+    fun extractTo(
+        target: Uri,
+        pages: List<Int>,
+    ) {
+        val currentSession = session ?: return
+        viewModelScope.launch {
+            isWorking = true
+            val ok = currentSession.extractTo(target, annotations.toList(), pages)
+            if (ok) isDirty = false
+            isWorking = false
+            _saveMessage.value =
+                if (ok) "Extracted ${pages.size} page(s)" else "Couldn't extract pages"
+        }
+    }
+
+    fun compressTo(target: Uri) {
+        val currentSession = session ?: return
+        viewModelScope.launch {
+            isWorking = true
+            val result = currentSession.compressTo(target, annotations.toList())
+            if (result != null) isDirty = false
+            isWorking = false
+            _saveMessage.value =
+                if (result == null) {
+                    "Couldn't compress"
+                } else {
+                    val savedPercent = (result.savedFraction * 100).toInt().coerceAtLeast(0)
+                    "Compressed copy saved — $savedPercent% smaller (${result.imagesRecompressed} image(s))"
+                }
+        }
+    }
+
+    /** Runs a working-file rewrite, then reloads the whole render/annotation state. */
+    private fun runStructuralOp(op: suspend (DocumentSession) -> String) {
+        val currentSession = session ?: return
+        viewModelScope.launch {
+            isWorking = true
+            val message = op(currentSession)
+            reloadFromSession(currentSession)
+            isWorking = false
+            _saveMessage.value = message
+        }
+    }
+
+    private suspend fun reloadFromSession(currentSession: DocumentSession) {
+        runCatching { source?.close() }
+        source = null
+        renderer.clearAll()
+        pageTextCache.clear()
+        _selection.value = null
+        selectedAnnotationId = null
+        annotations.clear()
+        pageSizes.clear()
+        isDirty = false
+        try {
+            annotations.addAll(currentSession.currentAnnotations())
+            val renderSource = PdfiumRenderSource.open(currentSession.renderFile)
+            source = renderSource
+            pageSizes.addAll(List(renderSource.pageCount) { null })
+            val title = (uiState.value as? ViewerUiState.Ready)?.title ?: queryDisplayName()
+            _uiState.value = ViewerUiState.Ready(renderSource.pageCount, title)
+            prefetchPageSizes(renderSource)
+        } catch (e: IOException) {
+            _uiState.value = ViewerUiState.Failed(e.message ?: "Couldn't reopen this PDF")
+        }
+    }
+
+    fun consumeSaveMessage() {
+        _saveMessage.value = null
     }
 
     suspend fun pageText(pageIndex: Int): PageText {
@@ -302,19 +310,13 @@ class ViewerViewModel(
         }
 
     override fun onCleared() {
-        baseCache.clear()
-        tileCache.clear()
-        thumbCache.clear()
+        renderer.clearAll()
         runCatching { source?.close() }
         source = null
         session = null
     }
 
     companion object {
-        private const val BASE_CACHE_BYTES = 48L * 1024 * 1024
-        private const val TILE_CACHE_BYTES = 64L * 1024 * 1024
-        private const val THUMB_CACHE_BYTES = 10L * 1024 * 1024
-        private const val THUMB_WIDTH_PX = 144
         private const val PAGE_TEXT_CACHE_LIMIT = 8
 
         fun factory(

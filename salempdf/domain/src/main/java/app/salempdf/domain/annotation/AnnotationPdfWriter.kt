@@ -132,13 +132,15 @@ class AnnotationPdfWriter {
                 MarkupKind.STRIKEOUT -> PDAnnotationTextMarkup.SUB_TYPE_STRIKEOUT
             }
         val markup = PDAnnotationTextMarkup(subtype)
-        // Quad order per PDF spec: upper-left, upper-right, lower-left, lower-right.
+        // Quad order per PDF spec: upper-left, upper-right, lower-left, lower-right
+        // (axis-aligned in PDF user space; the rotation-aware mapper normalizes).
         val quads = FloatArray(annotation.lineRects.size * 8)
         annotation.lineRects.forEachIndexed { i, rect ->
-            val left = box.toPdfX(rect.left)
-            val right = box.toPdfX(rect.right)
-            val top = box.toPdfY(rect.top)
-            val bottom = box.toPdfY(rect.bottom)
+            val pdfRect = box.toPdfRect(rect)
+            val left = pdfRect[0]
+            val bottom = pdfRect[1]
+            val right = pdfRect[2]
+            val top = pdfRect[3]
             var q = i * 8
             quads[q++] = left
             quads[q++] = top
@@ -165,8 +167,9 @@ class AnnotationPdfWriter {
                 .map { stroke ->
                     FloatArray(stroke.size * 2).also { flat ->
                         stroke.forEachIndexed { i, point ->
-                            flat[i * 2] = box.toPdfX(point.x)
-                            flat[i * 2 + 1] = box.toPdfY(point.y)
+                            val pdfPoint = box.toPdfPoint(point)
+                            flat[i * 2] = pdfPoint.x
+                            flat[i * 2 + 1] = pdfPoint.y
                         }
                     }
                 }.toTypedArray(),
@@ -195,14 +198,9 @@ class AnnotationPdfWriter {
             }
             ShapeKind.LINE, ShapeKind.ARROW -> {
                 PDAnnotationLine().apply {
-                    setLine(
-                        floatArrayOf(
-                            box.toPdfX(annotation.start.x),
-                            box.toPdfY(annotation.start.y),
-                            box.toPdfX(annotation.end.x),
-                            box.toPdfY(annotation.end.y),
-                        ),
-                    )
+                    val start = box.toPdfPoint(annotation.start)
+                    val end = box.toPdfPoint(annotation.end)
+                    setLine(floatArrayOf(start.x, start.y, end.x, end.y))
                     if (annotation.kind == ShapeKind.ARROW) {
                         endPointEndingStyle = PDAnnotationLine.LE_OPEN_ARROW
                     }
@@ -319,7 +317,7 @@ class AnnotationPdfWriter {
             inkList.mapNotNull { flat ->
                 if (flat.size < 4) return@mapNotNull null
                 (flat.indices step 2).map { i ->
-                    PointPt(box.toDomainX(flat[i]), box.toDomainY(flat[i + 1]))
+                    box.toDomainPoint(flat[i], flat[i + 1])
                 }
             }
         if (strokes.isEmpty()) return null
@@ -381,8 +379,8 @@ class AnnotationPdfWriter {
             colorRgb = color,
             opacity = opacity,
             kind = kind,
-            start = PointPt(box.toDomainX(points[0]), box.toDomainY(points[1])),
-            end = PointPt(box.toDomainX(points[2]), box.toDomainY(points[3])),
+            start = box.toDomainPoint(points[0], points[1]),
+            end = box.toDomainPoint(points[2], points[3]),
             strokeWidthPt = line.borderStyle?.width ?: DEFAULT_STROKE_PT,
         )
     }
@@ -396,12 +394,13 @@ class AnnotationPdfWriter {
         box: PageBox,
     ): PdfAnnotation.Note? {
         val rect = annotation.rectangle ?: return null
+        val domain = box.toDomainRect(rect.lowerLeftX, rect.lowerLeftY, rect.upperRightX, rect.upperRightY)
         return PdfAnnotation.Note(
             id = id,
             pageIndex = pageIndex,
             colorRgb = color,
             opacity = opacity,
-            at = PointPt(box.toDomainX(rect.lowerLeftX), box.toDomainY(rect.upperRightY)),
+            at = PointPt(domain.left, domain.top),
             contents = annotation.contents.orEmpty(),
         )
     }
@@ -475,7 +474,7 @@ class AnnotationPdfWriter {
 
 private fun PDPage.pageBox(): PageBox {
     val crop = cropBox ?: mediaBox
-    return PageBox(crop.lowerLeftX, crop.lowerLeftY, crop.width, crop.height)
+    return PageBox(crop.lowerLeftX, crop.lowerLeftY, crop.width, crop.height, rotation)
 }
 
 private fun RectPt.toPdRectangle(box: PageBox): PDRectangle {
