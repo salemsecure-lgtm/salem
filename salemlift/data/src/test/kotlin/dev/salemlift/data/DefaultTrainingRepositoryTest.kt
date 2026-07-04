@@ -368,6 +368,60 @@ class DefaultTrainingRepositoryTest {
         muscle: Muscle,
     ): Int = database.sessionMuscleTargetDao().getFor(sessionId).firstOrNull { it.muscle == muscle }?.sets ?: 0
 
+    @Test
+    fun `commit with an R2 reduction writes next week below the planner projection`() {
+        runBlocking {
+            // The planner already projects week 2 = MEV + 1, so an R7 commit can
+            // mask a broken write path. R2 (-1) diverges from the projection and
+            // pins that applyDistributionsToNextWeek actually writes.
+            val mesoId = repository.startMesocycle(split, MesoConfig())
+            val current = assertNotNull(repository.currentSession().first())
+            repository.markSessionStarted(current.sessionId)
+
+            val reduction =
+                FeedbackDraft(
+                    muscle = Muscle.CHEST,
+                    soreness = Soreness.STILL_SORE,
+                    pump = Pump.LOW,
+                    jointPain = JointPain.NONE,
+                    performance = Performance.DOWN,
+                )
+            val outcome = repository.commitSession(current.sessionId, listOf(reduction))
+
+            val decision = assertNotNull(outcome.decisions[Muscle.CHEST])
+            assertEquals("R2", decision.ruleId)
+            assertEquals(-1, decision.rawDelta)
+
+            val mev = DefaultLandmarks.seeds.getValue(Muscle.CHEST).mev
+            val week2 = database.plannedSessionDao().getWeek(mesoId, 2)
+            val slots = split.sessions.indices.filter { Muscle.CHEST in split.sessions[it].muscles }
+            val week2Total = slots.sumOf { day -> targetSets(week2.first { it.dayIndex == day }.id, Muscle.CHEST) }
+            assertEquals(mev - 1, week2Total, "week 2 must carry the reduction, not the +1 projection")
+        }
+    }
+
+    @Test
+    fun `deload-week commits store feedback but never run the decision table`() {
+        runBlocking {
+            val mesoId = repository.startMesocycle(split, MesoConfig())
+            // Drive straight to the deload week via a manual deload.
+            val first = assertNotNull(repository.currentSession().first())
+            repository.commitSession(first.sessionId, emptyList(), manualDeloadRequest = true)
+
+            val deloadSession = assertNotNull(repository.currentSession().first())
+            assertTrue(deloadSession.isDeload, "manual deload should skip to the deload week")
+
+            val statesBefore = database.muscleWeekStateDao().getFor(mesoId).toSet()
+            val outcome =
+                repository.commitSession(deloadSession.sessionId, listOf(standardFeedback(Muscle.CHEST)))
+
+            assertTrue(outcome.decisions.isEmpty(), "no decisions during a deload week")
+            assertTrue(repository.decisionsFor(deloadSession.sessionId).isEmpty())
+            assertEquals(statesBefore, database.muscleWeekStateDao().getFor(mesoId).toSet())
+            assertEquals(1, database.muscleFeedbackDao().getFor(deloadSession.sessionId).size)
+        }
+    }
+
     private fun standardFeedback(muscle: Muscle): FeedbackDraft =
         FeedbackDraft(
             muscle = muscle,

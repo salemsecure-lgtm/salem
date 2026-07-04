@@ -6,10 +6,12 @@ import dev.salemlift.data.db.PlannedSessionEntity
 import dev.salemlift.data.db.SalemDatabase
 import dev.salemlift.data.db.SessionMuscleTargetEntity
 import dev.salemlift.data.db.TrackerCodecs
+import dev.salemlift.domain.model.DeloadDecision
 import dev.salemlift.domain.model.DeloadReason
 import dev.salemlift.domain.model.Landmarks
 import dev.salemlift.domain.model.MesoConfig
 import dev.salemlift.domain.model.Muscle
+import dev.salemlift.domain.model.SessionAdvance
 import dev.salemlift.domain.model.SetDecision
 import dev.salemlift.domain.model.Split
 import dev.salemlift.domain.program.ProgramBuilder
@@ -153,7 +155,19 @@ class DefaultTrainingRepository(
 
             feedbackDao.upsertAll(feedback.map { it.toEntity(sessionId) })
 
-            val advance = runAdvance(database, session, meso, feedback, manualDeloadRequest)
+            // DOMAIN.md §5 post-processing 3: the decision table is not evaluated
+            // during a deload week — feedback is stored as history only.
+            val advance =
+                if (session.isDeload) {
+                    SessionAdvance(
+                        decisions = emptyMap(),
+                        nextStates = emptyMap(),
+                        cappedMuscles = emptySet(),
+                        deload = DeloadDecision(triggered = false, reasons = emptyList(), stalledMuscles = emptyList()),
+                    )
+                } else {
+                    runAdvance(database, session, meso, feedback, manualDeloadRequest)
+                }
             decisionDao.upsertAll(advance.decisions.map { (muscle, decision) -> decision.toEntity(sessionId, muscle) })
             weekStateDao.upsertAll(
                 advance.nextStates.map { (muscle, state) -> state.toEntity(meso.id, muscle) },

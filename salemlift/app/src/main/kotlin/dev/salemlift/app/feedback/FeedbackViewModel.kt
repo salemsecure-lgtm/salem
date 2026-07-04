@@ -15,8 +15,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -71,7 +69,7 @@ class FeedbackViewModel(
 
     init {
         viewModelScope.launch {
-            val session = repository.currentSession().filterNotNull().first()
+            val session = checkNotNull(repository.sessionFor(sessionId)) { "unknown session $sessionId" }
             mutableState.update { state ->
                 state.copy(
                     isLoading = false,

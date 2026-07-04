@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -86,7 +85,9 @@ class SessionRunnerViewModel(
 
     init {
         viewModelScope.launch {
-            val current = repository.currentSession().filterNotNull().first()
+            // Load by id, not currentSession(): a stale back-stack entry must
+            // never show the next session's targets under this session's id.
+            val current = checkNotNull(repository.sessionFor(sessionId)) { "unknown session $sessionId" }
             session.value = current
             expandedMuscles.update { expanded ->
                 if (expanded.isEmpty()) setOfNotNull(current.muscleTargets.keys.firstOrNull()) else expanded
