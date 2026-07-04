@@ -83,6 +83,7 @@ class AnalyticsViewModel(
 
     /** Per-exercise trend cache so re-selecting an exercise never re-queries. */
     private val trendCache = MutableStateFlow<Map<String, List<E1rmPoint>>>(emptyMap())
+    private var loadedMesoId: Long? = null
 
     val uiState: StateFlow<UiState> =
         combine(snapshot, selectedMuscle, selectedExerciseId, trendCache) { snap, muscle, exerciseId, trends ->
@@ -133,6 +134,7 @@ class AnalyticsViewModel(
 
     private suspend fun load() {
         val mesoId = repository.activeMesoId()
+        loadedMesoId = mesoId
         val loaded =
             Snapshot(
                 weeklyVolume = mesoId?.let { repository.weeklyVolume(it) }.orEmpty(),
@@ -150,7 +152,8 @@ class AnalyticsViewModel(
 
     private suspend fun ensureTrendLoaded(exerciseId: String) {
         if (trendCache.value.containsKey(exerciseId)) return
-        val trend = repository.e1rmTrend(exerciseId)
+        val mesoId = loadedMesoId ?: return
+        val trend = repository.e1rmTrend(exerciseId, mesoId)
         trendCache.update { it + (exerciseId to trend) }
     }
 }

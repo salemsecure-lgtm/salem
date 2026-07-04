@@ -30,7 +30,10 @@ class FakeAnalyticsRepository : AnalyticsRepository {
 
     override suspend fun landmarks(): Map<Muscle, Landmarks> = landmarks
 
-    override suspend fun e1rmTrend(exerciseId: String): List<E1rmPoint> {
+    override suspend fun e1rmTrend(
+        exerciseId: String,
+        mesoId: Long,
+    ): List<E1rmPoint> {
         trendRequests += exerciseId
         return trends[exerciseId].orEmpty()
     }

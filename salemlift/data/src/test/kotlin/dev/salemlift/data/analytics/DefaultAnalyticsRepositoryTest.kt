@@ -90,7 +90,7 @@ class DefaultAnalyticsRepositoryTest {
             val seeded = seedScenario()
             assertEquals(seeded.mesoId, analytics.activeMesoId())
             assertWeeklyVolume(seeded.mesoId)
-            assertE1rmTrend()
+            assertE1rmTrend(seeded.mesoId)
             assertTonnageAndExercises(seeded.mesoId)
             assertFatigue(seeded)
             assertEquals(
@@ -144,8 +144,8 @@ class DefaultAnalyticsRepositoryTest {
         )
     }
 
-    private suspend fun assertE1rmTrend() {
-        val trend = analytics.e1rmTrend(BENCH)
+    private suspend fun assertE1rmTrend(mesoId: Long) {
+        val trend = analytics.e1rmTrend(BENCH, mesoId)
         assertEquals(3, trend.size)
         assertEquals(listOf(1 to 0, 1 to 2, 2 to 0), trend.map { it.week to it.dayIndex })
         // Hand-computed: 100x(1+11/30), 100x(1+10/30), 105x(1+10/30).
@@ -205,7 +205,13 @@ class DefaultAnalyticsRepositoryTest {
             val pending = assertNotNull(tracker.currentSession().first())
             log(pending.sessionId, BENCH, Muscle.CHEST, weightKg = 200.0, reps = 1, rir = 0)
 
-            assertEquals(3, analytics.e1rmTrend(BENCH).size)
+            val mesoId = assertNotNull(analytics.activeMesoId())
+            assertEquals(3, analytics.e1rmTrend(BENCH, mesoId).size)
+            // Volume and tonnage are committed-sessions-only too — the pending
+            // 200 kg set must not inflate either (consistency with the trend).
+            val chestWeek2 = analytics.weeklyVolume(mesoId).getValue(Muscle.CHEST).first { it.week == 2 }
+            assertEquals(2, chestWeek2.performedSets)
+            assertEquals(1470.0, analytics.tonnage(mesoId).first { it.week == 2 }.tonnageKg, TOLERANCE)
         }
     }
 
@@ -215,7 +221,7 @@ class DefaultAnalyticsRepositoryTest {
             assertNull(analytics.activeMesoId())
             assertNull(analytics.mesoProgress())
             assertEquals(emptyMap(), analytics.weeklyVolume(mesoId = 1))
-            assertEquals(emptyList(), analytics.e1rmTrend(BENCH))
+            assertEquals(emptyList(), analytics.e1rmTrend(BENCH, mesoId = 1))
             assertEquals(emptyList(), analytics.exercisesWithHistory())
             assertEquals(emptyList(), analytics.tonnage(mesoId = 1))
             assertEquals(FatigueSummary(weeks = emptyList(), ruleFires = emptyList()), analytics.fatigue(mesoId = 1))

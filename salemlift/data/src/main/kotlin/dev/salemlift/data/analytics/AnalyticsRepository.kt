@@ -97,10 +97,13 @@ interface AnalyticsRepository {
     suspend fun landmarks(): Map<Muscle, Landmarks>
 
     /**
-     * Best-set e1RM per completed session for an exercise, in mesocycle order.
+     * Best-set e1RM per committed session of one mesocycle, in commit order.
      * e1RM uses the domain's RIR-adjusted Epley function — never re-derived.
      */
-    suspend fun e1rmTrend(exerciseId: String): List<E1rmPoint>
+    suspend fun e1rmTrend(
+        exerciseId: String,
+        mesoId: Long,
+    ): List<E1rmPoint>
 
     /** Distinct exercises with logged sets, for the trend picker. */
     suspend fun exercisesWithHistory(): List<ExerciseRef>

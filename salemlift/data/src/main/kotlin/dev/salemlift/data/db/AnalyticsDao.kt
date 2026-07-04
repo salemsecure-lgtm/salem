@@ -59,11 +59,15 @@ data class RuleFireRow(
  */
 @Dao
 interface AnalyticsDao {
-    /** Performed hard sets per (week, muscle): one logged set = 1 credit to its logged muscle. */
+    /**
+     * Performed hard sets per (week, muscle): one logged set = 1 credit to its
+     * logged muscle. Committed sessions only, consistent with the e1RM trend —
+     * a session that is never committed must not inflate analytics.
+     */
     @Query(
         "SELECT ps.week AS week, ls.muscle AS muscle, COUNT(*) AS sets " +
             "FROM logged_set ls JOIN planned_session ps ON ls.sessionId = ps.id " +
-            "WHERE ps.mesoId = :mesoId GROUP BY ps.week, ls.muscle",
+            "WHERE ps.mesoId = :mesoId AND ps.state = 'COMPLETED' GROUP BY ps.week, ls.muscle",
     )
     suspend fun performedSetsByWeek(mesoId: Long): List<WeekMuscleSetsRow>
 
@@ -79,17 +83,20 @@ interface AnalyticsDao {
     @Query("SELECT COALESCE(MAX(week), 0) FROM planned_session WHERE mesoId = :mesoId")
     suspend fun maxWeek(mesoId: Long): Int
 
-    /** All sets of one exercise across completed sessions, in mesocycle order. */
+    /** One exercise's sets across the meso's committed sessions, in commit order. */
     @Query(
         "SELECT ls.sessionId AS sessionId, ps.week AS week, ps.dayIndex AS dayIndex, " +
             "ps.completedAtEpochMillis AS completedAtEpochMillis, ls.exerciseId AS exerciseId, " +
             "ls.weightKg AS weightKg, ls.reps AS reps, ls.rir AS rir, " +
             "ls.loggedAtEpochMillis AS loggedAtEpochMillis " +
             "FROM logged_set ls JOIN planned_session ps ON ls.sessionId = ps.id " +
-            "WHERE ls.exerciseId = :exerciseId AND ps.state = 'COMPLETED' " +
-            "ORDER BY ps.week, ps.dayIndex, ls.orderInSession, ls.id",
+            "WHERE ls.exerciseId = :exerciseId AND ps.mesoId = :mesoId AND ps.state = 'COMPLETED' " +
+            "ORDER BY ps.completedAtEpochMillis, ls.orderInSession, ls.id",
     )
-    suspend fun completedSetsForExercise(exerciseId: String): List<LoggedSetWithSessionRow>
+    suspend fun completedSetsForExercise(
+        exerciseId: String,
+        mesoId: Long,
+    ): List<LoggedSetWithSessionRow>
 
     /** Distinct exercises with logged history; names resolved via the catalog when present. */
     @Query(
@@ -103,7 +110,7 @@ interface AnalyticsDao {
     @Query(
         "SELECT ps.week AS week, SUM(ls.weightKg * ls.reps) AS tonnageKg " +
             "FROM logged_set ls JOIN planned_session ps ON ls.sessionId = ps.id " +
-            "WHERE ps.mesoId = :mesoId GROUP BY ps.week ORDER BY ps.week",
+            "WHERE ps.mesoId = :mesoId AND ps.state = 'COMPLETED' GROUP BY ps.week ORDER BY ps.week",
     )
     suspend fun tonnageByWeek(mesoId: Long): List<WeekTonnageRow>
 

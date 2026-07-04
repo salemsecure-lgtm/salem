@@ -47,12 +47,15 @@ class DefaultAnalyticsRepository(
         return landmarkDao.getAll().associate { it.muscle to it.toLandmarks() }
     }
 
-    override suspend fun e1rmTrend(exerciseId: String): List<E1rmPoint> =
+    override suspend fun e1rmTrend(
+        exerciseId: String,
+        mesoId: Long,
+    ): List<E1rmPoint> =
         analyticsDao
-            .completedSetsForExercise(exerciseId)
+            .completedSetsForExercise(exerciseId, mesoId)
             .groupBy { it.sessionId }
             .mapNotNull { (sessionId, rows) -> bestSetPoint(sessionId, rows) }
-            .sortedWith(compareBy({ it.week }, { it.dayIndex }))
+            .sortedBy { it.loggedAtEpochMillis }
 
     override suspend fun exercisesWithHistory(): List<ExerciseRef> =
         analyticsDao.exercisesWithHistory().map { ExerciseRef(id = it.id, name = it.name) }
