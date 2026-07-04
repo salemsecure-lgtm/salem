@@ -3,6 +3,7 @@ package dev.salemlift.app.di
 import android.content.Context
 import dev.salemlift.data.DatabaseProvider
 import dev.salemlift.data.TrainingRepository
+import dev.salemlift.data.analytics.AnalyticsRepository
 import dev.salemlift.data.db.ExerciseDao
 
 /**
@@ -13,6 +14,9 @@ class AppContainer(context: Context) {
     private val appContext = context.applicationContext
 
     val repository: TrainingRepository by lazy { DatabaseProvider.trainingRepository(appContext) }
+
+    /** Read-only aggregations for the analytics screens. */
+    val analyticsRepository: AnalyticsRepository by lazy { DatabaseProvider.analyticsRepository(appContext) }
 
     /** Read-only exercise queries for the picker (the one allowed direct-DAO surface). */
     val exerciseDao: ExerciseDao by lazy { DatabaseProvider.exerciseDao(appContext) }

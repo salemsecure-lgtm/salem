@@ -11,6 +11,7 @@ import dev.salemlift.app.di.AppContainer
 fun HomeRoute(
     container: AppContainer,
     onOpenRunner: (Long) -> Unit,
+    onOpenAnalytics: () -> Unit,
 ) {
     val viewModel: HomeViewModel = viewModel { HomeViewModel(container.repository) }
     val state by viewModel.uiState.collectAsState()
@@ -25,5 +26,6 @@ fun HomeRoute(
         state = state,
         onStartMesocycle = viewModel::startMesocycle,
         onStartSession = viewModel::startSession,
+        onOpenAnalytics = onOpenAnalytics,
     )
 }

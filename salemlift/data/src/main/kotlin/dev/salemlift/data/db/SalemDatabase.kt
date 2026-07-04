@@ -46,6 +46,9 @@ abstract class SalemDatabase : RoomDatabase() {
 
     abstract fun decisionDao(): DecisionDao
 
+    /** Read-only analytics aggregations over the tables above (no schema impact). */
+    abstract fun analyticsDao(): AnalyticsDao
+
     companion object {
         const val VERSION: Int = 1
         const val NAME: String = "salemlift.db"

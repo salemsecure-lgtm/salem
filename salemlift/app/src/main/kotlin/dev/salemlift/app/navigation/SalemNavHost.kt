@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import dev.salemlift.app.analytics.AnalyticsRoute
 import dev.salemlift.app.di.AppContainer
 import dev.salemlift.app.feedback.FeedbackRoute
 import dev.salemlift.app.home.HomeRoute
@@ -25,6 +26,13 @@ fun SalemNavHost(container: AppContainer) {
             HomeRoute(
                 container = container,
                 onOpenRunner = { navController.navigate(Routes.runner(it)) },
+                onOpenAnalytics = { navController.navigate(Routes.ANALYTICS) },
+            )
+        }
+        composable(Routes.ANALYTICS) {
+            AnalyticsRoute(
+                container = container,
+                onBack = { navController.popBackStack() },
             )
         }
         composable(Routes.RUNNER, arguments = sessionIdArgs) { entry ->

@@ -3,6 +3,8 @@ package dev.salemlift.data
 import android.content.Context
 import androidx.room.Room
 import androidx.room.withTransaction
+import dev.salemlift.data.analytics.AnalyticsRepository
+import dev.salemlift.data.analytics.DefaultAnalyticsRepository
 import dev.salemlift.data.catalog.AssetSource
 import dev.salemlift.data.catalog.ExerciseSeeder
 import dev.salemlift.data.catalog.SeedResult
@@ -36,6 +38,8 @@ object DatabaseProvider {
             database = database(context),
             nowEpochMillis = System::currentTimeMillis,
         )
+
+    fun analyticsRepository(context: Context): AnalyticsRepository = DefaultAnalyticsRepository(database(context))
 
     /** First-launch exercise-catalog seeding (idempotent); the :app layer calls this at startup. */
     suspend fun ensureSeeded(context: Context): SeedResult {

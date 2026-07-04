@@ -19,6 +19,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,17 +38,30 @@ fun HomeScreen(
     state: HomeViewModel.UiState,
     onStartMesocycle: (Split) -> Unit,
     onStartSession: (SessionSummary) -> Unit,
+    onOpenAnalytics: () -> Unit,
 ) {
-    when (state) {
-        HomeViewModel.UiState.Loading -> LoadingBox()
-        is HomeViewModel.UiState.NoActiveMeso ->
-            SplitPicker(
-                splits = state.splits,
-                isStarting = state.isStarting,
-                onStartMesocycle = onStartMesocycle,
-            )
-        is HomeViewModel.UiState.Today ->
-            TodayCard(session = state.session, onStartSession = onStartSession)
+    Column(modifier = Modifier.fillMaxSize()) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
+            horizontalArrangement = Arrangement.End,
+        ) {
+            TextButton(onClick = onOpenAnalytics, modifier = Modifier.heightIn(min = 48.dp)) {
+                Text("Analytics")
+            }
+        }
+        Box(modifier = Modifier.weight(1f)) {
+            when (state) {
+                HomeViewModel.UiState.Loading -> LoadingBox()
+                is HomeViewModel.UiState.NoActiveMeso ->
+                    SplitPicker(
+                        splits = state.splits,
+                        isStarting = state.isStarting,
+                        onStartMesocycle = onStartMesocycle,
+                    )
+                is HomeViewModel.UiState.Today ->
+                    TodayCard(session = state.session, onStartSession = onStartSession)
+            }
+        }
     }
 }
 
