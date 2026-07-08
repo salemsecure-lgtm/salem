@@ -14,7 +14,10 @@ import dev.salemlift.app.picker.ExercisePickerDialog
 import dev.salemlift.app.picker.ExercisePickerViewModel
 import dev.salemlift.app.timer.RestTimerViewModel
 import dev.salemlift.app.timer.TimerActions
+import dev.salemlift.data.settings.SettingsRepository
 import dev.salemlift.domain.model.Muscle
+
+private const val MILLIS_PER_SECOND = 1_000L
 
 @Composable
 fun SessionRunnerRoute(
@@ -37,12 +40,17 @@ fun SessionRunnerRoute(
 
     val state by viewModel.uiState.collectAsState()
     val timerState by timerViewModel.uiState.collectAsState()
+    // The user-tunable default rest duration (Settings → Rest timer).
+    val restSeconds by container.settingsRepository
+        .restSeconds()
+        .collectAsState(initial = SettingsRepository.DEFAULT_REST_SECONDS)
     var pickerMuscle by rememberSaveable { mutableStateOf<Muscle?>(null) }
 
     LaunchedEffect(viewModel) {
         viewModel.events.collect { event ->
             when (event) {
-                SessionRunnerViewModel.Event.SetLogged -> timerViewModel.start()
+                SessionRunnerViewModel.Event.SetLogged ->
+                    timerViewModel.start(durationMillis = restSeconds * MILLIS_PER_SECOND)
             }
         }
     }
@@ -51,20 +59,10 @@ fun SessionRunnerRoute(
         state = state,
         timerState = timerState,
         actions =
-            RunnerActions(
-                onToggleExpanded = viewModel::toggleExpanded,
-                onPickExercise = { muscle ->
-                    pickerViewModel.open(muscle)
-                    pickerMuscle = muscle
-                },
-                onWeightText = viewModel::updateWeightText,
-                onAdjustWeight = viewModel::adjustWeight,
-                onAdjustReps = viewModel::adjustReps,
-                onAdjustRir = viewModel::adjustRir,
-                onLogSet = viewModel::logSet,
-                onDeleteSet = viewModel::deleteSet,
-                onFinish = onFinish,
-            ),
+            runnerActions(viewModel, onFinish) { muscle ->
+                pickerViewModel.open(muscle)
+                pickerMuscle = muscle
+            },
         timerActions =
             TimerActions(
                 onTogglePause = timerViewModel::togglePause,
@@ -84,3 +82,20 @@ fun SessionRunnerRoute(
         )
     }
 }
+
+private fun runnerActions(
+    viewModel: SessionRunnerViewModel,
+    onFinish: () -> Unit,
+    onPickExercise: (Muscle) -> Unit,
+): RunnerActions =
+    RunnerActions(
+        onToggleExpanded = viewModel::toggleExpanded,
+        onPickExercise = onPickExercise,
+        onWeightText = viewModel::updateWeightText,
+        onAdjustWeight = viewModel::adjustWeight,
+        onAdjustReps = viewModel::adjustReps,
+        onAdjustRir = viewModel::adjustRir,
+        onLogSet = viewModel::logSet,
+        onDeleteSet = viewModel::deleteSet,
+        onFinish = onFinish,
+    )

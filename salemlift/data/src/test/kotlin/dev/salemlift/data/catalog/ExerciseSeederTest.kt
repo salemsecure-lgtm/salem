@@ -149,6 +149,12 @@ class ExerciseSeederTest {
         }
 
         override suspend fun countAll(): Int = rows.size
+
+        override suspend fun getCustom(): List<ExerciseEntity> = rows.values.filter { it.isCustom }
+
+        override suspend fun deleteCustom() {
+            rows.values.removeAll { it.isCustom }
+        }
     }
 
     private companion object {

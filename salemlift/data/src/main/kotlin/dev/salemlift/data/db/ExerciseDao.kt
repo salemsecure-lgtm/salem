@@ -37,6 +37,14 @@ interface ExerciseDao {
 
     @Query("SELECT COUNT(*) FROM exercises")
     suspend fun countAll(): Int
+
+    /** User-created exercises only — the slice the settings backup exports. */
+    @Query("SELECT * FROM exercises WHERE isCustom = 1 ORDER BY id")
+    suspend fun getCustom(): List<ExerciseEntity>
+
+    /** Destructive-replace helper for backup import; the seeded catalog is untouched. */
+    @Query("DELETE FROM exercises WHERE isCustom = 1")
+    suspend fun deleteCustom()
 }
 
 /** Escapes SQL LIKE wildcards so user input matches literally. */

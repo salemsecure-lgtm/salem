@@ -11,14 +11,20 @@ import dev.salemlift.domain.model.Muscle
 import dev.salemlift.domain.model.Performance
 import dev.salemlift.domain.model.Pump
 import dev.salemlift.domain.model.Soreness
+import kotlinx.serialization.Serializable
 
 /** Lifecycle of a persisted mesocycle. */
 enum class MesoState { ACTIVE, COMPLETED }
+
+// All tracker entities are @Serializable so the settings backup/export can
+// embed the rows verbatim (see dev.salemlift.data.settings.BackupCodec); the
+// backup document is versioned, so entity/format changes bump that version.
 
 /**
  * Per-muscle weekly volume landmarks (DOMAIN.md §2), seeded from
  * [dev.salemlift.domain.model.DefaultLandmarks] on first read and user-tunable later.
  */
+@Serializable
 @Entity(tableName = "landmark")
 data class LandmarkEntity(
     @PrimaryKey val muscle: Muscle,
@@ -33,6 +39,7 @@ data class LandmarkEntity(
  * (kotlinx-serialization, see [TrackerCodecs]) so distributions can be re-projected
  * onto session slots after feedback commits.
  */
+@Serializable
 @Entity(tableName = "mesocycle")
 data class MesocycleEntity(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
@@ -44,6 +51,7 @@ data class MesocycleEntity(
 )
 
 /** One planned training day of a mesocycle, with its effort prescription (DOMAIN.md §3.1). */
+@Serializable
 @Entity(
     tableName = "planned_session",
     foreignKeys = [
@@ -74,6 +82,7 @@ data class PlannedSessionEntity(
 )
 
 /** Prescribed hard sets for one muscle in one planned session (zero-set muscles have no row). */
+@Serializable
 @Entity(
     tableName = "session_muscle_target",
     primaryKeys = ["sessionId", "muscle"],
@@ -97,6 +106,7 @@ data class SessionMuscleTargetEntity(
  * A muscle's live weekly state while its mesocycle runs
  * (mirrors [dev.salemlift.domain.model.MuscleWeekState]; DOMAIN.md §5).
  */
+@Serializable
 @Entity(
     tableName = "muscle_week_state",
     primaryKeys = ["mesoId", "muscle"],
@@ -120,6 +130,7 @@ data class MuscleWeekStateEntity(
 )
 
 /** One logged working set (DOMAIN.md §1 "hard set"). */
+@Serializable
 @Entity(
     tableName = "logged_set",
     foreignKeys = [
@@ -145,6 +156,7 @@ data class LoggedSetEntity(
 )
 
 /** Per-muscle feedback captured for one committed session (DOMAIN.md §4). */
+@Serializable
 @Entity(
     tableName = "muscle_feedback",
     primaryKeys = ["sessionId", "muscle"],
@@ -171,6 +183,7 @@ data class MuscleFeedbackEntity(
  * The engine's explainable per-muscle output for one committed session
  * (mirrors [dev.salemlift.domain.model.SetDecision]; DOMAIN.md §5).
  */
+@Serializable
 @Entity(
     tableName = "decision",
     primaryKeys = ["sessionId", "muscle"],

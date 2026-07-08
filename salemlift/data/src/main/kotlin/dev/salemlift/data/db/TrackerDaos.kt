@@ -21,6 +21,9 @@ interface LandmarkDao {
 
     @Query("SELECT * FROM landmark")
     suspend fun getAll(): List<LandmarkEntity>
+
+    @Query("DELETE FROM landmark")
+    suspend fun deleteAll()
 }
 
 /** Mesocycle lifecycle queries. At most one row is ACTIVE at a time. */
@@ -43,6 +46,17 @@ interface MesocycleDao {
 
     @Query("SELECT * FROM mesocycle WHERE id = :id")
     suspend fun getById(id: Long): MesocycleEntity?
+
+    // Backup/export surface: full-table read, destructive-replace helpers.
+    @Insert
+    suspend fun insertAll(rows: List<MesocycleEntity>)
+
+    @Query("SELECT * FROM mesocycle ORDER BY id")
+    suspend fun getAll(): List<MesocycleEntity>
+
+    /** Cascades to planned sessions, targets, week states, sets, feedback, decisions. */
+    @Query("DELETE FROM mesocycle")
+    suspend fun deleteAll()
 }
 
 /** Planned-session queries; "current" = first pending/in-progress day in (week, dayIndex) order. */
@@ -100,6 +114,12 @@ interface PlannedSessionDao {
         week: Int,
         dayIndex: Int,
     ): Int
+
+    @Insert
+    suspend fun insertAll(rows: List<PlannedSessionEntity>)
+
+    @Query("SELECT * FROM planned_session ORDER BY id")
+    suspend fun getAll(): List<PlannedSessionEntity>
 }
 
 /** Per-session per-muscle set prescriptions. */
@@ -119,6 +139,9 @@ interface SessionMuscleTargetDao {
         sessionId: Long,
         muscle: Muscle,
     )
+
+    @Query("SELECT * FROM session_muscle_target ORDER BY sessionId, muscle")
+    suspend fun getAll(): List<SessionMuscleTargetEntity>
 }
 
 /** Live per-muscle weekly state for a running mesocycle. */
@@ -129,6 +152,9 @@ interface MuscleWeekStateDao {
 
     @Query("SELECT * FROM muscle_week_state WHERE mesoId = :mesoId")
     suspend fun getFor(mesoId: Long): List<MuscleWeekStateEntity>
+
+    @Query("SELECT * FROM muscle_week_state ORDER BY mesoId, muscle")
+    suspend fun getAll(): List<MuscleWeekStateEntity>
 }
 
 /** Logged working sets. */
@@ -142,6 +168,12 @@ interface LoggedSetDao {
 
     @Query("SELECT * FROM logged_set WHERE sessionId = :sessionId ORDER BY orderInSession, id")
     fun observeFor(sessionId: Long): Flow<List<LoggedSetEntity>>
+
+    @Insert
+    suspend fun insertAll(rows: List<LoggedSetEntity>)
+
+    @Query("SELECT * FROM logged_set ORDER BY id")
+    suspend fun getAll(): List<LoggedSetEntity>
 }
 
 /** Per-session per-muscle feedback rows. */
@@ -152,6 +184,9 @@ interface MuscleFeedbackDao {
 
     @Query("SELECT * FROM muscle_feedback WHERE sessionId = :sessionId")
     suspend fun getFor(sessionId: Long): List<MuscleFeedbackEntity>
+
+    @Query("SELECT * FROM muscle_feedback ORDER BY sessionId, muscle")
+    suspend fun getAll(): List<MuscleFeedbackEntity>
 }
 
 /** Persisted engine decisions (the UI's "why" history). */
@@ -162,4 +197,7 @@ interface DecisionDao {
 
     @Query("SELECT * FROM decision WHERE sessionId = :sessionId")
     suspend fun getFor(sessionId: Long): List<DecisionEntity>
+
+    @Query("SELECT * FROM decision ORDER BY sessionId, muscle")
+    suspend fun getAll(): List<DecisionEntity>
 }

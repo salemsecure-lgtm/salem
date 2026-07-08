@@ -19,6 +19,9 @@ import dev.salemlift.domain.model.WeekEffort
 
 internal fun LandmarkEntity.toLandmarks(): Landmarks = Landmarks(mev = mev, mrv = mrv, mv = mv, mav = mav)
 
+internal fun Landmarks.toEntity(muscle: Muscle): LandmarkEntity =
+    LandmarkEntity(muscle = muscle, mv = mv, mev = mev, mav = mav, mrv = mrv)
+
 internal fun PlannedSessionEntity.toSummary(targets: List<SessionMuscleTargetEntity>): SessionSummary =
     SessionSummary(
         sessionId = id,

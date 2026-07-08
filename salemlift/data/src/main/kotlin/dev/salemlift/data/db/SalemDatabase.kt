@@ -7,9 +7,10 @@ import androidx.room.TypeConverters
 /**
  * Salem Lift's Room database. Version 1 holds the exercise catalog plus the Phase 3
  * tracker tables (mesocycles, planned sessions, targets, logged sets, feedback,
- * decisions, landmarks, weekly state). The app has never shipped, so the tracker
- * tables were folded into version 1 rather than added as a migration; the exported
- * schema under `data/schemas/` was regenerated accordingly.
+ * decisions, landmarks, weekly state) and the Phase 5 settings tables
+ * (rule_override, rest_pref). The app has never shipped, so new tables keep being
+ * folded into version 1 rather than added as migrations; the exported schema under
+ * `data/schemas/` is regenerated on every build.
  */
 @Database(
     entities = [
@@ -22,6 +23,8 @@ import androidx.room.TypeConverters
         LoggedSetEntity::class,
         MuscleFeedbackEntity::class,
         DecisionEntity::class,
+        RuleOverrideEntity::class,
+        RestPrefEntity::class,
     ],
     version = SalemDatabase.VERSION,
     exportSchema = true,
@@ -45,6 +48,10 @@ abstract class SalemDatabase : RoomDatabase() {
     abstract fun muscleFeedbackDao(): MuscleFeedbackDao
 
     abstract fun decisionDao(): DecisionDao
+
+    abstract fun ruleOverrideDao(): RuleOverrideDao
+
+    abstract fun restPrefDao(): RestPrefDao
 
     /** Read-only analytics aggregations over the tables above (no schema impact). */
     abstract fun analyticsDao(): AnalyticsDao

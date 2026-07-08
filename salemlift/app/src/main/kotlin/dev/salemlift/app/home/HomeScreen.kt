@@ -39,6 +39,7 @@ fun HomeScreen(
     onStartMesocycle: (Split) -> Unit,
     onStartSession: (SessionSummary) -> Unit,
     onOpenAnalytics: () -> Unit,
+    onOpenSettings: () -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
         Row(
@@ -47,6 +48,9 @@ fun HomeScreen(
         ) {
             TextButton(onClick = onOpenAnalytics, modifier = Modifier.heightIn(min = 48.dp)) {
                 Text("Analytics")
+            }
+            TextButton(onClick = onOpenSettings, modifier = Modifier.heightIn(min = 48.dp)) {
+                Text("Settings")
             }
         }
         Box(modifier = Modifier.weight(1f)) {

@@ -10,6 +10,8 @@ import dev.salemlift.data.catalog.ExerciseSeeder
 import dev.salemlift.data.catalog.SeedResult
 import dev.salemlift.data.catalog.TransactionRunner
 import dev.salemlift.data.db.SalemDatabase
+import dev.salemlift.data.settings.DefaultSettingsRepository
+import dev.salemlift.data.settings.SettingsRepository
 
 /**
  * Process-wide lazy singleton wiring for [SalemDatabase] and its consumers.
@@ -40,6 +42,9 @@ object DatabaseProvider {
         )
 
     fun analyticsRepository(context: Context): AnalyticsRepository = DefaultAnalyticsRepository(database(context))
+
+    /** Settings persistence (landmarks, rule deltas, rest pref) + backup/export. */
+    fun settingsRepository(context: Context): SettingsRepository = DefaultSettingsRepository(database(context))
 
     /** First-launch exercise-catalog seeding (idempotent); the :app layer calls this at startup. */
     suspend fun ensureSeeded(context: Context): SeedResult {

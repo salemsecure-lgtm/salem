@@ -12,6 +12,7 @@ import dev.salemlift.app.di.AppContainer
 import dev.salemlift.app.feedback.FeedbackRoute
 import dev.salemlift.app.home.HomeRoute
 import dev.salemlift.app.runner.SessionRunnerRoute
+import dev.salemlift.app.settings.SettingsRoute
 import dev.salemlift.app.summary.SummaryRoute
 
 private fun NavBackStackEntry.sessionIdArg(): Long = arguments?.getLong(Routes.SESSION_ID_ARG) ?: 0L
@@ -27,10 +28,17 @@ fun SalemNavHost(container: AppContainer) {
                 container = container,
                 onOpenRunner = { navController.navigate(Routes.runner(it)) },
                 onOpenAnalytics = { navController.navigate(Routes.ANALYTICS) },
+                onOpenSettings = { navController.navigate(Routes.SETTINGS) },
             )
         }
         composable(Routes.ANALYTICS) {
             AnalyticsRoute(
+                container = container,
+                onBack = { navController.popBackStack() },
+            )
+        }
+        composable(Routes.SETTINGS) {
+            SettingsRoute(
                 container = container,
                 onBack = { navController.popBackStack() },
             )

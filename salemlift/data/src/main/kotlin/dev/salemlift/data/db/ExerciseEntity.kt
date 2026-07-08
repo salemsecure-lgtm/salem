@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import dev.salemlift.data.catalog.Equipment
 import dev.salemlift.domain.model.Muscle
+import kotlinx.serialization.Serializable
 
 /**
  * Room row mirroring [dev.salemlift.data.catalog.CatalogExercise].
@@ -15,7 +16,11 @@ import dev.salemlift.domain.model.Muscle
  *   never contain the delimiter, so no escaping is needed.
  * - [cues] is free instruction text and is persisted as a JSON string array, because the text may
  *   contain any delimiter we could pick.
+ *
+ * `@Serializable` so user-created custom exercises (isCustom = true) travel in
+ * the settings backup document; the seeded catalog itself is never exported.
  */
+@Serializable
 @Entity(tableName = "exercises")
 data class ExerciseEntity(
     @PrimaryKey val id: String,

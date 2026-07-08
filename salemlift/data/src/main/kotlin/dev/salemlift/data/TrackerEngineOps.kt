@@ -8,6 +8,7 @@ import dev.salemlift.data.db.PlannedSessionEntity
 import dev.salemlift.data.db.SalemDatabase
 import dev.salemlift.data.db.SessionMuscleTargetEntity
 import dev.salemlift.data.db.TrackerCodecs
+import dev.salemlift.data.settings.RuleTables
 import dev.salemlift.domain.model.DefaultLandmarks
 import dev.salemlift.domain.model.MuscleFeedback
 import dev.salemlift.domain.model.PlannedSession
@@ -35,7 +36,13 @@ internal suspend fun seedLandmarksIfEmpty(landmarkDao: LandmarkDao) {
     }
 }
 
-/** Loads engine inputs from the tracker tables and runs [SessionAdvancer.advance]. */
+/**
+ * Loads engine inputs from the tracker tables and runs [SessionAdvancer.advance].
+ * The rule table is the user-tuned one: Fixed-delta overrides from the
+ * `rule_override` table (edited via
+ * [dev.salemlift.data.settings.SettingsRepository]) are loaded inside the same
+ * commit transaction and applied over [dev.salemlift.domain.engine.DefaultRules].
+ */
 internal suspend fun runAdvance(
     database: SalemDatabase,
     session: PlannedSessionEntity,
@@ -45,6 +52,7 @@ internal suspend fun runAdvance(
 ): SessionAdvance {
     val landmarks = database.landmarkDao().getAll().associate { it.muscle to it.toLandmarks() }
     val states = database.muscleWeekStateDao().getFor(meso.id).associate { it.muscle to it.toModel() }
+    val overrides = database.ruleOverrideDao().getAll().associate { it.ruleId to it.delta }
     val lastDayOfWeek = database.plannedSessionDao().getWeek(meso.id, session.week).maxOf { it.dayIndex }
     val finalAccumulationWeekComplete =
         !session.isDeload && session.week == meso.accumulationWeeks && session.dayIndex == lastDayOfWeek
@@ -57,6 +65,7 @@ internal suspend fun runAdvance(
             },
         finalAccumulationWeekComplete = finalAccumulationWeekComplete,
         manualDeloadRequest = manualDeloadRequest,
+        table = RuleTables.tuned(overrides),
     )
 }
 

@@ -5,6 +5,7 @@ import dev.salemlift.data.DatabaseProvider
 import dev.salemlift.data.TrainingRepository
 import dev.salemlift.data.analytics.AnalyticsRepository
 import dev.salemlift.data.db.ExerciseDao
+import dev.salemlift.data.settings.SettingsRepository
 
 /**
  * Manual dependency wiring for the app layer. Everything is lazy so nothing
@@ -17,6 +18,9 @@ class AppContainer(context: Context) {
 
     /** Read-only aggregations for the analytics screens. */
     val analyticsRepository: AnalyticsRepository by lazy { DatabaseProvider.analyticsRepository(appContext) }
+
+    /** Settings persistence (landmarks, rule deltas, rest pref) + backup/export. */
+    val settingsRepository: SettingsRepository by lazy { DatabaseProvider.settingsRepository(appContext) }
 
     /** Read-only exercise queries for the picker (the one allowed direct-DAO surface). */
     val exerciseDao: ExerciseDao by lazy { DatabaseProvider.exerciseDao(appContext) }
