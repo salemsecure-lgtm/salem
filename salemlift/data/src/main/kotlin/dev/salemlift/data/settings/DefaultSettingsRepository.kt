@@ -114,6 +114,16 @@ class DefaultSettingsRepository(
         require(document.version == BackupCodec.VERSION) {
             "unsupported backup version ${document.version} (this build reads version ${BackupCodec.VERSION})"
         }
+        // Rule overrides are re-validated on import: a hand-edited backup must
+        // not smuggle values past updateRuleDelta's guard into the engine.
+        document.ruleOverrides.forEach { override ->
+            require(override.ruleId in RuleTables.editableRuleIds) {
+                "backup contains an override for non-editable rule ${override.ruleId}"
+            }
+            require(override.delta in RuleTables.DELTA_RANGE) {
+                "backup override for ${override.ruleId} has delta ${override.delta} outside ${RuleTables.DELTA_RANGE}"
+            }
+        }
         database.withTransaction {
             // Destructive replace: clear every backed-up table (mesocycle
             // cascades to all per-session children), then restore the

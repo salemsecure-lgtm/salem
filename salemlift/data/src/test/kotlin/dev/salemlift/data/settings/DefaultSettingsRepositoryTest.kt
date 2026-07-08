@@ -229,6 +229,20 @@ class DefaultSettingsRepositoryTest {
         }
     }
 
+    @Test
+    fun `importBackup rejects out-of-range or non-editable rule overrides before writing`() {
+        runBlocking {
+            settings.updateRuleDelta("R7", 2)
+            val outOfRange = settings.exportBackup().replace(""""delta":2""", """"delta":9""")
+            assertFailsWith<IllegalArgumentException> { settings.importBackup(outOfRange) }
+            val nonEditable = settings.exportBackup().replace(""""ruleId":"R7"""", """"ruleId":"R4"""")
+            assertFailsWith<IllegalArgumentException> { settings.importBackup(nonEditable) }
+            // The pre-write validation left the original override intact.
+            val r7 = settings.ruleTable().first { it.id == "R7" }
+            assertEquals(2, r7.delta.compute(10, DefaultLandmarks.seeds.getValue(Muscle.CHEST)))
+        }
+    }
+
     // ---- Helpers -----------------------------------------------------------------
 
     private fun standardFeedback(muscle: Muscle): FeedbackDraft =

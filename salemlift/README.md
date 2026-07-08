@@ -6,9 +6,10 @@ effort prescription, mesocycle periodization, per-muscle set-progression
 autoregulation, and deload scheduling. Kotlin + Jetpack Compose, shipped as an
 installable `.apk`.
 
-**Status: Phase 0** — spec, domain model, agent roster, and buildable scaffold.
-No feature code beyond the scaffold until the domain model is approved (see
-phase gates in `docs/SPEC.md` §8).
+**Status: v1.0.0 — all five phase gates passed** (see `docs/GATE-*-REPORT.md`).
+Onboarding, mesocycle programming, the fully-tested autoregulation engine,
+session tracking with rest timer, analytics, settings with landmark/rule
+tuning, JSON backup, and a signed release APK (`docs/RELEASE.md`).
 
 ## Documents
 
