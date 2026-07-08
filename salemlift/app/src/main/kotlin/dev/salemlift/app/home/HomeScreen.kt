@@ -5,63 +5,57 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.salemlift.app.common.displayName
+import dev.salemlift.app.theme.salemAccents
 import dev.salemlift.data.SessionState
 import dev.salemlift.data.SessionSummary
-import dev.salemlift.domain.model.Split
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     state: HomeViewModel.UiState,
-    onStartMesocycle: (Split) -> Unit,
     onStartSession: (SessionSummary) -> Unit,
     onOpenAnalytics: () -> Unit,
     onOpenSettings: () -> Unit,
+    onOpenOnboarding: () -> Unit,
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 8.dp),
-            horizontalArrangement = Arrangement.End,
-        ) {
-            TextButton(onClick = onOpenAnalytics, modifier = Modifier.heightIn(min = 48.dp)) {
-                Text("Analytics")
-            }
-            TextButton(onClick = onOpenSettings, modifier = Modifier.heightIn(min = 48.dp)) {
-                Text("Settings")
-            }
-        }
-        Box(modifier = Modifier.weight(1f)) {
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Salem Lift") },
+                actions = {
+                    TextButton(onClick = onOpenAnalytics, modifier = Modifier.heightIn(min = 48.dp)) {
+                        Text("Analytics")
+                    }
+                    TextButton(onClick = onOpenSettings, modifier = Modifier.heightIn(min = 48.dp)) {
+                        Text("Settings")
+                    }
+                },
+            )
+        },
+    ) { padding ->
+        Box(modifier = Modifier.fillMaxSize().padding(padding)) {
             when (state) {
                 HomeViewModel.UiState.Loading -> LoadingBox()
-                is HomeViewModel.UiState.NoActiveMeso ->
-                    SplitPicker(
-                        splits = state.splits,
-                        isStarting = state.isStarting,
-                        onStartMesocycle = onStartMesocycle,
-                    )
+                is HomeViewModel.UiState.NoActiveMeso -> SetupCard(onOpenOnboarding = onOpenOnboarding)
                 is HomeViewModel.UiState.Today ->
                     TodayCard(session = state.session, onStartSession = onStartSession)
             }
@@ -76,55 +70,32 @@ private fun LoadingBox() {
     }
 }
 
+/** No active mesocycle: hand the new user to the guided setup flow. */
 @Composable
-private fun SplitPicker(
-    splits: List<Split>,
-    isStarting: Boolean,
-    onStartMesocycle: (Split) -> Unit,
-) {
-    var selectedIndex by rememberSaveable { mutableStateOf(0) }
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        Text(text = "Pick a split", style = MaterialTheme.typography.headlineSmall)
-        LazyColumn(
-            modifier = Modifier.weight(1f).padding(vertical = 12.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            items(splits.size) { index ->
-                SplitRow(
-                    split = splits[index],
-                    selected = index == selectedIndex,
-                    onSelect = { selectedIndex = index },
-                )
-            }
-        }
-        Button(
-            onClick = { splits.getOrNull(selectedIndex)?.let(onStartMesocycle) },
-            enabled = !isStarting,
-            modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp),
-        ) {
-            Text(if (isStarting) "Starting…" else "Start mesocycle")
-        }
-    }
-}
-
-@Composable
-private fun SplitRow(
-    split: Split,
-    selected: Boolean,
-    onSelect: () -> Unit,
-) {
-    Card(onClick = onSelect, modifier = Modifier.fillMaxWidth().heightIn(min = 64.dp)) {
-        Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            RadioButton(selected = selected, onClick = onSelect)
-            Column(modifier = Modifier.padding(start = 8.dp)) {
-                Text(text = split.name, style = MaterialTheme.typography.titleMedium)
+private fun SetupCard(onOpenOnboarding: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxSize().padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Card(modifier = Modifier.fillMaxWidth()) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Text(text = "No training plan yet", style = MaterialTheme.typography.headlineSmall)
                 Text(
-                    text = "${split.sessions.size} sessions / week",
-                    style = MaterialTheme.typography.bodySmall,
+                    text =
+                        "Pick your experience level and weekly schedule, and " +
+                            "Salem Lift builds your first mesocycle — then " +
+                            "adjusts it from every session you log.",
+                    style = MaterialTheme.typography.bodyLarge,
                 )
+                Button(
+                    onClick = onOpenOnboarding,
+                    modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp),
+                ) {
+                    Text(text = "Set up Salem Lift", style = MaterialTheme.typography.titleMedium)
+                }
             }
         }
     }
@@ -137,16 +108,14 @@ private fun TodayCard(
     onStartSession: (SessionSummary) -> Unit,
 ) {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        Text(text = "Week ${session.week}", style = MaterialTheme.typography.titleMedium)
+        Text(
+            text = "Week ${session.week}",
+            style = MaterialTheme.typography.titleMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
         Text(text = session.name, style = MaterialTheme.typography.headlineMedium)
         if (session.isDeload) {
-            Surface(
-                color = MaterialTheme.colorScheme.tertiaryContainer,
-                shape = MaterialTheme.shapes.small,
-                modifier = Modifier.padding(top = 8.dp),
-            ) {
-                Text(text = "DELOAD", modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp))
-            }
+            DeloadBadge(modifier = Modifier.padding(top = 8.dp))
         }
         Text(
             text = "Target RIR ${rirLabel(session)}",
@@ -164,15 +133,36 @@ private fun TodayCard(
             onClick = { onStartSession(session) },
             modifier = Modifier.fillMaxWidth().heightIn(min = 56.dp),
         ) {
-            Text(if (session.state == SessionState.IN_PROGRESS) "Resume session" else "Start session")
+            Text(
+                text = if (session.state == SessionState.IN_PROGRESS) "Resume session" else "Start session",
+                style = MaterialTheme.typography.titleMedium,
+            )
         }
+    }
+}
+
+/** Amber heads-up badge for deload weeks (accent role, not an error). */
+@Composable
+private fun DeloadBadge(modifier: Modifier = Modifier) {
+    val accents = salemAccents()
+    Surface(
+        color = accents.warningContainer,
+        contentColor = accents.onWarningContainer,
+        shape = MaterialTheme.shapes.small,
+        modifier = modifier,
+    ) {
+        Text(
+            text = "Deload week",
+            style = MaterialTheme.typography.labelLarge,
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+        )
     }
 }
 
 @Composable
 private fun TargetChip(label: String) {
     Surface(
-        color = MaterialTheme.colorScheme.surfaceVariant,
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
         shape = MaterialTheme.shapes.small,
     ) {
         Text(

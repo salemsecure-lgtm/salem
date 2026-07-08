@@ -11,7 +11,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -23,13 +22,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.salemlift.app.di.AppContainer
 import dev.salemlift.app.navigation.SalemNavHost
+import dev.salemlift.app.theme.SalemTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val container = (application as SalemApplication).container
         setContent {
-            MaterialTheme(colorScheme = darkColorScheme()) {
+            SalemTheme {
                 SalemRoot(container)
             }
         }

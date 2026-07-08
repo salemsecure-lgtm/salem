@@ -7,15 +7,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,7 +32,8 @@ import dev.salemlift.app.common.formatCountdown
 import dev.salemlift.domain.model.Landmarks
 import dev.salemlift.domain.model.Muscle
 
-/** Plain Material 3 settings screen; restyling is a later phase's concern. */
+/** Settings: landmarks, rule tuning, rest timer, backup, and about. */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsScreen(
     state: SettingsViewModel.UiState,
@@ -33,12 +41,23 @@ fun SettingsScreen(
     snackbarHostState: SnackbarHostState,
     actions: SettingsActions,
 ) {
-    Scaffold(snackbarHost = { SnackbarHost(snackbarHostState) }) { padding ->
+    Scaffold(
+        snackbarHost = { SnackbarHost(snackbarHostState) },
+        topBar = {
+            TopAppBar(
+                title = { Text("Settings") },
+                navigationIcon = {
+                    IconButton(onClick = actions.onBack, modifier = Modifier.size(48.dp)) {
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                },
+            )
+        },
+    ) { padding ->
         LazyColumn(
             modifier = Modifier.fillMaxSize().padding(padding).padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
-            item(key = "header") { SettingsHeader(onBack = actions.onBack) }
             item(key = "landmarks-title") { SectionTitle("Landmarks") }
             items(state.landmarks, key = { "landmark-${it.first.name}" }) { (muscle, landmarks) ->
                 LandmarkRow(muscle = muscle, landmarks = landmarks, onClick = { actions.onOpenLandmark(muscle) })
@@ -67,20 +86,6 @@ fun SettingsScreen(
     }
     if (state.importPending) {
         ImportConfirmDialog(onConfirm = actions.onConfirmImport, onCancel = actions.onCancelImport)
-    }
-}
-
-@Composable
-private fun SettingsHeader(onBack: () -> Unit) {
-    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-        TextButton(onClick = onBack, modifier = Modifier.heightIn(min = 48.dp)) {
-            Text("Back")
-        }
-        Text(
-            text = "Settings",
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(start = 8.dp),
-        )
     }
 }
 

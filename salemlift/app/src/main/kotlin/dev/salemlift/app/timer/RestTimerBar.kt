@@ -14,26 +14,35 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.salemlift.app.common.formatCountdown
 
-/** Persistent bottom bar shown while a rest countdown is live. */
+/**
+ * Persistent bottom bar shown while a rest countdown is live. The countdown
+ * uses a display style with tabular figures so digits never jitter, sized to
+ * be readable from a racked phone.
+ */
 @Composable
 fun RestTimerBar(
     state: RestTimerViewModel.UiState,
     actions: TimerActions,
 ) {
     if (!state.isVisible) return
-    Surface(tonalElevation = 3.dp) {
+    Surface(color = MaterialTheme.colorScheme.surfaceContainerHigh, tonalElevation = 3.dp) {
         Row(
-            modifier = Modifier.fillMaxWidth().heightIn(min = 64.dp).padding(horizontal = 16.dp),
+            modifier = Modifier.fillMaxWidth().heightIn(min = 72.dp).padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = if (state.isFinished) "Rest over" else formatCountdown(state.remainingMillis),
-                style = MaterialTheme.typography.headlineMedium,
+                style =
+                    if (state.isFinished) {
+                        MaterialTheme.typography.headlineSmall
+                    } else {
+                        MaterialTheme.typography.displaySmall
+                    },
                 color =
                     if (state.isFinished) {
                         MaterialTheme.colorScheme.tertiary
                     } else {
-                        MaterialTheme.colorScheme.onSurface
+                        MaterialTheme.colorScheme.primary
                     },
                 modifier = Modifier.weight(1f),
             )

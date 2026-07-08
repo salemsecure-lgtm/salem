@@ -13,6 +13,7 @@ fun HomeRoute(
     onOpenRunner: (Long) -> Unit,
     onOpenAnalytics: () -> Unit,
     onOpenSettings: () -> Unit,
+    onOpenOnboarding: () -> Unit,
 ) {
     val viewModel: HomeViewModel = viewModel { HomeViewModel(container.repository) }
     val state by viewModel.uiState.collectAsState()
@@ -25,9 +26,9 @@ fun HomeRoute(
     }
     HomeScreen(
         state = state,
-        onStartMesocycle = viewModel::startMesocycle,
         onStartSession = viewModel::startSession,
         onOpenAnalytics = onOpenAnalytics,
         onOpenSettings = onOpenSettings,
+        onOpenOnboarding = onOpenOnboarding,
     )
 }

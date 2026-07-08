@@ -11,6 +11,7 @@ import dev.salemlift.app.analytics.AnalyticsRoute
 import dev.salemlift.app.di.AppContainer
 import dev.salemlift.app.feedback.FeedbackRoute
 import dev.salemlift.app.home.HomeRoute
+import dev.salemlift.app.onboarding.OnboardingRoute
 import dev.salemlift.app.runner.SessionRunnerRoute
 import dev.salemlift.app.settings.SettingsRoute
 import dev.salemlift.app.summary.SummaryRoute
@@ -29,6 +30,14 @@ fun SalemNavHost(container: AppContainer) {
                 onOpenRunner = { navController.navigate(Routes.runner(it)) },
                 onOpenAnalytics = { navController.navigate(Routes.ANALYTICS) },
                 onOpenSettings = { navController.navigate(Routes.SETTINGS) },
+                onOpenOnboarding = { navController.navigate(Routes.ONBOARDING) },
+            )
+        }
+        composable(Routes.ONBOARDING) {
+            OnboardingRoute(
+                container = container,
+                onDone = { navController.popBackStack(Routes.HOME, inclusive = false) },
+                onExit = { navController.popBackStack() },
             )
         }
         composable(Routes.ANALYTICS) {

@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import dev.salemlift.app.common.displayName
+import dev.salemlift.app.theme.salemAccents
 
 @Composable
 fun SummaryScreen(
@@ -57,8 +58,10 @@ fun SummaryScreen(
 
 @Composable
 private fun DeloadBanner(reasons: List<String>) {
+    val accents = salemAccents()
     Surface(
-        color = MaterialTheme.colorScheme.tertiaryContainer,
+        color = accents.warningContainer,
+        contentColor = accents.onWarningContainer,
         shape = MaterialTheme.shapes.medium,
         modifier = Modifier.fillMaxWidth(),
     ) {
@@ -93,10 +96,17 @@ private fun DecisionCard(row: SummaryViewModel.DecisionRow) {
     }
 }
 
+/**
+ * Presentation-only badge tone: swap suggestions are informational (blue),
+ * caps/clamps are heads-up (amber). Labels come from [DecisionText].
+ */
 @Composable
 private fun Badge(label: String) {
+    val accents = salemAccents()
+    val isInfo = "swap" in label.lowercase()
     Surface(
-        color = MaterialTheme.colorScheme.secondaryContainer,
+        color = if (isInfo) accents.infoContainer else accents.warningContainer,
+        contentColor = if (isInfo) accents.onInfoContainer else accents.onWarningContainer,
         shape = MaterialTheme.shapes.small,
     ) {
         Text(

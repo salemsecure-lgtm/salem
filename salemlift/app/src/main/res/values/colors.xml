@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Salem Lift brand: ember amber on deep charcoal (matches SalemTheme dark surface). -->
+    <color name="salem_charcoal">#FF16130E</color>
+    <color name="salem_ember">#FFFFB865</color>
+    <color name="ic_launcher_background">@color/salem_charcoal</color>
+</resources>

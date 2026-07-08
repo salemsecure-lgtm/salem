@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Pre-Compose window background matches SalemTheme's dark surface so
+         cold start shows brand charcoal instead of a white flash. -->
     <style name="Theme.SalemLift" parent="android:Theme.Material.NoActionBar">
-        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowBackground">@color/salem_charcoal</item>
     </style>
 </resources>

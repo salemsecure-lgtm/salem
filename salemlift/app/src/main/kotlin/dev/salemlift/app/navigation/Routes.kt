@@ -2,6 +2,7 @@ package dev.salemlift.app.navigation
 
 object Routes {
     const val HOME = "home"
+    const val ONBOARDING = "onboarding"
     const val ANALYTICS = "analytics"
     const val SETTINGS = "settings"
     const val RUNNER = "runner/{sessionId}"

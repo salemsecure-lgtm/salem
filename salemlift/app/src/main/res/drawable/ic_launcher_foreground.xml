@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Original Salem Lift mark: three ascending pillars over a ground bar —
+  weekly volume stepping up from MEV toward MRV. Hand-written geometry,
+  no third-party assets.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="@color/salem_ember"
+        android:pathData="M33,56 h10 v16 h-10 z M49,44 h10 v28 h-10 z M65,32 h10 v40 h-10 z M29,76 h50 v4 h-50 z" />
+</vector>
